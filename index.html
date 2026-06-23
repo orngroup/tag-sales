@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAG Sales Portal · Internal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
+:root {
+  --tag: #C9682F; --tag-dk: #a8531f; --tag-lt: rgba(201,104,47,0.14); --tag-glow: rgba(201,104,47,0.32);
+  --bg: #0f0d0b; --s1: #181410; --s2: #211c16; --s3: #2c2318;
+  --bd: #352b1e; --bd2: #4a3a28;
+  --tx: #f5f0ea; --txd: #a89880; --txm: #6b5a48;
+  --gr: #3db87a; --grd: rgba(61,184,122,0.12);
+  --re: #e05252; --red: rgba(224,82,82,0.12);
+  --bl: #4a9fd4; --bld: rgba(74,159,212,0.12);
+  --go: #d4a847; --god: rgba(212,168,71,0.12);
+  --pu: #9b72cf; --pud: rgba(155,114,207,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;overflow:hidden}
+#sidebar{width:228px;min-width:228px;background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.logo-area{padding:18px 16px 14px;border-bottom:1px solid var(--bd)}
+.logo-area img{width:136px}
+.logo-sub{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--tag);text-transform:uppercase;margin-top:7px}
+nav{flex:1;padding:8px 0}
+.nav-s{padding:9px 16px 3px;font-size:9px;font-weight:800;letter-spacing:2px;color:var(--txm);text-transform:uppercase}
+nav a{display:flex;align-items:center;gap:9px;padding:8px 16px;color:var(--txd);text-decoration:none;font-size:12px;font-weight:500;transition:all .15s;cursor:pointer;border-left:3px solid transparent}
+nav a:hover{color:var(--tx);background:var(--s2)}
+nav a.active{color:var(--tag);background:var(--tag-lt);border-left-color:var(--tag)}
+nav a .ic{width:15px;text-align:center;font-size:13px}
+.sfooter{padding:13px 16px;border-top:1px solid var(--bd);font-size:10.5px;color:var(--txm)}
+.ubadge{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.avatar{width:28px;height:28px;background:var(--tag);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+#main{flex:1;overflow-y:auto;height:100vh}
+.topbar{background:var(--s1);border-bottom:1px solid var(--bd);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar h1{font-size:14.5px;font-weight:700}
+.tact{display:flex;gap:7px;align-items:center}
+.btn{padding:6px 14px;border-radius:7px;font-size:11.5px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .15s}
+.btn-p{background:var(--tag);color:#fff}.btn-p:hover{background:var(--tag-dk)}
+.btn-g{background:var(--s3);color:var(--txd);border:1px solid var(--bd)}.btn-g:hover{color:var(--tx);border-color:var(--tag)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.content{padding:20px 24px}
+.panel{display:none}.panel.active{display:block}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:11px;margin-bottom:20px}
+.sc{background:var(--s1);border:1px solid var(--bd);border-radius:9px;padding:14px}
+.sc.or{border-color:var(--tag-glow)}.sc.or .sv{color:var(--tag)}
+.sc.gr .sv{color:var(--gr)}.sc.re .sv{color:var(--re)}.sc.bl .sv{color:var(--bl)}
+.sl{font-size:9.5px;font-weight:800;color:var(--txm);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.sv{font-size:24px;font-weight:800;line-height:1}
+.ss{font-size:10.5px;color:var(--txd);margin-top:4px}
+.pb{background:var(--s3);border-radius:99px;height:5px;overflow:hidden}.pf{height:100%;border-radius:99px;background:var(--tag);transition:width .5s}
+.pf.gr{background:var(--gr)}.pf.re{background:var(--re)}.pf.bl{background:var(--bl)}
+.mt8{margin-top:8px}
+.tw{background:var(--s1);border:1px solid var(--bd);border-radius:9px;overflow:hidden;margin-bottom:16px}
+.th{padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.tt{font-size:13px;font-weight:700}.ts{font-size:10.5px;color:var(--txd);margin-top:2px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px 13px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)}
+td{padding:9px 13px;font-size:12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:var(--s2)}
+.badge{display:inline-block;padding:2px 7px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.b-gr{background:var(--grd);color:var(--gr)}.b-re{background:var(--red);color:var(--re)}
+.b-or{background:var(--tag-lt);color:var(--tag)}.b-bl{background:var(--bld);color:var(--bl)}
+.b-go{background:var(--god);color:var(--go)}.b-pu{background:var(--pud);color:var(--pu)}
+.b-gy{background:var(--s3);color:var(--txd)}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}
+.mo.open{display:flex}
+.md{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:24px;width:540px;max-height:88vh;overflow-y:auto;max-width:95vw}
+.md h2{font-size:16px;font-weight:700;margin-bottom:16px}
+.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.fr{display:grid;gap:11px;margin-bottom:11px}
+.fr.c2{grid-template-columns:1fr 1fr}.fr.c3{grid-template-columns:1fr 1fr 1fr}
+label{font-size:9.5px;font-weight:800;color:var(--txd);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px}
+input,select,textarea{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:7px 10px;color:var(--tx);font-family:inherit;font-size:12px;outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--tag)}
+select option{background:var(--s1)}
+textarea{resize:vertical;min-height:65px}
+.fb{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.fb input,.fb select{width:auto;flex:1;min-width:125px;max-width:185px}
+.stitle{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--txm);margin-bottom:11px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid var(--bd)}
+.stitle:first-of-type{margin-top:0}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.thc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:9px;padding:14px;margin-bottom:9px}
+.card:hover{border-color:var(--bd2)}
+.card-hl{border-left:3px solid var(--tag)}
+.ehdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px}
+.en{font-size:13.5px;font-weight:700}.em{font-size:10.5px;color:var(--txd);margin-top:3px}
+.estats{display:flex;gap:20px;margin-top:9px}
+.estat{font-size:10.5px;color:var(--txd)}.estat strong{display:block;font-size:16px;font-weight:800;color:var(--tx)}
+.pbanner{background:linear-gradient(135deg,#1a0e06,#2a1608);border:1px solid var(--tag-glow);border-radius:9px;padding:16px 20px;display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.pic{font-size:28px}.pt{font-size:14px;font-weight:800;color:var(--tag)}.pd{font-size:11px;color:var(--txd);margin-top:3px}
+.pact{margin-left:auto;display:flex;gap:7px}
+.rtabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
+.rtab{padding:6px 13px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--txd);transition:all .15s}
+.rtab:hover{border-color:var(--tag);color:var(--tx)}.rtab.active{color:#fff}
+.rcrd{background:var(--s1);border:1px solid var(--bd);border-radius:9px;padding:16px}
+.rchdr{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rav{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0}
+.rn{font-size:15px;font-weight:700}.rr{font-size:11.5px;color:var(--txd);margin-top:2px}
+.rstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:12px}
+.rs{background:var(--s2);border-radius:7px;padding:9px;text-align:center}
+.rsv{font-size:19px;font-weight:800}.rsl{font-size:9.5px;color:var(--txd);margin-top:2px}
+.kpir{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.kpir:last-child{border-bottom:none}
+.kpin{font-size:12px;font-weight:500;flex:1}
+.kpic{font-size:11.5px;color:var(--txd);width:85px;text-align:right}
+.kpit{font-size:11.5px;font-weight:700;color:var(--tag);width:95px;text-align:right}
+.kpib{width:105px}
+.ai{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:11px}
+.ai:last-child{border-bottom:none}
+.ad{width:7px;height:7px;border-radius:50%;margin-top:3px;flex-shrink:0}
+.at{flex:1;color:var(--txd)}.at strong{color:var(--tx)}
+.atm{color:var(--txm);font-size:10px}
+.ss-sec{background:var(--s1);border:1px solid var(--bd);border-radius:9px;padding:16px;margin-bottom:12px}
+.sq{font-size:13px;font-weight:600;margin-bottom:10px}
+.so{display:flex;gap:7px;flex-wrap:wrap}
+.sop{padding:6px 13px;background:var(--s3);border:1px solid var(--bd);border-radius:7px;font-size:11.5px;cursor:pointer;transition:all .15s}
+.sop:hover,.sop.sel{background:var(--tag-lt);border-color:var(--tag);color:var(--tag)}
+.rw{display:flex;gap:5px}
+.rb{width:32px;height:32px;background:var(--s3);border:1px solid var(--bd);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .15s}
+.rb:hover,.rb.sel{background:var(--tag-lt);border-color:var(--tag);color:var(--tag)}
+.ic-card{background:var(--s1);border:1px solid var(--bd);border-radius:9px;padding:16px;position:relative;overflow:hidden}
+.ic-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--s3)}
+.ic-card.act::before{background:var(--tag)}
+.icn{font-size:13.5px;font-weight:700;margin-bottom:5px}
+.icd{font-size:11px;color:var(--txd);margin-bottom:11px}
+.ict{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.icf{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--txm)}
+.ibox{background:var(--s2);border:1px solid var(--bd2);border-left:3px solid var(--tag);border-radius:7px;padding:12px 14px;margin-bottom:14px;font-size:12px;line-height:1.6;color:var(--txd)}
+.ibox strong{color:var(--tx)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
+@media(max-width:900px){.tc,.thc{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="logo-area">
+    <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI4LjMuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0MTEgMjI2LjgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQxMSAyMjYuODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNGRkZGRkY7fQo8L3N0eWxlPgo8Zz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zMzUuOCw1NWMwLDIuMS0wLjEsMy43LTAuNCw0LjljLTAuMywxLjItMC45LDItMS43LDIuNmMtMC45LDAuNi0yLjEsMS0zLjcsMS4yYy0xLjYsMC4yLTMuNywwLjItNi4yLDAuMkgzMDYKCQljMC00LjEsMC40LTgsMS4yLTExLjdjMC44LTMuNywxLjktNywzLjMtOS44YzEuNC0yLjgsMy4xLTUuMSw1LTYuOGMxLjktMS43LDQuMS0yLjYsNi41LTIuNmMyLjMsMCw0LjMsMC43LDYsMi4xCgkJYzEuNywxLjQsMy4xLDMuMiw0LjMsNS40YzEuMiwyLjEsMiw0LjUsMi42LDcuMUMzMzUuNSw1MC4yLDMzNS44LDUyLjcsMzM1LjgsNTUgTTM2My40LDYxLjVjLTAuMy0yLjgtMS01LjctMi4xLTguNwoJCWMtMS4xLTMtMi43LTYtNC43LTguOWMtMi0yLjktNC42LTUuNS03LjgtNy45Yy0zLjItMi40LTctNC4zLTExLjQtNS43Yy00LjQtMS40LTkuNi0yLjEtMTUuNS0yYy03LjIsMC4xLTEzLjgsMS42LTE5LjgsNC40CgkJYy00LDEuOS03LjUsNC4yLTEwLjcsN2MtMC4xLDAuNi0wLjEsMS4yLTAuMiwxLjhjLTAuNSwzLjUtMS41LDctMi45LDEwLjZMMjc2LDgzLjVjMC43LDUuNiwyLjEsMTAuOSw0LjQsMTUuNwoJCWMyLjYsNS42LDYsMTAuNCwxMC40LDE0LjRjNC4zLDQsOS40LDcuMSwxNS4yLDkuNHMxMiwzLjQsMTguNywzLjRjNS4zLDAsOS45LTAuNywxNC0yYzQuMS0xLjMsNy41LTIuOSwxMC41LTQuNwoJCWMyLjktMS44LDUuMy0zLjcsNy4yLTUuNmMxLjktMS45LDMuNC0zLjUsNC40LTQuOWMxLjEtMS41LDEuMi0yLjksMC4zLTRjLTAuOC0wLjgtMi4xLTAuOC00LTAuMmMtNS42LDItMTAuOSwzLTE2LDMKCQljLTguMywwLTE1LjUtMi42LTIxLjUtNy43Yy02LTUuMS0xMC0xMi42LTEyLjEtMjIuNWMtMC4yLTEuMS0wLjQtMi4yLTAuNi0zLjJjLTAuMi0xLTAuNC0yLjEtMC42LTMuMmg1My43YzEuOSwwLDMtMSwzLjMtMwoJCUMzNjMuNyw2Ni43LDM2My43LDY0LjMsMzYzLjQsNjEuNSBNNDA4LjIsMTIyLjJjMC0xLjItMS0yLjEtMy0yLjhjLTEuOS0wLjUtMy0xLjctMy41LTMuNGMtMC40LTEuNy0wLjctNC4xLTAuNy03LjJWNS40CgkJYzAtMS4yLTAuMy0yLTEtMi40Yy0wLjctMC40LTEuNS0wLjMtMi42LDAuMmMtMy4xLDEuNS02LjIsMi45LTkuNCw0Yy0zLjIsMS4yLTYuMiwyLjEtOS4xLDNjLTIuOSwwLjgtNS41LDEuNS03LjgsMgoJCWMtMi40LDAuNS00LjMsMC45LTUuNywxLjFjLTIsMC40LTMsMS40LTMsM2MwLDEuMywxLDIuMywzLjEsMi44YzEuOCwwLjYsMi45LDEuNywzLjMsMy41YzAuNCwxLjgsMC43LDQuMiwwLjcsNy4ydjc5LjEKCQljMCwzLjEtMC4yLDUuNS0wLjcsNy4yYy0wLjQsMS43LTEuNSwyLjgtMy4zLDMuNGMtMi4xLDAuNy0zLjEsMS42LTMuMSwyLjhjMCwxLjYsMS4xLDIuNCwzLjMsMi4xYzEuOC0wLjIsNC4yLTAuNCw3LjQtMC41CgkJYzMuMi0wLjEsNy4yLTAuMiwxMi4yLTAuMmM0LjksMCw5LDAuMSwxMi4yLDAuMmMzLjIsMC4xLDUuNiwwLjMsNy4yLDAuNUM0MDcuMSwxMjQuNSw0MDguMiwxMjMuOCw0MDguMiwxMjIuMiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTEyOS4xLDI5LjZjLTIuOS0xLjQtOS41LTIuMi0xMy45LTIuMmMtNS44LDAtMTAuNCwxLjYtMTMuNyw0LjlzLTUuOCw3LjItNy40LDExLjlsLTEuMy0xMi41CgkJYy0wLjItMS4yLTAuNi0yLTEuMi0yLjRjLTAuNi0wLjQtMS41LTAuMy0yLjYsMC4yYy0xLDAuNS0xLjksMC45LTIuOCwxLjNjLTE1LjYsNS43LTQzLjEsNy44LTQ1LjIsOFYxMS42YzAtMS4zLTAuNC0yLjItMS4xLTIuNgoJCWMtMC43LTAuNC0xLjUtMC42LTIuNC0wLjZjLTEuNiwwLTIuOCwwLjgtMy41LDIuNWMtMSwyLjQtMi40LDQuOC00LjQsN2MtMS45LDIuMy00LjEsNC4zLTYuNSw2Yy0yLjQsMS44LTUsMy4xLTcuNyw0LjEKCQljLTIuNywxLTUuNSwxLjUtOC40LDEuNUg1LjljLTEuMiwwLTIsMC4zLTIuNSwwLjhjLTAuNCwwLjYtMC43LDEuNS0wLjcsM2MwLDEuNCwwLjIsMi40LDAuNywzYzAuNCwwLjYsMS4zLDAuOSwyLjUsMC45aDMuNnY2NAoJCWMwLDguMiwyLjEsMTUuMiw2LjMsMTguOGM0LjIsMy42LDEwLjEsNS40LDE3LjgsNS40YzUuNCwwLDkuNy0wLjgsMTIuOS0yLjNjMy4yLTEuNSw1LjgtMy43LDcuOS02LjRjMS4xLTEuNSwxLjItMi45LDAuMy00CgkJYy0wLjktMC44LTIuMi0wLjgtNC0wLjJjLTAuOSwwLjItMS44LDAuNS0yLjgsMC43Yy0xLDAuMy0yLDAuMi0zLjEtMC4yYy0xLjItMC40LTIuMS0xLjQtMi44LTIuOGMtMC43LTEuNC0xLTMuNi0xLTYuNFY0NS42aDExLjEKCQlsMC42LDBsNS44LDAuMWMzLjUsMC4yLDQsMS43LDQuNCwzLjJjMC4zLDIsMC4zLDQsMC4zLDcuMlYxMDhjMCwzLjItMC4yLDUuNi0wLjcsNy4yYy0wLjQsMS42LTEuNiwyLjctMy41LDMuMwoJCWMtMi4xLDAuNy0zLjEsMS42LTMuMSwyLjhjMCwxLjYsMS4xLDIuNCwzLjMsMi4xYzEuOS0wLjIsNC41LTAuNCw3LjktMC41YzMuNC0wLjEsNy43LTAuMiwxMi44LTAuMmM1LjMsMCw5LjcsMC4xLDEzLjIsMC4yCgkJYzMuNSwwLjEsNi4yLDAuMyw4LjEsMC41YzIuMywwLjIsMy41LTAuNSwzLjUtMi4xYzAtMS4yLTEuMS0yLjEtMy4zLTIuNmMtMi41LTAuNC00LjMtMS41LTUuMy0zYy0xLTEuNi0xLjUtNC4xLTEuNS03LjdWNjIKCQljMC0xLjgsMC4xLTMuNywwLjItNS45YzAuMS0yLjIsMC40LTQuMywwLjktNi4yQzk2LjIsNDgsOTcsNDYuMyw5OCw0NWMxLTEuMywyLjQtMiw0LjItMmMxLjksMCwzLjMsMC40LDQuMywxLjIKCQljMSwwLjgsNy4zLDYuNSw4LjMsNy4zYy0wLjMtMi4zLTAuNC02LjQsMC40LTguOWMxLTMsMS42LTUsNC40LTcuNkMxMjIuMSwzMi45LDEyNS4yLDMxLjEsMTI5LjEsMjkuNiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTI4NC41LDM0LjJjLTAuNy0yLjctMi01LTQtNi43Yy0yLTEuNy00LjctMi42LTguMi0yLjdjLTIuMS0wLjEtMy45LDAuMi01LjUsMC45Yy0xLjYsMC43LTIuOSwxLjYtMy45LDIuOAoJCWMtMSwxLjItMS43LDIuNS0yLjEsNGMtMC40LDEuNS0wLjYsMy4xLTAuMyw0LjZjMC4zLDIuNCwxLjIsNC40LDIuNiw2YzEuNCwxLjYsMi43LDMuMiwzLjksNC44YzEuMiwxLjYsMi4xLDMuMywyLjgsNS4xCgkJYzAuNywxLjgsMC41LDQuMS0wLjUsNi44bC0xNiw0NC44bC0xNy42LTYwLjFjLTAuOS0zLTEuNC01LjMtMS42LTYuOWMtMC4yLTEuNiwwLjQtMi44LDEuNi0zLjVjMC44LTAuNSwxLjQtMSwxLjktMS4zCgkJYzAuNS0wLjMsMC43LTAuOSwwLjctMS44YzAtMS41LTEuMS0yLjItMy4zLTJjLTEuOCwwLjItNC4yLDAuNC03LjIsMC41Yy0zLjEsMC4xLTcuMSwwLjItMTIsMC4yYy01LjMsMC05LjYtMC4xLTEzLjEtMC4yCgkJYy0zLjUtMC4yLTkuMy0wLjMtMTEuMy0wLjRjLTIuMi0wLjEtMy4zLDAuNi0zLjMsMmMwLDAuOCwwLjEsMS4yLDAuNiwxLjZjMC41LDAuNCwxLjQsMC45LDIuNCwxLjRjMC40LDAuMiwwLjgsMC40LDEuMywwLjcKCQljMS42LDAuOSwzLDEuOCw0LjMsMi45YzQuOSw0LjEsMTEsMTYuNiwxMy4zLDI0LjJsMjAuMSw1OC44YzAuNywxLjYsMS44LDIuNSwzLjUsMi41aDYuMmMwLTAuMS0wLjEtMC4xLTAuMS0wLjJsMC4yLDAuMmgxMi4zCgkJYzEuOCwwLDIuOS0wLjgsMy41LTIuNWwyNi40LTY2LjZjMS40LTMuNiwyLjQtNy4yLDIuOS0xMC42QzI4NS4zLDQwLjEsMjg1LjIsMzcsMjg0LjUsMzQuMiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTE0Ni40LDEwNi4yYy0yLjItMS42LTMuNC00LTMuNy03LjJjLTAuNC0zLjksMC4yLTcuMiwyLjEtMTAuMmMxLjgtMi45LDQuMS01LjQsNi43LTcuNgoJCWMyLjctMi4xLDUuNC00LDguMy01LjRjMi45LTEuNSw1LjEtMi44LDYuOC0zLjl2MjMuM2MwLDQtMS4yLDcuMi0zLjcsOS43Yy0yLjUsMi41LTUuNSwzLjctOSwzLjcKCQlDMTUxLDEwOC42LDE0OC42LDEwNy44LDE0Ni40LDEwNi4yIE0xOTkuMywxMTYuM2MtMC4zLTEtMC42LTIuMi0wLjctMy40Yy0wLjItMS4yLTAuMi0yLjUtMC4yLTMuOHYtMy42VjEwMGMwLTIuNSwwLTUuMy0wLjEtOC4zCgkJYy0wLjEtMy4xLTAuMS02LjItMC4yLTkuNWMtMC4xLTMuMi0wLjEtNi4yLTAuMi05Yy0wLjEtMi43LTAuMS01LjEtMC4xLTYuOXYtMy4xYzAtMTIuMS0zLjQtMjEtMTAuMi0yNi42CgkJYy02LjgtNS42LTE3LjEtOC40LTMwLjktOC40Yy03LjQsMC0xMy42LDAuOC0xOC43LDIuNGMtNSwxLjYtOSwzLjYtMTEuOSw1LjljLTIuOSwyLjQtNC44LDUtNS44LDcuOGMtMSwyLjgtMS4yLDUuNC0wLjYsNy45CgkJYzAuNiwyLjUsMS45LDQuNSwzLjgsNi4yYzEuOSwxLjYsNC40LDIuNiw3LjQsMi44YzQuMSwwLjIsNy4xLTAuMyw5LTEuNmMxLjktMS4zLDMuMy0yLjksNC4xLTVjMC44LTIuMSwxLjMtNC40LDEuNS02LjkKCQljMC4yLTIuNSwwLjUtNC45LDEuMS03YzAuNi0yLjEsMS41LTQsMy01LjRjMS40LTEuNSwzLjgtMi4yLDctMi4yYzIuMywwLDQuMSwwLjYsNS41LDEuOGMxLjMsMS4yLDIuMywzLDMsNS4zczEuMSw1LjEsMS4yLDguNQoJCWMwLjIsMy40LDAuMiw3LjIsMC4yLDExLjV2Mi41Yy0xLjcsMS40LTQuMiwyLjYtNy42LDMuNWMtMy40LDAuOS03LjIsMi0xMS40LDMuMWMtNC4yLDEuMi04LjUsMi41LTEyLjksNC4xCgkJYy00LjQsMS42LTguNCwzLjctMTIsNi40Yy0zLjYsMi42LTYuNSw1LjktOC43LDkuOGMtMi4yLDMuOS0zLjMsOC43LTMuMiwxNC40YzAuMiw2LjYsMi44LDEyLDcuOCwxNi4zYzUsNC4yLDEyLDYuNCwyMS4xLDYuNAoJCWMyLjksMCw1LjctMC4zLDguNS0xYzIuOC0wLjcsNS41LTEuNyw4LjEtMy4xYzIuNi0xLjQsNC45LTMuMiw3LTUuM2MyLTIuMSwzLjctNC42LDUuMS03LjRjMS4yLDQsMyw2LjksNS40LDguOQoJCWMyLjQsMiw1LDMuNCw3LjgsNC4zYzIuOCwwLjksNS43LDEuMyw4LjUsMS40YzIuOSwwLjEsNS40LDAuMSw3LjYsMC4xaDIuNWMyLjQsMCwzLjctMC44LDMuNy0yLjVjMC0wLjgtMC40LTEuMy0xLjEtMS43CgkJYy0wLjctMC4zLTEuNC0wLjgtMi4xLTEuNUMyMDAsMTE4LjIsMTk5LjYsMTE3LjQsMTk5LjMsMTE2LjMiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zODEuOCwxNDAuMmMtMiwwLjYtMy44LDEuNC01LjIsMi41Yy0xLjUsMS4xLTIuNiwyLjMtMy40LDMuOGMtMC44LDEuNS0xLjIsMy4xLTEuMiw1YzAsMi4xLDAuNCwzLjgsMS4zLDUuMgoJCWMwLjksMS40LDIsMi42LDMuMywzLjZjMS4zLDEsMi44LDEuOCw0LjUsMi41YzEuNywwLjcsMy4yLDEuNCw0LjgsMmMxLjUsMC43LDMsMS40LDQuMiwyLjFjMS4zLDAuNywyLjIsMS43LDIuOCwyLjgKCQljMC41LDAuOCwwLjcsMS43LDAuNiwyLjZjMCwxLTAuMywxLjgtMC43LDIuNmMtMC41LDAuOC0xLjEsMS41LTIsMmMtMC45LDAuNS0yLDAuOC0zLjMsMC44Yy0xLjQsMC0yLjUtMC4zLTMuMy0wLjkKCQljLTAuOC0wLjYtMS40LTEuMy0xLjktMi4yYy0wLjUtMC45LTAuOC0xLjgtMS4xLTIuOGMtMC4zLTEtMC43LTEuOS0xLjEtMi44Yy0wLjQtMC45LTEtMS42LTEuNy0yLjFjLTAuNy0wLjUtMS43LTAuOC0zLTAuNwoJCWMtMS4yLDAtMi4xLDAuNC0yLjgsMS4xYy0wLjcsMC43LTEuMSwxLjUtMS4zLDIuNWMtMC4xLDEsMC4xLDIuMSwwLjYsMy4yYzAuNSwxLjIsMS40LDIuMiwyLjcsMy4yYzEuMywxLDMsMS44LDUuMSwyLjQKCQljMi4xLDAuNyw0LjcsMSw3LjgsMWMzLjUsMCw2LjQtMC40LDguNy0xLjJjMi4zLTAuOCw0LjEtMS43LDUuNS0yLjljMS40LTEuMiwyLjMtMi41LDIuOS0zLjljMC42LTEuNCwwLjktMi44LDEtNC4xCgkJYzAuMS0yLTAuMS0zLjctMC44LTUuMWMtMC43LTEuNC0xLjctMi42LTIuOS0zLjZjLTEuMi0xLTIuNy0xLjktNC4zLTIuNmMtMS42LTAuNy0zLjItMS40LTQuOS0yLjFjLTEuNy0wLjctMy4zLTEuNC00LjktMi4yCgkJYy0xLjYtMC44LTIuOS0xLjgtNC0yLjljLTAuNi0wLjYtMS0xLjQtMS4xLTIuM2MtMC4yLTAuOSwwLTEuOCwwLjMtMi43YzAuNC0wLjksMS0xLjYsMS45LTIuMWMwLjktMC42LDIuMS0wLjgsMy43LTAuNwoJCWMxLjIsMC4xLDIuMSwwLjQsMi43LDAuOWMwLjYsMC41LDEuMSwxLjEsMS41LDEuOGMwLjMsMC43LDAuNiwxLjQsMC45LDIuMmMwLjIsMC44LDAuNiwxLjUsMSwyLjJjMC40LDAuNywxLDEuMiwxLjgsMS43CgkJYzAuOCwwLjUsMS44LDAuNywzLjIsMC43YzEsMCwxLjktMC4zLDIuNi0wLjhjMC43LTAuNiwxLjItMS4zLDEuNC0yLjFjMC4yLTAuOSwwLjEtMS44LTAuMy0yLjhjLTAuNC0xLTEuMi0xLjktMi4zLTIuOAoJCWMtMS4yLTAuOS0yLjctMS42LTQuOC0yLjFjLTItMC42LTQuNS0wLjgtNy42LTAuOEMzODYuMSwxMzkuNCwzODMuOCwxMzkuNywzODEuOCwxNDAuMiBNMzU0LjksMTQxLjRjLTEuNCwxLjQtMi40LDMtMy4xLDQuOQoJCWwtMC41LTUuMmMtMC4xLTAuNS0wLjMtMC44LTAuNS0xYy0wLjItMC4yLTAuNi0wLjEtMS4xLDAuMWMtMi42LDEuMy01LjEsMi4zLTcuMywyLjljLTIuMywwLjYtNCwxLjEtNS4yLDEuMwoJCWMtMC44LDAuMS0xLjIsMC41LTEuMiwxLjJjMCwwLjUsMC40LDAuOSwxLjMsMS4yYzAuOCwwLjIsMS4yLDAuNywxLjQsMS40YzAuMiwwLjcsMC4zLDEuNywwLjMsM3YyMS40YzAsMS4zLTAuMSwyLjMtMC4zLDMKCQljLTAuMiwwLjctMC43LDEuMS0xLjQsMS40Yy0wLjksMC4zLTEuMywwLjctMS4zLDEuMmMwLDAuNywwLjUsMSwxLjQsMC45YzAuOC0wLjEsMS45LTAuMiwzLjMtMC4yYzEuNCwwLDMuMi0wLjEsNS4zLTAuMQoJCWMyLjIsMCw0LDAsNS40LDAuMWMxLjQsMCwyLjYsMC4xLDMuMywwLjJjMSwwLjEsMS40LTAuMiwxLjQtMC45YzAtMC41LTAuNS0wLjktMS40LTEuMWMtMS0wLjItMS44LTAuNi0yLjItMS4zCgkJYy0wLjQtMC43LTAuNi0xLjctMC42LTMuMnYtMTljMC0wLjcsMC0xLjUsMC4xLTIuNGMwLTAuOSwwLjItMS44LDAuNC0yLjVjMC4yLTAuOCwwLjUtMS41LDEtMmMwLjQtMC41LDEtMC44LDEuNy0wLjgKCQljMC44LDAsMS40LDAuMiwxLjgsMC41YzAuNCwwLjMsMC43LDAuOCwxLDEuM2MwLjIsMC41LDAuNCwxLjEsMC42LDEuN2MwLjIsMC42LDAuNCwxLjIsMC43LDEuN2MwLjMsMC41LDAuNywxLDEuMywxLjMKCQljMC42LDAuMywxLjMsMC41LDIuMywwLjZjMS40LDAsMi41LTAuMywzLjUtMC45YzEtMC43LDEuNy0xLjUsMi4xLTIuNWMwLjUtMSwwLjctMi4xLDAuNi0zLjNjLTAuMS0xLjItMC40LTIuMy0xLTMuMwoJCWMtMC42LTEtMS41LTEuOS0yLjgtMi41Yy0xLjItMC43LTIuOC0xLTQuNy0xQzM1OC4yLDEzOS40LDM1Ni4zLDE0MCwzNTQuOSwxNDEuNCBNMzA5LjUsMTU0YzAtMS43LDAuMi0zLjMsMC41LTQuOAoJCWMwLjMtMS41LDAuOC0yLjksMS40LTRjMC42LTEuMiwxLjMtMi4xLDIuMS0yLjhjMC44LTAuNywxLjctMS4xLDIuNy0xLjFjMSwwLDEuOCwwLjMsMi41LDAuOWMwLjcsMC42LDEuMywxLjMsMS44LDIuMgoJCWMwLjUsMC45LDAuOCwxLjksMS4xLDIuOWMwLjIsMS4xLDAuNCwyLjEsMC40LDNjMCwwLjktMC4xLDEuNS0wLjIsMmMtMC4xLDAuNS0wLjQsMC44LTAuNywxLjFjLTAuNCwwLjItMC45LDAuNC0xLjUsMC41CgkJYy0wLjcsMC4xLTEuNSwwLjEtMi41LDAuMUgzMDkuNXogTTMwNy45LDE0MS4yYy0yLjQsMS4yLTQuNSwyLjctNi4yLDQuN2MtMS43LDItMyw0LjMtMy44LDYuOWMtMC44LDIuNi0xLjEsNS40LTAuOSw4LjMKCQljMC4yLDIuOCwwLjksNS4zLDEuOSw3LjZjMS4xLDIuMywyLjUsNC4zLDQuMyw1LjljMS44LDEuNywzLjksMi45LDYuMiwzLjljMi40LDAuOSw0LjksMS40LDcuNywxLjRjMi4yLDAsNC4xLTAuMyw1LjgtMC44CgkJYzEuNy0wLjUsMy4xLTEuMiw0LjMtMS45YzEuMi0wLjcsMi4yLTEuNSwzLTIuM2MwLjgtMC44LDEuNC0xLjUsMS44LTJjMC41LTAuNiwwLjUtMS4yLDAuMS0xLjZjLTAuMy0wLjMtMC45LTAuMy0xLjYtMC4xCgkJYy0yLjMsMC44LTQuNSwxLjItNi42LDEuMmMtMy40LDAtNi40LTEuMS04LjktMy4yYy0yLjUtMi4xLTQuMS01LjItNS05LjNjLTAuMS0wLjUtMC4yLTAuOS0wLjItMS4zYy0wLjEtMC40LTAuMS0wLjktMC4yLTEuM2gyMi4xCgkJYzAuOCwwLDEuMi0wLjQsMS40LTEuMmMwLjEtMC44LDAuMS0xLjgsMC0zYy0wLjEtMS4yLTAuNC0yLjQtMC45LTMuNmMtMC41LTEuMi0xLjEtMi41LTEuOS0zLjdjLTAuOC0xLjItMS45LTIuMy0zLjItMy4zCgkJYy0xLjMtMS0yLjktMS44LTQuNy0yLjNjLTEuOC0wLjYtMy45LTAuOS02LjQtMC44QzMxMy4xLDEzOS40LDMxMC40LDE0MCwzMDcuOSwxNDEuMiBNMjg3LjMsMTM4LjljLTAuNywwLjMtMS4yLDAuNy0xLjYsMS4yCgkJYy0wLjQsMC41LTAuNywxLTAuOSwxLjdjLTAuMiwwLjYtMC4yLDEuMy0wLjEsMS45YzAuMiwxLDAuNSwxLjgsMS4xLDIuNWMwLjUsMC43LDEuMSwxLjMsMS42LDJjMC41LDAuNywwLjksMS40LDEuMiwyLjEKCQljMC4yLDAuNywwLjIsMS43LTAuMiwyLjhsLTYuNiwxOC40bC03LjItMjQuN2MtMC40LTEuMi0wLjYtMi4yLTAuNy0yLjljLTAuMS0wLjcsMC4xLTEuMiwwLjYtMS40YzAuNC0wLjIsMC42LTAuNCwwLjgtMC41CgkJYzAuMi0wLjEsMC4zLTAuNCwwLjMtMC43YzAtMC42LTAuNS0wLjktMS40LTAuOGMtMC43LDAuMS0xLjcsMC4yLTIuOSwwLjJjLTEuMywwLTIuOSwwLjEtNSwwLjFjLTIuMiwwLTQsMC01LjUtMC4xCgkJYy0xLjQtMC4xLTIuNS0wLjEtMy40LTAuMmMtMC45LDAtMS40LDAuMi0xLjQsMC44YzAsMC4zLDAuMSwwLjYsMC4zLDAuN2MwLjIsMC4yLDAuNSwwLjMsMC45LDAuNWMwLjgsMC4zLDEuNCwwLjcsMS45LDEuMwoJCWMwLjQsMC42LDAuOSwxLjYsMS41LDMuMWwyLjIsNi4ybC02LjcsMTguNmwtNy4zLTI0LjdjLTAuNC0xLjMtMC42LTIuMi0wLjctMi45Yy0wLjEtMC43LDAuMS0xLjEsMC42LTEuNWMwLjQtMC4yLDAuNi0wLjMsMC44LTAuNQoJCWMwLjItMC4yLDAuMy0wLjQsMC4zLTAuN2MwLTAuNi0wLjUtMC45LTEuNC0wLjhjLTAuNywwLjEtMS43LDAuMS0zLDAuMmMtMS4zLDAtMi45LDAtNSwwYy0yLjIsMC00LDAtNS40LTAuMQoJCWMtMS40LDAtMi41LTAuMS0zLjMtMC4xYy0wLjksMC0xLjQsMC4yLTEuNCwwLjhjMCwwLjUsMC40LDAuOSwxLjIsMS4yYzAuOCwwLjMsMS40LDAuOCwxLjgsMS40YzAuNCwwLjYsMC45LDEuNiwxLjQsMy4xbDExLjUsMzEuNAoJCWMwLjMsMC43LDAuNywxLDEuNCwxaDUuOVYxNzlsMS44LDAuMWMwLjcsMCwxLjItMC4zLDEuNC0xbDcuOC0xOS42bDcuMSwxOS42YzAuMywwLjcsMC43LDEsMS40LDFoNy43YzAuNiwwLDEuMS0wLjMsMS40LTEKCQlsMTAuOC0yNy40YzAuNi0xLjUsMS0zLDEuMi00LjRjMC4yLTEuNCwwLjItMi43LTAuMS0zLjhjLTAuMy0xLjEtMC44LTItMS42LTIuOGMtMC44LTAuNy0xLjktMS4xLTMuNC0xLjEKCQlDMjg4LjcsMTM4LjQsMjg4LDEzOC42LDI4Ny4zLDEzOC45IE0yMDguOSwxNDAuMmMtMiwwLjYtMy44LDEuNC01LjIsMi41Yy0xLjUsMS4xLTIuNiwyLjMtMy40LDMuOGMtMC44LDEuNS0xLjIsMy4xLTEuMiw1CgkJYzAsMi4xLDAuNCwzLjgsMS4zLDUuMmMwLjksMS40LDIsMi42LDMuMywzLjZjMS4zLDEsMi44LDEuOCw0LjUsMi41YzEuNywwLjcsMy4yLDEuNCw0LjgsMmMxLjUsMC43LDMsMS40LDQuMiwyLjEKCQljMS4zLDAuNywyLjIsMS43LDIuOCwyLjhjMC41LDAuOCwwLjcsMS43LDAuNiwyLjZjMCwxLTAuMywxLjgtMC43LDIuNmMtMC41LDAuOC0xLjEsMS41LTIsMmMtMC45LDAuNS0yLDAuOC0zLjMsMC44CgkJYy0xLjQsMC0yLjUtMC4zLTMuMy0wLjljLTAuOC0wLjYtMS40LTEuMy0xLjktMi4yYy0wLjUtMC45LTAuOC0xLjgtMS4xLTIuOGMtMC4zLTEtMC43LTEuOS0xLjEtMi44Yy0wLjQtMC45LTEtMS42LTEuNy0yLjEKCQljLTAuNy0wLjUtMS43LTAuOC0zLTAuN2MtMS4yLDAtMi4xLDAuNC0yLjgsMS4xYy0wLjcsMC43LTEuMSwxLjUtMS4zLDIuNWMtMC4xLDEsMC4xLDIuMSwwLjYsMy4yYzAuNSwxLjIsMS40LDIuMiwyLjcsMy4yCgkJYzEuMywxLDMsMS44LDUuMSwyLjRjMi4xLDAuNyw0LjcsMSw3LjgsMWMzLjUsMCw2LjQtMC40LDguNy0xLjJjMi4zLTAuOCw0LjEtMS43LDUuNS0yLjljMS40LTEuMiwyLjMtMi41LDIuOS0zLjkKCQljMC42LTEuNCwwLjktMi44LDEtNC4xYzAuMS0yLTAuMS0zLjctMC44LTUuMWMtMC43LTEuNC0xLjctMi42LTIuOS0zLjZjLTEuMi0xLTIuNy0xLjktNC4zLTIuNmMtMS42LTAuNy0zLjItMS40LTQuOS0yLjEKCQljLTEuNy0wLjctMy4zLTEuNC00LjktMi4yYy0xLjYtMC44LTIuOS0xLjgtNC0yLjljLTAuNi0wLjYtMS0xLjQtMS4xLTIuM2MtMC4yLTAuOSwwLTEuOCwwLjMtMi43YzAuNC0wLjksMS0xLjYsMS45LTIuMQoJCWMwLjktMC42LDIuMS0wLjgsMy43LTAuN2MxLjIsMC4xLDIuMSwwLjQsMi43LDAuOWMwLjYsMC41LDEuMSwxLjEsMS41LDEuOGMwLjMsMC43LDAuNiwxLjQsMC45LDIuMmMwLjIsMC44LDAuNiwxLjUsMSwyLjIKCQljMC40LDAuNywxLDEuMiwxLjgsMS43YzAuOCwwLjUsMS44LDAuNywzLjIsMC43YzEsMCwxLjktMC4zLDIuNi0wLjhjMC43LTAuNiwxLjItMS4zLDEuNC0yLjFjMC4yLTAuOSwwLjEtMS44LTAuMy0yLjgKCQljLTAuNC0xLTEuMi0xLjktMi4zLTIuOGMtMS4yLTAuOS0yLjctMS42LTQuOC0yLjFjLTItMC42LTQuNS0wLjgtNy42LTAuOEMyMTMuMSwxMzkuNCwyMTAuOSwxMzkuNywyMDguOSwxNDAuMiBNMTkzLjMsMTc1LjUKCQljLTAuMi0wLjctMC4yLTEuNy0wLjItM3YtMTcuMWMwLTUuMy0xLjEtOS40LTMuMy0xMi4xYy0yLjItMi43LTUuNy00LTEwLjYtNGMtMS42LDAtMy4xLDAuMi00LjMsMC42Yy0xLjMsMC40LTIuNCwwLjktMy4zLDEuNgoJCWMtMSwwLjctMS44LDEuNC0yLjQsMi4yYy0wLjcsMC44LTEuMiwxLjctMS43LDIuNmwtMC42LTUuMmMtMC4xLTAuNS0wLjMtMC44LTAuNS0xYy0wLjItMC4yLTAuNi0wLjEtMS4xLDAuMQoJCWMtMi42LDEuMy01LjEsMi4zLTcuMywyLjljLTIuMywwLjYtNCwxLjEtNS4yLDEuM2MtMC44LDAuMS0xLjIsMC41LTEuMiwxLjJjMCwwLjUsMC40LDAuOSwxLjMsMS4yYzAuOCwwLjIsMS4yLDAuNywxLjQsMS40CgkJYzAuMiwwLjcsMC4zLDEuNywwLjMsM3YyMS40YzAsMS4zLTAuMSwyLjMtMC4zLDNjLTAuMiwwLjctMC43LDEuMi0xLjQsMS40Yy0wLjQsMC4xLTAuNywwLjMtMC45LDAuNGMtMC4yLDAuMi0wLjMsMC40LTAuMywwLjcKCQljMCwwLjcsMC41LDEsMS40LDAuOWMwLjctMC4xLDEuNy0wLjIsMy4xLTAuMmMxLjMsMCwzLTAuMSw1LTAuMWMyLDAsMy43LDAsNSwwLjFjMS4zLDAsMi4zLDAuMSwzLDAuMmMwLjksMC4xLDEuNC0wLjIsMS40LTAuOQoJCWMwLTAuNS0wLjQtMC45LTEuMi0xLjJjLTAuOC0wLjItMS4yLTAuNy0xLjQtMS40Yy0wLjItMC43LTAuMy0xLjctMC4zLTN2LTE3LjVjMC0xLjIsMC4xLTIuMywwLjMtMy41YzAuMi0xLjIsMC42LTIuMiwxLjEtMy4xCgkJYzAuNS0wLjksMS4yLTEuNiwyLTIuMmMwLjgtMC41LDEuOS0wLjgsMy4xLTAuOGMxLjIsMCwyLjIsMC4zLDIuOSwwLjhjMC44LDAuNSwxLjQsMS4zLDEuOCwyLjJjMC41LDAuOSwwLjgsMiwwLjksMy4yCgkJYzAuMiwxLjIsMC4yLDIuNSwwLjIsMy44djE3LjFjMCwxLjMtMC4xLDIuMy0wLjIsM2MtMC4yLDAuNy0wLjYsMS4yLTEuNCwxLjRjLTAuOSwwLjMtMS4zLDAuNy0xLjMsMS4yYzAsMC43LDAuNSwxLDEuNCwwLjkKCQljMC43LTAuMSwxLjctMC4yLDMtMC4yYzEuMywwLDMtMC4xLDUtMC4xYzIsMCwzLjcsMCw1LDAuMWMxLjMsMCwyLjMsMC4xLDMsMC4yYzEsMC4xLDEuNC0wLjIsMS40LTAuOWMwLTAuNS0wLjQtMC45LTEuMy0xLjIKCQlDMTkzLjksMTc2LjcsMTkzLjUsMTc2LjIsMTkzLjMsMTc1LjUgTTEyNS4zLDE3MS41Yy0wLjktMC43LTEuNC0xLjYtMS41LTNjLTAuMi0xLjYsMC4xLTMsMC44LTQuMmMwLjctMS4yLDEuNy0yLjIsMi44LTMuMQoJCWMxLjEtMC45LDIuMi0xLjYsMy40LTIuMmMxLjItMC42LDIuMS0xLjEsMi44LTEuNnY5LjZjMCwxLjYtMC41LDMtMS41LDRjLTEsMS0yLjMsMS41LTMuNywxLjUKCQlDMTI3LjIsMTcyLjUsMTI2LjIsMTcyLjIsMTI1LjMsMTcxLjUgTTE0Ni45LDE3NS43Yy0wLjEtMC40LTAuMi0wLjktMC4zLTEuNGMtMC4xLTAuNS0wLjEtMS0wLjEtMS42di0xLjV2LTIuM2MwLTEsMC0yLjIsMC0zLjQKCQljMC0xLjMsMC0yLjYtMC4xLTMuOWMwLTEuMywwLTIuNi0wLjEtMy43YzAtMS4xLDAtMi4xLDAtMi45di0xLjNjMC01LTEuNC04LjYtNC4yLTEwLjljLTIuOC0yLjMtNy0zLjUtMTIuNy0zLjUKCQljLTMsMC01LjYsMC4zLTcuNiwxYy0yLjEsMC43LTMuNywxLjUtNC45LDIuNHMtMiwyLTIuNCwzLjJjLTAuNCwxLjItMC41LDIuMi0wLjIsMy4zYzAuMiwxLDAuOCwxLjksMS42LDIuNWMwLjgsMC43LDEuOCwxLjEsMywxLjIKCQljMS43LDAuMSwyLjktMC4xLDMuNy0wLjZjMC44LTAuNSwxLjQtMS4yLDEuNy0yLjFjMC4zLTAuOSwwLjUtMS44LDAuNi0yLjljMC4xLTEsMC4yLTIsMC40LTIuOWMwLjItMC45LDAuNi0xLjYsMS4yLTIuMgoJCWMwLjYtMC42LDEuNS0wLjksMi45LTAuOWMxLDAsMS43LDAuMiwyLjIsMC43YzAuNSwwLjUsMSwxLjIsMS4yLDIuMmMwLjMsMSwwLjQsMi4xLDAuNSwzLjVjMC4xLDEuNCwwLjEsMywwLjEsNC43djEKCQljLTAuNywwLjYtMS43LDEuMS0zLjEsMS41Yy0xLjQsMC40LTMsMC44LTQuNywxLjNjLTEuNywwLjUtMy41LDEtNS4zLDEuN2MtMS44LDAuNy0zLjUsMS41LTQuOSwyLjZjLTEuNSwxLjEtMi43LDIuNC0zLjYsNAoJCWMtMC45LDEuNi0xLjMsMy42LTEuMyw1LjljMC4xLDIuNywxLjIsNC45LDMuMiw2LjdjMiwxLjcsNC45LDIuNiw4LjYsMi42YzEuMiwwLDIuMy0wLjEsMy41LTAuNGMxLjItMC4zLDIuMy0wLjcsMy4zLTEuMwoJCWMxLjEtMC42LDItMS4zLDIuOS0yLjJjMC44LTAuOSwxLjUtMS45LDIuMS0zLjFjMC41LDEuNiwxLjIsMi45LDIuMiwzLjdjMSwwLjgsMiwxLjQsMy4yLDEuOGMxLjIsMC40LDIuMywwLjYsMy41LDAuNgoJCWMxLjIsMCwyLjIsMCwzLjEsMGgxYzEsMCwxLjUtMC4zLDEuNS0xYzAtMC4zLTAuMS0wLjUtMC40LTAuN2MtMC4zLTAuMS0wLjYtMC4zLTAuOC0wLjZDMTQ3LjMsMTc2LjQsMTQ3LjEsMTc2LjEsMTQ2LjksMTc1LjciLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zOTYuOSwyMjMuN2gyLjR2LTguNWw4LjktMTIuOWgtMi44bC03LjMsMTAuN2wtNy4yLTEwLjdIMzg4bDguOSwxMi45VjIyMy43eiBNMzc1LjksMjI0YzQuMiwwLDcuMy0yLjQsNy4zLTYKCQl2LTAuMWMwLTMuMy0yLjItNS03LTZjLTQuNy0xLTUuOC0yLjEtNS44LTQuMnYtMC4xYzAtMS45LDEuOC0zLjQsNC41LTMuNGMyLjIsMCw0LjIsMC43LDYuMiwyLjNsMS40LTEuOWMtMi4yLTEuNy00LjQtMi42LTcuNS0yLjYKCQljLTQuMSwwLTcsMi41LTcsNS44djAuMWMwLDMuNSwyLjMsNS4xLDcuMiw2LjJjNC41LDAuOSw1LjYsMi4xLDUuNiw0LjF2MC4xYzAsMi4xLTEuOSwzLjYtNC44LDMuNmMtMywwLTUuMS0xLTcuMy0zbC0xLjUsMS44CgkJQzM2OS43LDIyMi44LDM3Mi41LDIyNCwzNzUuOSwyMjQgTTM0NiwyMTUuOGw0LjktMTAuOWw0LjksMTAuOUgzNDZ6IE0zNDAsMjIzLjdoMi41bDIuNS01LjZoMTEuNmwyLjUsNS42aDIuNmwtOS43LTIxLjVoLTIuMwoJCUwzNDAsMjIzLjd6IE0zMTguMywyMjMuN2gxNS42di0yLjJoLTEzLjJWMjE0aDExLjd2LTIuMmgtMTEuN3YtNy4zaDEzdi0yLjJoLTE1LjRWMjIzLjd6IE0yODQuMiwyMjMuN2gxNC40di0yLjJoLTEydi0xOS4xaC0yLjQKCQlWMjIzLjd6IE0yNjAuNywyMjMuN2gxNS42di0yLjJoLTEzLjJWMjE0aDExLjd2LTIuMmgtMTEuN3YtNy4zaDEzdi0yLjJoLTE1LjRWMjIzLjd6IE0yNDIuMSwyMjMuOGgyLjFsOS4yLTIxLjVoLTIuNmwtNy42LDE4LjQKCQlsLTcuNi0xOC40aC0yLjdMMjQyLjEsMjIzLjh6IE0yMTQuOCwyMTUuOGw0LjktMTAuOWw0LjksMTAuOUgyMTQuOHogTTIwOC44LDIyMy43aDIuNWwyLjUtNS42aDExLjZsMi41LDUuNmgyLjZsLTkuNy0yMS41aC0yLjMKCQlMMjA4LjgsMjIzLjd6IE0xODgsMjEzLjJ2LTguN2g2LjZjMy40LDAsNS41LDEuNiw1LjUsNC4ydjAuMWMwLDIuNy0yLjMsNC40LTUuNSw0LjRIMTg4eiBNMTg1LjYsMjIzLjdoMi40di04LjNoNi4xbDYuMiw4LjNoMwoJCWwtNi42LTguN2MzLjQtMC42LDUuOC0yLjcsNS44LTYuMnYtMC4xYzAtMS43LTAuNi0zLjItMS42LTQuMmMtMS4zLTEuMy0zLjQtMi4xLTYuMS0yLjFoLTkuMlYyMjMuN3ogTTE2OC40LDIyMy43aDIuNHYtMTkuMWg3LjIKCQl2LTIuMmgtMTYuOHYyLjJoNy4yVjIyMy43eiBNMTMzLjUsMjI0YzMuNiwwLDYuNi0xLjUsOC42LTMuM3YtOC41aC04Ljh2Mi4yaDYuNXY1LjNjLTEuNSwxLjItMy43LDIuMS02LjIsMi4xCgkJYy01LjIsMC04LjUtMy44LTguNS04Ljl2LTAuMWMwLTQuOCwzLjQtOC44LDguMS04LjhjMywwLDQuOSwxLDYuNSwyLjRsMS42LTEuOGMtMi4xLTEuOC00LjQtMi44LTgtMi44Yy02LjQsMC0xMC43LDUuMi0xMC43LDExCgkJdjAuMUMxMjIuNiwyMTkuMSwxMjYuOCwyMjQsMTMzLjUsMjI0IE05Ni40LDIyMy43aDIuM3YtMTcuNWwxMy44LDE3LjVoMS45di0yMS40aC0yLjN2MTcuMWwtMTMuNS0xNy4xaC0yLjNWMjIzLjd6IE04NC43LDIyMy43CgkJaDIuNHYtMjEuNGgtMi40VjIyMy43eiBNNTkuNSwyMjMuN2gyLjR2LTUuN2w0LjUtNC42bDguMiwxMC4zaDNsLTkuNi0xMmw5LjItOS4zaC0zLjFsLTEyLjMsMTIuOHYtMTIuOGgtMi40VjIyMy43eiBNMzYuNSwyMTUuOAoJCWw0LjktMTAuOWw0LjksMTAuOUgzNi41eiBNMzAuNSwyMjMuN0gzM2wyLjUtNS42aDExLjZsMi41LDUuNmgyLjZsLTkuNy0yMS41aC0yLjNMMzAuNSwyMjMuN3ogTTIuOCwyMjMuN2gyLjN2LTE3LjNsNy44LDExLjRIMTMKCQlsNy44LTExLjR2MTcuM2gyLjR2LTIxLjRoLTIuNEwxMywyMTRsLTcuOC0xMS43SDIuOFYyMjMuN3oiLz4KPC9nPgo8L3N2Zz4K" alt="Travel Answers Group">
+    <div class="logo-sub">Sales Portal · Internal</div>
+  </div>
+  <nav>
+    <div class="nav-s">Overview</div>
+    <a href="#" class="active" onclick="showPanel('dash',this)"><span class="ic">📊</span>Dashboard</a>
+    <a href="#" onclick="showPanel('kpis',this)"><span class="ic">🎯</span>KPI Tracker</a>
+    <div class="nav-s">Sales Team</div>
+    <a href="#" onclick="showPanel('team',this)"><span class="ic">👔</span>Sales Team Hub</a>
+    <a href="#" onclick="showPanel('mydesk',this)"><span class="ic">🖥️</span>My Desk</a>
+    <div class="nav-s">Agents</div>
+    <a href="#" onclick="showPanel('agents',this)"><span class="ic">👥</span>Agent Database</a>
+    <a href="#" onclick="showPanel('lapsed',this)"><span class="ic">🔄</span>Lapsed Advisors</a>
+    <a href="#" onclick="showPanel('consortia',this)"><span class="ic">🏛️</span>Consortia</a>
+    <div class="nav-s">Activity</div>
+    <a href="#" onclick="showPanel('events',this)"><span class="ic">📅</span>Events & Roadshows</a>
+    <a href="#" onclick="showPanel('followup',this)"><span class="ic">☎️</span>Follow-Up Tracker</a>
+    <a href="#" onclick="showPanel('calls',this)"><span class="ic">📞</span>Proactive Calls</a>
+    <div class="nav-s">Intelligence</div>
+    <a href="#" onclick="showPanel('incentives',this)"><span class="ic">🎁</span>Incentives</a>
+    <a href="#" onclick="showPanel('survey',this)"><span class="ic">📋</span>Agent Survey</a>
+    <a href="#" onclick="showPanel('promos',this)"><span class="ic">⚡</span>Weekly Promos</a>
+    <a href="#" onclick="showPanel('crm',this)"><span class="ic">🔗</span>CRM & Tools</a>
+  </nav>
+  <div class="sfooter">
+    <div class="ubadge">
+      <div class="avatar">JK</div>
+      <div><div style="font-size:11.5px;font-weight:600;color:var(--tx)">Ajay Kawa</div><div>CEO UK &amp; Europe · ORN</div></div>
+    </div>
+    <div style="margin-top:3px">Travel Answers Group · FY26</div>
+  </div>
+</div>
+
+<div id="main">
+
+<!-- DASHBOARD -->
+<div id="panel-dash" class="panel active">
+  <div class="topbar">
+    <h1>📊 TAG Sales Dashboard — <span style="color:var(--tag)">FY26 Jun–Dec</span></h1>
+    <div class="tact"><span style="font-size:10.5px;color:var(--txm)">Kirk Demeter · CEO USA</span><button class="btn btn-p" onclick="openModal('addAgent')">+ Add Agent</button></div>
+  </div>
+  <div class="content">
+    <div class="sg">
+      <div class="sc or"><div class="sl">Sold Revenue YTD</div><div class="sv">$11.4M</div><div class="ss">Target $30M · 38% achieved</div><div class="pb mt8"><div class="pf" style="width:38%"></div></div></div>
+      <div class="sc"><div class="sl">Revenue Needed Jun–Dec</div><div class="sv" style="color:var(--re)">$18.6M</div><div class="ss">$2.5M required per month</div></div>
+      <div class="sc gr"><div class="sl">Active Advisors</div><div class="sv">1,100</div><div class="ss">Target 1,500 · +400 needed</div><div class="pb mt8"><div class="pf gr" style="width:73%"></div></div></div>
+      <div class="sc re"><div class="sl">Lapsed Advisors</div><div class="sv">500</div><div class="ss">Reactivate 150 by Dec</div></div>
+      <div class="sc bl"><div class="sl">Database Size</div><div class="sv">35K</div><div class="ss">Target 50K by year-end</div><div class="pb mt8"><div class="pf bl" style="width:70%"></div></div></div>
+      <div class="sc"><div class="sl">Avg Booking Value</div><div class="sv" style="color:var(--gr)">$15K</div><div class="ss">ABV across all advisors</div></div>
+      <div class="sc"><div class="sl">Calls Today</div><div class="sv" style="color:var(--bl)">14</div><div class="ss">Target 17.5 (3.5 reps × 5)</div></div>
+      <div class="sc"><div class="sl">Sales Reps</div><div class="sv" style="color:var(--tag)">3.5</div><div class="ss">FTE incl. key accounts</div></div>
+    </div>
+    <div class="pbanner">
+      <div class="pic">⚡</div>
+      <div><div class="pt">WICKED WEDNESDAY</div><div class="pd">All weekend sales closed before 3pm · Top closer wins this week's prize · Results 4pm</div></div>
+      <div class="pact"><button class="btn btn-g btn-sm" onclick="showPanel('promos',null)">All Promos</button><button class="btn btn-p btn-sm">Log Win 🏆</button></div>
+    </div>
+    <div class="tc">
+      <div>
+        <div class="stitle">Consortia Pipeline</div>
+        <div class="tw"><table>
+          <thead><tr><th>Consortia</th><th>Activation</th><th>YTD</th><th>Target</th><th>%</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Travel Leaders</strong></td><td>2%</td><td>$2.84M</td><td>$8.91M</td><td><span class="badge b-re">32%</span></td></tr>
+            <tr><td><strong>Signature</strong></td><td>7%</td><td>$3.07M</td><td>$6.64M</td><td><span class="badge b-or">46%</span></td></tr>
+            <tr><td><strong>Cruise Planners</strong></td><td>21%</td><td>$1.83M</td><td>$3.02M</td><td><span class="badge b-go">61%</span></td></tr>
+            <tr><td><strong>Virtuoso</strong></td><td>2%</td><td>$1.32M</td><td>$1.41M</td><td><span class="badge b-gr">94%</span></td></tr>
+            <tr><td><strong>MAST</strong></td><td>20%</td><td>$544K</td><td>$1.46M</td><td><span class="badge b-or">37%</span></td></tr>
+            <tr><td><strong>Ensemble</strong></td><td>13.6%</td><td>$69K</td><td>$673K</td><td><span class="badge b-re">10%</span></td></tr>
+          </tbody>
+        </table></div>
+        <div class="stitle">90-Day Priorities</div>
+        <div class="tw"><div id="p90"></div></div>
+      </div>
+      <div>
+        <div class="stitle">Sales Team Snapshot</div>
+        <div class="tw"><table>
+          <thead><tr><th>Rep</th><th>Calls/Day</th><th>FU Pending</th><th>Bookings</th></tr></thead>
+          <tbody id="snap"></tbody>
+        </table></div>
+        <div class="stitle">Recent Activity</div>
+        <div class="tw" style="padding:5px 12px"><div id="alog"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KPI TRACKER -->
+<div id="panel-kpis" class="panel">
+  <div class="topbar"><h1>🎯 KPI Dashboard</h1></div>
+  <div class="content">
+    <div class="stitle">Revenue & Advisor KPIs</div>
+    <div class="tw" style="padding:5px 16px"><div id="kpilist"></div></div>
+    <div class="stitle">Consortia Activation Rates</div>
+    <div class="tw"><table>
+      <thead><tr><th>Consortia</th><th>Current</th><th>Target</th><th>Progress</th></tr></thead>
+      <tbody>
+        <tr><td>Travel Leaders</td><td>2%</td><td>4%</td><td><div class="pb"><div class="pf re" style="width:50%"></div></div></td></tr>
+        <tr><td>Signature</td><td>7%</td><td>10%</td><td><div class="pb"><div class="pf" style="width:70%"></div></div></td></tr>
+        <tr><td>Cruise Planners</td><td>21%</td><td>25%</td><td><div class="pb"><div class="pf gr" style="width:84%"></div></div></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- SALES TEAM HUB -->
+<div id="panel-team" class="panel">
+  <div class="topbar"><h1>👔 Sales Team Hub — <span style="color:var(--tag)">Revenue Owners</span></h1><div class="tact"><span style="font-size:10.5px;color:var(--txm)">Org chart: Kerryn Collins / Kirk Demeter</span></div></div>
+  <div class="content">
+    <div class="rtabs" id="rtabs"></div>
+    <div id="rview"></div>
+  </div>
+</div>
+
+<!-- MY DESK -->
+<div id="panel-mydesk" class="panel">
+  <div class="topbar"><h1>🖥️ My Desk — Daily Sales Log</h1><div class="tact"><button class="btn btn-p" onclick="openModal('addCall')">+ Log Call</button><button class="btn btn-g btn-sm" onclick="openModal('addFollowup')">+ Follow-Up</button></div></div>
+  <div class="content">
+    <div class="ibox"><strong>My Desk:</strong> Each sales rep logs daily calls and follow-ups here. Leadership reviews all reps from the Sales Team Hub above.</div>
+    <div class="fr c2"><div><label>I am</label><select id="dr"><option>John Gunning — Director of Key Accounts</option><option>Janie Hall — Director of Sales (Part-time)</option><option>Jeff Adam — Director, Advisor Engagement & Growth</option><option>Jane Moore — Sales Coordinator</option><option>Kerryn Collins — COO USA</option></select></div><div><label>Today</label><input type="date" id="ddate"></div></div>
+    <div class="tc">
+      <div>
+        <div class="stitle">Today's Calls</div>
+        <div class="tw"><table><thead><tr><th>#</th><th>Advisor</th><th>Outcome</th><th>Next Step</th></tr></thead><tbody id="dcalls"><tr><td colspan="4" style="text-align:center;color:var(--txm);padding:18px">No calls logged. Use + Log Call above.</td></tr></tbody></table></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:7px"><span style="font-size:11.5px;color:var(--txd)">Calls today: <strong id="ccnt">0</strong>/5</span><div class="pb" style="width:110px"><div class="pf" id="cprog" style="width:0%"></div></div></div>
+      </div>
+      <div>
+        <div class="stitle">My Open Follow-Ups</div>
+        <div class="tw"><table><thead><tr><th>Advisor</th><th>Source</th><th>Due</th><th>Status</th></tr></thead><tbody id="dfu"><tr><td colspan="4" style="text-align:center;color:var(--txm);padding:18px">No open follow-ups. Great work!</td></tr></tbody></table></div>
+        <div class="stitle" style="margin-top:16px">Weekly Progress</div>
+        <div class="rstats"><div class="rs"><div class="rsv" style="color:var(--tag)">0</div><div class="rsl">Calls This Week</div></div><div class="rs"><div class="rsv" style="color:var(--gr)">0</div><div class="rsl">Bookings</div></div><div class="rs"><div class="rsv" style="color:var(--bl)">0</div><div class="rsl">Follow-Ups</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AGENTS -->
+<div id="panel-agents" class="panel">
+  <div class="topbar"><h1>👥 Agent Database</h1><div class="tact"><button class="btn btn-p" onclick="openModal('addAgent')">+ Add Agent</button></div></div>
+  <div class="content">
+    <div class="fb">
+      <input type="text" placeholder="🔍 Search name, agency, email..." id="asrch" oninput="renderAgents()">
+      <select id="afst" onchange="renderAgents()"><option value="">All Status</option><option value="active">Active</option><option value="lapsed">Lapsed</option><option value="new">New</option><option value="prospect">Prospect</option></select>
+      <select id="afco" onchange="renderAgents()"><option value="">All Consortia</option><option>Travel Leaders</option><option>Signature</option><option>Cruise Planners</option><option>Virtuoso</option><option>MAST</option><option>Ensemble</option><option>WESTA</option><option>AAA</option><option>Outside Agents</option></select>
+      <select id="afde" onchange="renderAgents()"><option value="">All Destinations</option><option>Australia</option><option>New Zealand</option><option>Fiji</option><option>Bali</option><option>Thailand</option><option>Japan</option><option>Europe</option></select>
+      <select id="afge" onchange="renderAgents()"><option value="">All Regions</option><option>Northeast</option><option>Southeast</option><option>Midwest</option><option>West Coast</option><option>Southwest</option><option>Texas</option><option>Florida</option></select>
+    </div>
+    <div class="tw">
+      <div class="th"><div><div class="tt">Advisors</div><div class="ts" id="acnt">Loading...</div></div></div>
+      <table><thead><tr><th>Agent</th><th>Agency</th><th>Consortia</th><th>Destinations</th><th>Region</th><th>Status</th><th>Last Booking</th><th>Revenue</th><th>Owner</th><th></th></tr></thead>
+      <tbody id="atbody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- LAPSED -->
+<div id="panel-lapsed" class="panel">
+  <div class="topbar"><h1>🔄 Lapsed Advisors</h1><div class="tact"><button class="btn btn-p btn-sm">Export</button></div></div>
+  <div class="content">
+    <div class="sg">
+      <div class="sc re"><div class="sl">Total Lapsed</div><div class="sv">500</div><div class="ss">Not booked in 2026</div></div>
+      <div class="sc gr"><div class="sl">Reactivated</div><div class="sv">12</div><div class="ss">Target 150 by Dec</div><div class="pb mt8"><div class="pf gr" style="width:8%"></div></div></div>
+      <div class="sc"><div class="sl">In Progress</div><div class="sv" style="color:var(--tag)">47</div><div class="ss">Active reactivation calls</div></div>
+      <div class="sc"><div class="sl">Calls Today</div><div class="sv" style="color:var(--bl)">14</div><div class="ss">Target 17.5</div></div>
+    </div>
+    <div class="tw"><div class="th"><div><div class="tt">Lapsed Advisor List</div><div class="ts">Sorted by historical revenue — highest opportunity first</div></div></div>
+    <table><thead><tr><th>Advisor</th><th>Agency</th><th>Last Book</th><th>Revenue</th><th>Destination</th><th>Call Status</th><th>Assigned To</th><th></th></tr></thead>
+    <tbody id="ltbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- CONSORTIA -->
+<div id="panel-consortia" class="panel">
+  <div class="topbar"><h1>🏛️ Consortia Management</h1></div>
+  <div class="content"><div class="thc" id="conc"></div></div>
+</div>
+
+<!-- EVENTS -->
+<div id="panel-events" class="panel">
+  <div class="topbar"><h1>📅 Events & Roadshows</h1><div class="tact"><button class="btn btn-p" onclick="openModal('addEvent')">+ Log Event</button></div></div>
+  <div class="content">
+    <div class="sg">
+      <div class="sc or"><div class="sl">Roadshows/yr</div><div class="sv">2</div><div class="ss">Target 50 bookings total</div></div>
+      <div class="sc bl"><div class="sl">Webinar Attendance</div><div class="sv">350</div><div class="ss">Per week · 21 bookings/wk</div></div>
+      <div class="sc gr"><div class="sl">Famils/yr</div><div class="sv">6</div><div class="ss">Annual FAM allocation</div></div>
+      <div class="sc"><div class="sl">Follow-Up SLA</div><div class="sv" style="color:var(--tag)">100%</div><div class="ss">Roadshow: 5d · Webinar: 48hr</div></div>
+    </div>
+    <div id="evlist"></div>
+  </div>
+</div>
+
+<!-- FOLLOW-UP -->
+<div id="panel-followup" class="panel">
+  <div class="topbar"><h1>☎️ Follow-Up Tracker</h1><div class="tact"><button class="btn btn-p" onclick="openModal('addFollowup')">+ Log Follow-Up</button></div></div>
+  <div class="content">
+    <div class="fb">
+      <select><option value="">All Types</option><option>Roadshow Follow-Up</option><option>Webinar Follow-Up</option><option>Lapsed Reactivation</option><option>Proactive Call</option></select>
+      <select><option value="">All Status</option><option>Pending</option><option>Completed</option><option>Overdue</option><option>Converted</option></select>
+      <select><option value="">All Reps</option><option>John Gunning</option><option>Janie Hall</option><option>Jane Moore</option><option>Jeff Adam</option><option>Kerryn Collins</option></select>
+    </div>
+    <div class="tw"><table><thead><tr><th>Advisor</th><th>Source / Event</th><th>Type</th><th>Due</th><th>Assigned To</th><th>Status</th><th>Notes</th><th></th></tr></thead><tbody id="futbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- CALLS -->
+<div id="panel-calls" class="panel">
+  <div class="topbar"><h1>📞 Proactive Calls</h1><div class="tact"><button class="btn btn-p" onclick="openModal('addCall')">+ Log Call</button></div></div>
+  <div class="content">
+    <div class="sg">
+      <div class="sc or"><div class="sl">Target/Day</div><div class="sv">17.5</div><div class="ss">3.5 reps × 5 calls</div></div>
+      <div class="sc gr"><div class="sl">Calls Today</div><div class="sv">14</div><div class="ss">80% of daily target</div><div class="pb mt8"><div class="pf gr" style="width:80%"></div></div></div>
+      <div class="sc bl"><div class="sl">This Week</div><div class="sv">67</div><div class="ss">Target 87.5</div></div>
+      <div class="sc"><div class="sl">Conversion Rate</div><div class="sv" style="color:var(--re)">18%</div><div class="ss">Benchmark: 25%</div></div>
+    </div>
+    <div class="tw"><div class="th"><div class="tt">Call Log</div></div><table><thead><tr><th>Advisor</th><th>Rep</th><th>Date</th><th>Purpose</th><th>Outcome</th><th>Follow-Up?</th><th>Notes</th></tr></thead><tbody id="ctbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- INCENTIVES -->
+<div id="panel-incentives" class="panel">
+  <div class="topbar"><h1>🎁 Incentive Programme</h1><div class="tact"><button class="btn btn-p">+ Create Incentive</button></div></div>
+  <div class="content">
+    <div class="stitle">Active & Planned Incentives</div>
+    <div class="thc" id="incc"></div>
+    <div class="stitle" style="margin-top:18px">Survey-Driven Incentive Ideas</div>
+    <div class="tw" style="padding:12px 16px;font-size:12px;color:var(--txd);line-height:1.9">
+      🏨 <strong style="color:var(--tx)">Free Stays / FAM Trips</strong> — Australia, NZ, Fiji site inspections<br>
+      🛒 <strong style="color:var(--tx)">Localised Retail Vouchers</strong> — Walmart, Amazon, Target (threshold-based by booking volume)<br>
+      ✈️ <strong style="color:var(--tx)">TIER Reward Credits</strong> — 2–5% Travel Wallet building long-term loyalty<br>
+      🍽️ <strong style="color:var(--tx)">Local Restaurant Vouchers</strong> — Personalised by agent city/region<br>
+      🏆 <strong style="color:var(--tx)">Top Producer Recognition</strong> — Co-op marketing, preferred supplier badge
+    </div>
+  </div>
+</div>
+
+<!-- SURVEY -->
+<div id="panel-survey" class="panel">
+  <div class="topbar"><h1>📋 Agent Survey</h1><div class="tact"><button class="btn btn-g btn-sm">View Responses (84)</button><button class="btn btn-p">📧 Send to Agents</button></div></div>
+  <div class="content"><div style="max-width:680px">
+    <div class="card card-hl" style="margin-bottom:16px"><div style="font-size:16px;font-weight:800;margin-bottom:4px">Travel Answers Group — Agent Growth Survey</div><div style="font-size:11.5px;color:var(--txd)">Help us understand how to grow your business together. Takes ~3 minutes.</div></div>
+    <div class="ss-sec"><div class="sq">1. Which destinations do you most commonly book?</div><div class="so"><div class="sop">Australia</div><div class="sop">New Zealand</div><div class="sop">Fiji</div><div class="sop">Bali</div><div class="sop">Thailand</div><div class="sop">Japan</div><div class="sop">Europe</div><div class="sop">Africa</div><div class="sop">Tahiti</div></div></div>
+    <div class="ss-sec"><div class="sq">2. Biggest barrier to booking more with Travel Answers?</div><div class="so"><div class="sop">Product knowledge</div><div class="sop">Client demand</div><div class="sop">Pricing</div><div class="sop">Booking tool</div><div class="sop">Commission structure</div><div class="sop">Lack of follow-up</div><div class="sop">Not sure where to start</div></div></div>
+    <div class="ss-sec"><div class="sq">3. What incentives would drive more bookings? (Select all)</div><div class="so" id="isurvey"><div class="sop">Travel Wallet Credits</div><div class="sop">Free FAM Trip</div><div class="sop">Walmart Gift Cards</div><div class="sop">Amazon Gift Cards</div><div class="sop">Restaurant Vouchers</div><div class="sop">Shopping Vouchers</div><div class="sop">Cash Bonus</div><div class="sop">Co-op Marketing</div><div class="sop">Top Producer Badge</div></div></div>
+    <div class="ss-sec"><div class="sq">4. At what booking threshold should incentives kick in?</div><div class="so"><div class="sop">1st booking</div><div class="sop">3 bookings</div><div class="sop">5 bookings</div><div class="sop">10 bookings</div><div class="sop">Revenue-based ($X total)</div></div></div>
+    <div class="ss-sec"><div class="sq">5. How much would a local voucher (Walmart/restaurant) motivate you?</div><div class="rw" id="rw1"></div><div style="font-size:9.5px;color:var(--txm);margin-top:5px">1 = Not at all · 10 = Absolutely</div></div>
+    <div class="ss-sec"><div class="sq">6. What else can we do to support your sales?</div><textarea placeholder="Your ideas..."></textarea></div>
+    <button class="btn btn-p" style="width:100%;padding:12px;font-size:13px;margin-top:5px">Submit Response</button>
+  </div></div>
+</div>
+
+<!-- PROMOS -->
+<div id="panel-promos" class="panel">
+  <div class="topbar"><h1>⚡ Weekly Promotions</h1><div class="tact"><button class="btn btn-p">+ Create Promo</button></div></div>
+  <div class="content"><div class="thc" id="prgrid"></div></div>
+</div>
+
+<!-- CRM & TOOLS -->
+<div id="panel-crm" class="panel">
+  <div class="topbar"><h1>🔗 CRM & Tools Integration</h1></div>
+  <div class="content">
+    <div class="ibox"><strong>Recommendation: Zoho CRM.</strong> This portal is your internal review hub. For full multi-user data persistence and automated workflows, Zoho CRM is the right tool — and ORN already uses Zoho for product contracting.</div>
+    <div class="tc">
+      <div>
+        <div class="stitle">Option A: Zoho CRM (Recommended)</div>
+        <div class="card card-hl">
+          <div style="font-size:13.5px;font-weight:700;margin-bottom:9px;color:var(--tag)">✅ Use Zoho CRM</div>
+          <div style="font-size:12px;color:var(--txd);line-height:1.8">
+            <strong style="color:var(--tx)">What it does for TAG:</strong><br>
+            • Agent records — consortia, region, destination focus, status<br>
+            • Activity logging — calls, emails, follow-ups, events<br>
+            • Pipeline for booking conversion tracking<br>
+            • Automated follow-up reminders (48hr webinar, 5-day roadshow)<br>
+            • Reports by rep, consortia, region, destination<br>
+            • Mobile app for reps on the road<br>
+            • Email integration — send survey, log replies automatically<br>
+            • Kanban for lapsed advisor reactivation pipeline<br><br>
+            <strong style="color:var(--tx)">Cost:</strong> ~$20–50/user/month<br>
+            <strong style="color:var(--tx)">Setup:</strong> 2–3 weeks to customise for TAG<br>
+            <strong style="color:var(--tx)">ORN note:</strong> Shared instance with product contracting possible
+          </div>
+          <div style="margin-top:12px;display:flex;gap:7px">
+            <a href="https://www.zoho.com/crm/" target="_blank" class="btn btn-p btn-sm">Open Zoho CRM ↗</a>
+            <button class="btn btn-g btn-sm">Request Setup</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="stitle">Option B: This Portal + Google Sheets</div>
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:13.5px;font-weight:700;margin-bottom:9px">🗂️ Lightweight Hybrid</div>
+          <div style="font-size:12px;color:var(--txd);line-height:1.8">
+            <strong style="color:var(--tx)">Works if:</strong> Small team (3.5 reps), short-term budget constraint<br><br>
+            <strong style="color:var(--tx)">How:</strong> This portal for dashboards · Google Sheets as live database · Google Forms for event capture · Weekly accountability reviews<br><br>
+            <strong style="color:var(--tx)">Risk:</strong> Manual, no automation, breaks as team scales
+          </div>
+        </div>
+        <div class="stitle">Zoho Modules to Configure</div>
+        <div class="card">
+          <div style="font-size:12px;color:var(--txd);line-height:2">
+            <span class="badge b-or">Contacts</span> Each advisor + linked Agency (Account)<br>
+            <span class="badge b-bl">Activities</span> Calls, emails, FU with SLA tracking<br>
+            <span class="badge b-gr">Deals</span> Each booking opportunity through pipeline<br>
+            <span class="badge b-go">Campaigns</span> Webinar series, roadshow FU, lapsed email<br>
+            <span class="badge b-pu">Reports</span> Daily calls, weekly conversion, consortia<br>
+            <span class="badge b-gy">Automations</span> 48hr webinar rule, 5-day roadshow rule
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- MODALS -->
+<div class="mo" id="modal-addAgent"><div class="md">
+  <h2>Add New Agent</h2>
+  <div class="fr c2"><div><label>First Name</label><input type="text" placeholder="Jane"></div><div><label>Last Name</label><input type="text" placeholder="Smith"></div></div>
+  <div class="fr c2"><div><label>Agency</label><input type="text" placeholder="Sunshine Travel"></div><div><label>Consortia</label><select><option>Travel Leaders</option><option>Signature</option><option>Cruise Planners</option><option>Virtuoso</option><option>MAST</option><option>Ensemble</option><option>WESTA</option><option>AAA</option><option>Outside Agents</option><option>Independent</option></select></div></div>
+  <div class="fr c2"><div><label>Email</label><input type="email" placeholder="jane@agency.com"></div><div><label>Phone</label><input type="tel" placeholder="+1 555 000 0000"></div></div>
+  <div class="fr c2"><div><label>Region</label><select><option>Northeast</option><option>Southeast</option><option>Midwest</option><option>West Coast</option><option>Southwest</option><option>Texas</option><option>Florida</option></select></div><div><label>Status</label><select><option>Prospect</option><option>New</option><option>Active</option><option>Lapsed</option></select></div></div>
+  <div class="fr c2"><div><label>Destination Focus</label><select multiple style="height:65px"><option>Australia</option><option>New Zealand</option><option>Fiji</option><option>Bali</option><option>Japan</option><option>Thailand</option><option>Europe</option></select></div><div><label>Assigned Rep</label><select><option>John Gunning</option><option>Janie Hall</option><option>Jeff Adam</option><option>Jane Moore</option><option>Kerryn Collins</option></select></div></div>
+  <div class="fr"><div><label>Notes</label><textarea placeholder="How they found us, interests..."></textarea></div></div>
+  <div class="mf"><button class="btn btn-g" onclick="closeModal('addAgent')">Cancel</button><button class="btn btn-p" onclick="saveAgent()">Save Agent</button></div>
+</div></div>
+
+<div class="mo" id="modal-addEvent"><div class="md">
+  <h2>Log Event</h2>
+  <div class="fr c2"><div><label>Event Name</label><input type="text" placeholder="Dallas Roadshow June 2026"></div><div><label>Type</label><select><option>Roadshow</option><option>Webinar</option><option>Consortia Event</option><option>Tradeshow</option><option>Famil</option><option>Training</option></select></div></div>
+  <div class="fr c2"><div><label>Date</label><input type="date"></div><div><label>Location</label><input type="text" placeholder="Dallas, TX"></div></div>
+  <div class="fr c3"><div><label>Attendees</label><input type="number" placeholder="0"></div><div><label>New Agents</label><input type="number" placeholder="0"></div><div><label>Bookings</label><input type="number" placeholder="0"></div></div>
+  <div class="fr c2"><div><label>Follow-Up Deadline</label><input type="date"></div><div><label>Owner</label><select><option>John Gunning</option><option>Janie Hall</option><option>Jeff Adam</option><option>Jane Moore</option><option>Kerryn Collins</option></select></div></div>
+  <div class="fr"><div><label>Notes</label><textarea placeholder="Key takeaways, hot leads..."></textarea></div></div>
+  <div class="mf"><button class="btn btn-g" onclick="closeModal('addEvent')">Cancel</button><button class="btn btn-p" onclick="saveEvent()">Save</button></div>
+</div></div>
+
+<div class="mo" id="modal-addFollowup"><div class="md">
+  <h2>Log Follow-Up</h2>
+  <div class="fr c2"><div><label>Advisor</label><input type="text" placeholder="Jane Smith"></div><div><label>Agency</label><input type="text" placeholder="Sunshine Travel"></div></div>
+  <div class="fr c2"><div><label>Source / Event</label><input type="text" placeholder="Dallas Roadshow"></div><div><label>Type</label><select><option>Roadshow Follow-Up</option><option>Webinar Follow-Up</option><option>Lapsed Reactivation</option><option>Proactive Call</option></select></div></div>
+  <div class="fr c2"><div><label>Due Date</label><input type="date"></div><div><label>Assigned To</label><select><option>John Gunning</option><option>Janie Hall</option><option>Jeff Adam</option><option>Jane Moore</option><option>Kerryn Collins</option></select></div></div>
+  <div class="fr"><div><label>Notes</label><textarea placeholder="What to discuss..."></textarea></div></div>
+  <div class="mf"><button class="btn btn-g" onclick="closeModal('addFollowup')">Cancel</button><button class="btn btn-p" onclick="saveFollowup()">Save</button></div>
+</div></div>
+
+<div class="mo" id="modal-addCall"><div class="md">
+  <h2>Log Proactive Call</h2>
+  <div class="fr c2"><div><label>Advisor Name</label><input type="text" placeholder="Jane Smith"></div><div><label>Rep</label><select><option>John Gunning</option><option>Janie Hall</option><option>Jeff Adam</option><option>Jane Moore</option><option>Kerryn Collins</option></select></div></div>
+  <div class="fr c2"><div><label>Date</label><input type="date"></div><div><label>Purpose</label><select><option>First Contact</option><option>Lapsed Reactivation</option><option>TIER Program Intro</option><option>Destination Briefing</option><option>Booking Follow-Up</option></select></div></div>
+  <div class="fr c2"><div><label>Outcome</label><select><option>No Answer</option><option>Left Voicemail</option><option>Had Conversation</option><option>Booking Intent</option><option>Booked!</option><option>Not Interested</option></select></div><div><label>Follow-Up?</label><select><option>Yes – schedule follow-up</option><option>No</option></select></div></div>
+  <div class="fr"><div><label>Notes</label><textarea placeholder="What was discussed, next steps..."></textarea></div></div>
+  <div class="mf"><button class="btn btn-g" onclick="closeModal('addCall')">Cancel</button><button class="btn btn-p" onclick="saveCall()">Log Call</button></div>
+</div></div>
+
+<script>
+const reps=[
+  {id:'all',name:'All Team',role:'Overview',col:'#C9682F',ini:'ALL',calls:14,bk:3,fu:12,rev:'—',lp:8,focus:'Full team overview',notes:'Kirk + Kerryn reviewing weekly. 5 calls/rep/day target.',acts:[{t:'<strong>John Gunning</strong> QBR with Cruise Planners completed',ts:'2h ago',c:'#C9682F'},{t:'<strong>Janie Hall</strong> reactivated lapsed advisor — Pacific Dream',ts:'4h ago',c:'#3db87a'},{t:'<strong>Jeff Adam</strong> ran Australia webinar — 312 attended',ts:'Yesterday',c:'#4a9fd4'}]},
+  {id:'john',name:'John Gunning',role:'Director of Key Accounts',col:'#C9682F',ini:'JG',calls:6,bk:2,fu:5,rev:'$56K',lp:3,focus:'Travel Leaders, Virtuoso, Cruise Planners. 246 Opulence luxury advisors. Top 200 CP Land.',notes:'Promoted to Director. Reports to Kirk Demeter. Primary revenue owner for key consortia.',acts:[{t:'Called Jennifer Walsh — Virtuoso luxury confirmed',ts:'1h ago',c:'#C9682F'},{t:'QBR with Cruise Planners completed',ts:'Yesterday',c:'#3db87a'},{t:'Added 4 TL advisors from Dallas roadshow',ts:'2 days ago',c:'#4a9fd4'}]},
+  {id:'janie',name:'Janie Hall',role:'Director of Sales (Part-time)',col:'#d4a847',ini:'JH',calls:3,bk:1,fu:4,rev:'$31K',lp:2,focus:'Sales direction, advisor pipeline, booking conversion. Reports to John Gunning.',notes:'Part-time Director. Focus on converting advisor engagement into bookings.',acts:[{t:'Reactivated Amanda Flores — Sunbelt Travel',ts:'3h ago',c:'#3db87a'},{t:'Follow-up sent to 8 webinar attendees',ts:'Yesterday',c:'#4a9fd4'}]},
+  {id:'jeff',name:'Jeff Adam',role:'Director, Advisor Engagement & Growth',col:'#4a9fd4',ini:'JA',calls:2,bk:0,fu:3,rev:'$0',lp:2,focus:'New advisor activation, webinar series, first-booking campaigns, TIER Program. Reports to Kirk.',notes:'Owns the advisor engagement funnel. 48hr webinar follow-up is his core KPI.',acts:[{t:'Webinar Australia 2026 — 312 attendees, 28 new advisors added',ts:'Yesterday',c:'#4a9fd4'},{t:'Sent TIER Program intro to 45 new advisors',ts:'2 days ago',c:'#C9682F'}]},
+  {id:'jane',name:'Jane Moore',role:'Sales Coordinator',col:'#9b72cf',ini:'JM',calls:3,bk:0,fu:6,rev:'$0',lp:1,focus:'Sales coordination, database management, event follow-up, Mailchimp campaigns. Reports to John.',notes:'Handles all follow-up administration and database updates post-events.',acts:[{t:'Updated 12 advisor records from Dallas roadshow',ts:'4h ago',c:'#9b72cf'},{t:'Survey sent to 84 lapsed Florida advisors',ts:'Yesterday',c:'#C9682F'}]},
+  {id:'kerryn',name:'Kerryn Collins',role:'COO USA / Key Accounts',col:'#3db87a',ini:'KC',calls:0,bk:0,fu:2,rev:'$0',lp:0,focus:'Operational oversight, key account QBRs, TAG reporting. Also handles strategic consortia QBRs.',notes:'COO role — primarily strategic. Sales accountability and key account oversight.',acts:[{t:'Q2 Business Review with Travel Leaders completed',ts:'Yesterday',c:'#3db87a'},{t:'Weekly accountability rhythm established',ts:'3 days ago',c:'#C9682F'}]}
+];
+
+const agents=[
+  {id:1,first:'Jennifer',last:'Walsh',agency:'Walsh Travel Group',con:'Travel Leaders',dest:['Australia','Fiji'],reg:'Southeast',st:'active',lb:'Mar 2026',rev:'$84,000',em:'j.walsh@walshtravel.com',own:'John Gunning'},
+  {id:2,first:'Michael',last:'Torres',agency:'Elite Escapes',con:'Signature',dest:['Australia','New Zealand'],reg:'West Coast',st:'active',lb:'Apr 2026',rev:'$127,000',em:'m.torres@eliteescapes.com',own:'John Gunning'},
+  {id:3,first:'Sarah',last:'Henderson',agency:'Henderson Luxury Travel',con:'Virtuoso',dest:['Australia','Japan'],reg:'Northeast',st:'active',lb:'May 2026',rev:'$230,000',em:'sh@hlt.com',own:'John Gunning'},
+  {id:4,first:'Robert',last:'Kim',agency:'Pacific Dream Vacations',con:'Cruise Planners',dest:['Fiji','Bali'],reg:'West Coast',st:'lapsed',lb:'Nov 2025',rev:'$42,000',em:'r.kim@pdv.com',own:'Janie Hall'},
+  {id:5,first:'Amanda',last:'Flores',agency:'Sunbelt Travel',con:'MAST',dest:['Australia'],reg:'Southwest',st:'lapsed',lb:'Sep 2025',rev:'$31,000',em:'a.flores@sunbelt.com',own:'Janie Hall'},
+  {id:6,first:'David',last:'Chen',agency:'Horizon Journeys',con:'Travel Leaders',dest:['Australia','New Zealand','Japan'],reg:'Midwest',st:'new',lb:'—',rev:'$0',em:'d.chen@horizonjourneys.com',own:'Jeff Adam'},
+  {id:7,first:'Lisa',last:'Patel',agency:'Blue Wave Travel',con:'Outside Agents',dest:['Bali','Thailand'],reg:'Florida',st:'prospect',lb:'—',rev:'$0',em:'l.patel@bluewave.com',own:'Jeff Adam'},
+  {id:8,first:'Tom',last:'Robinson',agency:'Robinson & Co Travel',con:'Ensemble',dest:['Europe','Australia'],reg:'Texas',st:'active',lb:'Apr 2026',rev:'$56,000',em:'tom@rctravel.com',own:'Jane Moore'},
+  {id:9,first:'Nicole',last:'Johnson',agency:'Prestige Travel',con:'Signature',dest:['Australia','New Zealand'],reg:'Northeast',st:'lapsed',lb:'Dec 2025',rev:'$89,000',em:'n.johnson@prestigetravel.com',own:'Janie Hall'},
+  {id:10,first:'Carlos',last:'Martinez',agency:'Adventure World',con:'Travel Leaders',dest:['Australia','Fiji','Bali'],reg:'Texas',st:'active',lb:'Jun 2026',rev:'$162,000',em:'c.martinez@adventureworld.com',own:'John Gunning'},
+];
+
+const lapsed=[
+  {nm:'Nicole Johnson',ag:'Prestige Travel',lb:'Dec 2025',rv:'$89,000',ds:'Australia/NZ',cs:'Called – voicemail',rp:'Janie Hall'},
+  {nm:'Robert Kim',ag:'Pacific Dream Vacations',lb:'Nov 2025',rv:'$42,000',ds:'Fiji/Bali',cs:'In progress',rp:'Janie Hall'},
+  {nm:'Amanda Flores',ag:'Sunbelt Travel',lb:'Sep 2025',rv:'$31,000',ds:'Australia',cs:'Not contacted',rp:'Unassigned'},
+  {nm:'Brian Cooper',ag:'Cooper Travel Solutions',lb:'Oct 2025',rv:'$76,000',ds:'Australia/NZ',cs:'Reconverted ✓',rp:'John Gunning'},
+  {nm:'Maria Santos',ag:'Santos International',lb:'Aug 2025',rv:'$55,000',ds:'Fiji',cs:'Not contacted',rp:'Unassigned'},
+  {nm:'Kevin Lee',ag:'Pacific Rim Travel',lb:'Jul 2025',rv:'$110,000',ds:'Japan/Australia',cs:'In progress',rp:'Kerryn Collins'},
+];
+
+const events=[
+  {nm:'June Dallas Roadshow',tp:'Roadshow',dt:'2026-06-12',loc:'Dallas, TX',att:84,na:12,bk:7,fd:'2026-06-19',own:'John Gunning',st:'follow-up due'},
+  {nm:'Australia Webinar Series',tp:'Webinar',dt:'2026-06-18',loc:'Online',att:312,na:28,bk:19,fd:'2026-06-20',own:'Jeff Adam',st:'completed'},
+  {nm:'Travel Leaders Regional Conference',tp:'Consortia Event',dt:'2026-07-08',loc:'Chicago, IL',att:0,na:0,bk:0,fd:'2026-07-15',own:'John Gunning',st:'upcoming'},
+  {nm:'Fiji FAM Trip',tp:'Famil',dt:'2026-08-15',loc:'Fiji',att:0,na:0,bk:0,fd:'2026-08-30',own:'Janie Hall',st:'upcoming'},
+];
+
+const followups=[
+  {av:'Jennifer Walsh',ev:'June Dallas Roadshow',tp:'Roadshow Follow-Up',dd:'2026-06-19',rp:'John Gunning',st:'Completed',nt:'Interested in Australia luxury — send Virtuoso-style itineraries.'},
+  {av:'Michael Torres',ev:'Australia Webinar',tp:'Webinar Follow-Up',dd:'2026-06-20',rp:'Jeff Adam',st:'Pending',nt:'Asked about self-drive packages'},
+  {av:'Robert Kim',ev:'Lapsed List',tp:'Lapsed Reactivation',dd:'2026-06-25',rp:'Janie Hall',st:'Overdue',nt:'Voicemail x2. Try email.'},
+  {av:'David Chen',ev:'Dallas Roadshow',tp:'Roadshow Follow-Up',dd:'2026-06-19',rp:'Jane Moore',st:'Completed',nt:'Ready to book — send TIER info'},
+  {av:'Lisa Patel',ev:'Proactive Outreach',tp:'Proactive Call',dd:'2026-06-28',rp:'Kerryn Collins',st:'Pending',nt:'Interested in Bali groups'},
+];
+
+const calls=[
+  {av:'Amanda Flores',rp:'Janie Hall',dt:'2026-06-21',pu:'Lapsed Reactivation',oc:'Had Conversation',fu:'Yes',nt:'Open to re-engaging. TIER interest.'},
+  {av:'Maria Santos',rp:'Jeff Adam',dt:'2026-06-21',pu:'TIER Program Intro',oc:'Booking Intent',fu:'Yes',nt:'Wants Fiji group quote.'},
+  {av:'Kevin Lee',rp:'Kerryn Collins',dt:'2026-06-20',pu:'Lapsed Reactivation',oc:'Left Voicemail',fu:'Yes',nt:'Third attempt.'},
+  {av:'Lisa Patel',rp:'John Gunning',dt:'2026-06-20',pu:'First Contact',oc:'Had Conversation',fu:'No',nt:'Warm lead — Bali groups.'},
+];
+
+const incentives=[
+  {nm:'First Booking Bonus',dc:'5% Travel Wallet credit on first booking with TAG',tg:['All Agents','New Activation'],st:'active',th:'1 booking',vl:'5% Travel Wallet'},
+  {nm:'Loyalty Credit',dc:'2% Travel Wallet credit on all future bookings',tg:['Active Agents'],st:'active',th:'Ongoing',vl:'2% Travel Wallet'},
+  {nm:'Wicked Wednesday Win',dc:'Top closer before 3pm Wednesday wins rotating weekly prize',tg:['All Reps'],st:'active',th:'Most closes by Wed 3pm',vl:'Weekly Prize'},
+  {nm:'Walmart Voucher Tier 1',dc:'$100 Walmart gift card for 3 bookings in a quarter',tg:['Southeast','Southwest','Midwest'],st:'planning',th:'3 bookings/quarter',vl:'$100 Walmart GC'},
+  {nm:'Local Restaurant Voucher',dc:'$75 restaurant voucher personalised by agent region',tg:['Localised'],st:'planning',th:'1 booking',vl:'$75 Restaurant'},
+  {nm:'FAM Trip Invite',dc:'Complimentary Australia/Fiji FAM — top 6 producers annually',tg:['Top Producers'],st:'active',th:'Top 6 advisors',vl:'Free FAM Trip'},
+];
+
+const promos=[
+  {dy:'WICKED WEDNESDAY',ic:'⚡',cl:'var(--tag)',dc:'All weekend closes locked in before 3pm. Top closer wins the week. Results 4pm sharp.',cd:'Weekly',ac:true},
+  {dy:'MANIC MONDAY',ic:'🚀',cl:'var(--bl)',dc:'First rep to log 3 meaningful conversations by noon wins a bonus. Kick off the week.',cd:'Weekly',ac:true},
+  {dy:'FRIDAY FINISH',ic:'🏁',cl:'var(--gr)',dc:'Most bookings confirmed by Friday 4pm wins the weekly prize.',cd:'Weekly',ac:false},
+  {dy:'SUPER SELLER SPRINT',ic:'🏆',cl:'var(--go)',dc:'Monthly top producer gets bonus, recognition, and increased FAM allocation.',cd:'Monthly',ac:true},
+  {dy:'LAPSED LEGENDS',ic:'🔄',cl:'var(--pu)',dc:'Flat cash bonus per lapsed advisor reactivated. Ongoing — no cap.',cd:'Ongoing',ac:true},
+];
+
+const consortia=[
+  {nm:'Travel Leaders',nx:1191,rt:'2%',ytd:'$2.84M',tg:'$8.91M',pc:32,ti:'growth',nt:'Primary FY26 priority. 58K advisors, 2% activation. Enormous upside.'},
+  {nm:'Signature',nx:1055,rt:'7%',ytd:'$3.07M',tg:'$6.64M',pc:46,ti:'growth',nt:'Strong partnership. Scale proven programs, increase wallet share.'},
+  {nm:'Cruise Planners',nx:621,rt:'21%',ytd:'$1.83M',tg:'$3.02M',pc:61,ti:'scale',nt:'Highest activation. Replicate best practices. Top 200 Land advisors focus.'},
+  {nm:'Virtuoso',nx:339,rt:'2%',ytd:'$1.32M',tg:'$1.41M',pc:94,ti:'scale',nt:'On track. Luxury strategy validated. Strong ABV and margin contribution.'},
+  {nm:'MAST',nx:125,rt:'20%',ytd:'$544K',tg:'$1.46M',pc:37,ti:'opportunity',nt:'~$153K/month needed. Good engagement. Increase wallet share.'},
+  {nm:'Ensemble',nx:68,rt:'13.6%',ytd:'$69K',tg:'$673K',pc:10,ti:'activation',nt:'~$101K/month to target. Small network, achievable with targeted outreach.'},
+  {nm:'AAA',nx:0,rt:'34%',ytd:'$190K',tg:'$552K',pc:34,ti:'opportunity',nt:'~$60K/month to target. Targeted account management will support.'},
+  {nm:'WESTA',nx:0,rt:'—',ytd:'$481K',tg:'$2.23M',pc:22,ti:'activation',nt:'Large gap. Focus on key producing agencies, not broad marketing.'},
+];
+
+const kpis=[
+  {nm:'Sold Revenue',cu:'$11.35M',tg:'$30.0M',pc:38},
+  {nm:'Monthly Revenue Required',cu:'—',tg:'$2.5M/month',pc:0},
+  {nm:'Active Booking Advisors',cu:'1,100',tg:'1,500',pc:73},
+  {nm:'Lapsed Advisors Reactivated',cu:'12',tg:'150',pc:8},
+  {nm:'Advisor Database',cu:'35,000',tg:'50,000',pc:70},
+  {nm:'Webinar Attendance',cu:'350/wk',tg:'21 bookings/wk',pc:0},
+  {nm:'Webinar Follow-Up SLA',cu:'Ad hoc',tg:'100% within 48hrs',pc:0},
+  {nm:'Roadshow Follow-Up SLA',cu:'Ad hoc',tg:'100% within 5 days',pc:0},
+  {nm:'Travel Leaders Activation',cu:'2%',tg:'4%',pc:50},
+  {nm:'Signature Activation',cu:'7%',tg:'10%',pc:70},
+  {nm:'Cruise Planners Activation',cu:'21%',tg:'25%',pc:84},
+];
+
+const p90=['Execute June Roadshow Series','Launch First Booking Campaign (5% Travel Wallet)','Launch TIER Program','Complete Q2 Business Reviews','Activate Travel Leaders Growth Plan','Begin Luxury Advisor Sprint — 246 Opulence advisors','Implement Webinar Follow-Up Discipline (48hr)','Finalise CRM Go-Live (Zoho)','Launch Lapsed Advisor Reactivation Program','Establish Weekly Sales Accountability Rhythm'];
+
+let activeRep='all';
+
+function init(){
+  // p90
+  const p=document.getElementById('p90');
+  if(p) p.innerHTML=p90.map((t,i)=>`<div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:1px solid var(--bd)${i===p90.length-1?';border:none':''}"><span style="font-size:9.5px;font-weight:800;color:var(--txm);width:16px">${i+1}</span><span style="font-size:11.5px;flex:1">${t}</span><span class="badge ${i<3?'b-re':i<6?'b-or':'b-gy'}">${i<3?'Urgent':i<6?'Active':'Planned'}</span></div>`).join('');
+  // snap
+  const sn=document.getElementById('snap');
+  if(sn) sn.innerHTML=reps.filter(r=>r.id!=='all').map(r=>`<tr><td><div style="display:flex;align-items:center;gap:7px"><div style="width:24px;height:24px;border-radius:50%;background:${r.col};display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:800;color:#fff">${r.ini}</div><strong>${r.name.split(' ')[0]} ${r.name.split(' ')[1]}</strong></div></td><td><strong style="color:${r.calls>=5?'var(--gr)':'var(--tag)'}">${r.calls}</strong>/5</td><td><span class="badge ${r.fu>5?'b-re':'b-or'}">${r.fu}</span></td><td><strong style="color:var(--gr)">${r.bk}</strong></td></tr>`).join('');
+  // alog
+  const al=document.getElementById('alog');
+  if(al) al.innerHTML=[{t:'<strong>John Gunning</strong> QBR with Cruise Planners logged',ts:'2h ago',c:'var(--tag)'},{t:'<strong>Jeff Adam</strong> added 28 agents from webinar — 48hr FU due',ts:'5h ago',c:'var(--bl)'},{t:'<strong>Janie Hall</strong> reactivated lapsed advisor',ts:'Yesterday',c:'var(--gr)'},{t:'<strong>Jane Moore</strong> sent survey to 84 lapsed Florida advisors',ts:'Yesterday',c:'var(--pu)'},{t:'Wicked Wednesday winner: <strong>John Gunning</strong> — 6 closes',ts:'3 days ago',c:'var(--go)'}].map(i=>`<div class="ai"><div class="ad" style="background:${i.c}"></div><div class="at">${i.t}</div><div class="atm">${i.ts}</div></div>`).join('');
+  // kpis
+  const kl=document.getElementById('kpilist');
+  if(kl) kl.innerHTML=kpis.map(k=>`<div class="kpir"><div class="kpin">${k.nm}</div><div class="kpic">${k.cu}</div><div class="kpit">${k.tg}</div><div class="kpib">${k.pc>0?`<div class="pb"><div class="pf" style="width:${k.pc}%;background:${k.pc>70?'var(--gr)':k.pc>40?'var(--tag)':'var(--re)'}"></div></div>`:'<span style="font-size:10px;color:var(--txm)">—</span>'}</div></div>`).join('');
+  renderAgents(); renderLapsed(); renderCons(); renderEvents(); renderFU(); renderCalls(); renderInc(); renderPromos(); renderRepTabs(); renderRepView();
+  // survey rating
+  const rw=document.getElementById('rw1');
+  if(rw) rw.innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<div class="rb" onclick="selRating(this)">${n}</div>`).join('');
+  // survey options
+  document.querySelectorAll('.sop').forEach(o=>{
+    o.addEventListener('click',function(){
+      const sec=this.closest('.so');
+      if(sec&&sec.id==='isurvey'){this.classList.toggle('sel');}
+      else{sec.querySelectorAll('.sop').forEach(x=>x.classList.remove('sel'));this.classList.add('sel');}
+    });
+  });
+  document.getElementById('ddate').valueAsDate=new Date();
+}
+
+function selRating(btn){btn.closest('.rw').querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');}
+
+function renderRepTabs(){
+  const el=document.getElementById('rtabs');
+  if(!el) return;
+  el.innerHTML=reps.map(r=>`<div class="rtab ${r.id===activeRep?'active':''}" onclick="selRep('${r.id}')" style="${r.id===activeRep?`background:${r.col};border-color:${r.col};`:''}">
+    ${r.id==='all'?'📊 '+r.name:`<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:${r.col};font-size:8px;font-weight:800;line-height:18px;text-align:center;color:#fff;margin-right:3px;vertical-align:middle">${r.ini}</span>${r.name.split(' ')[0]}`}
+  </div>`).join('');
+}
+
+function selRep(id){activeRep=id;renderRepTabs();renderRepView();}
+
+function renderRepView(){
+  const el=document.getElementById('rview');
+  if(!el) return;
+  const rep=reps.find(r=>r.id===activeRep);
+  if(rep.id==='all'){
+    el.innerHTML=`<div class="stitle">Full Sales Team — Revenue Owners</div><div class="thc">${reps.filter(r=>r.id!=='all').map(r=>`
+      <div class="rcrd">
+        <div class="rchdr"><div class="rav" style="background:${r.col}">${r.ini}</div><div><div class="rn">${r.name}</div><div class="rr">${r.role}</div></div></div>
+        <div class="rstats">
+          <div class="rs"><div class="rsv" style="color:var(--tag)">${r.calls}</div><div class="rsl">Calls Today</div></div>
+          <div class="rs"><div class="rsv" style="color:var(--gr)">${r.bk}</div><div class="rsl">Bookings</div></div>
+          <div class="rs"><div class="rsv" style="color:${r.fu>5?'var(--re)':'var(--bl)'}">${r.fu}</div><div class="rsl">FU Pending</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--txd);line-height:1.6;margin-bottom:10px">${r.focus}</div>
+        <div class="pb"><div class="pf" style="width:${Math.min(r.calls/5*100,100)}%;background:${r.calls>=5?'var(--gr)':'var(--tag)'}"></div></div>
+        <div style="font-size:9.5px;color:var(--txm);margin-top:4px">${r.calls}/5 calls today</div>
+        <button class="btn btn-g btn-sm" style="width:100%;margin-top:9px" onclick="selRep('${r.id}')">View ${r.name.split(' ')[0]}&#8217;s Desk →</button>
+      </div>`).join('')}</div>`;
+  } else {
+    el.innerHTML=`
+      <div class="rcrd" style="margin-bottom:14px">
+        <div class="rchdr">
+          <div class="rav" style="background:${rep.col};width:50px;height:50px;font-size:16px">${rep.ini}</div>
+          <div style="flex:1"><div class="rn">${rep.name}</div><div class="rr">${rep.role}</div><div style="font-size:10.5px;color:var(--tag);margin-top:3px">${rep.focus}</div></div>
+          <span class="badge b-or">Revenue Owner</span>
+        </div>
+        <div class="rstats" style="grid-template-columns:repeat(5,1fr)">
+          <div class="rs"><div class="rsv" style="color:var(--tag)">${rep.calls}</div><div class="rsl">Calls Today</div></div>
+          <div class="rs"><div class="rsv" style="color:var(--gr)">${rep.bk}</div><div class="rsl">Bookings</div></div>
+          <div class="rs"><div class="rsv" style="color:var(--bl)">${rep.fu}</div><div class="rsl">FU Pending</div></div>
+          <div class="rs"><div class="rsv" style="color:var(--go)">${rep.rev}</div><div class="rsl">Revenue MTD</div></div>
+          <div class="rs"><div class="rsv" style="color:var(--re)">${rep.lp}</div><div class="rsl">Lapsed Assigned</div></div>
+        </div>
+        <div style="font-size:11.5px;color:var(--txm);padding:9px;background:var(--s2);border-radius:6px">${rep.notes}</div>
+      </div>
+      <div class="tc">
+        <div>
+          <div class="stitle">Today's Activity</div>
+          <div class="tw" style="padding:5px 12px">${rep.acts.map(a=>`<div class="ai"><div class="ad" style="background:${a.c}"></div><div class="at">${a.t}</div><div class="atm">${a.ts}</div></div>`).join('')}</div>
+          <div style="display:flex;gap:7px;margin-top:9px"><button class="btn btn-p btn-sm" onclick="openModal('addCall')">+ Log Call</button><button class="btn btn-g btn-sm" onclick="openModal('addFollowup')">+ Follow-Up</button></div>
+        </div>
+        <div>
+          <div class="stitle">Assigned Agents</div>
+          <div class="tw"><table><thead><tr><th>Agent</th><th>Status</th><th>Revenue</th></tr></thead><tbody>
+            ${agents.filter(a=>a.own===rep.name).slice(0,6).map(a=>`<tr><td><strong>${a.first} ${a.last}</strong><br><span style="font-size:10px;color:var(--txd)">${a.agency}</span></td><td><span class="badge ${a.st==='active'?'b-gr':a.st==='lapsed'?'b-re':'b-bl'}">${a.st}</span></td><td style="font-weight:700;color:var(--tag)">${a.rev}</td></tr>`).join('')||'<tr><td colspan="3" style="color:var(--txm);text-align:center;padding:14px">No agents assigned yet</td></tr>'}
+          </tbody></table></div>
+        </div>
+      </div>`;
+  }
+}
+
+function renderAgents(){
+  const srch=(document.getElementById('asrch')?.value||'').toLowerCase();
+  const fst=document.getElementById('afst')?.value||'';
+  const fco=document.getElementById('afco')?.value||'';
+  const fde=document.getElementById('afde')?.value||'';
+  const fge=document.getElementById('afge')?.value||'';
+  let list=agents.filter(a=>{
+    const f=`${a.first} ${a.last} ${a.agency} ${a.em}`.toLowerCase();
+    if(srch&&!f.includes(srch)) return false;
+    if(fst&&a.st!==fst) return false;
+    if(fco&&a.con!==fco) return false;
+    if(fde&&!a.dest.includes(fde)) return false;
+    if(fge&&a.reg!==fge) return false;
+    return true;
+  });
+  document.getElementById('acnt').textContent=`${list.length} advisor${list.length!==1?'s':''} found`;
+  document.getElementById('atbody').innerHTML=list.map(a=>`<tr>
+    <td><strong>${a.first} ${a.last}</strong><br><span style="font-size:10px;color:var(--txd)">${a.em}</span></td>
+    <td>${a.agency}</td><td>${a.con}</td>
+    <td style="font-size:10.5px">${a.dest.join(', ')}</td>
+    <td>${a.reg}</td>
+    <td><span class="badge ${a.st==='active'?'b-gr':a.st==='lapsed'?'b-re':a.st==='new'?'b-bl':'b-gy'}">${a.st}</span></td>
+    <td>${a.lb}</td>
+    <td style="font-weight:700;color:var(--tag)">${a.rev}</td>
+    <td style="font-size:10.5px;color:var(--txd)">${a.own}</td>
+    <td><button class="btn btn-g btn-sm" onclick="openModal('addFollowup')">📞</button></td>
+  </tr>`).join('');
+}
+
+function renderLapsed(){
+  document.getElementById('ltbody').innerHTML=lapsed.map(l=>`<tr>
+    <td><strong>${l.nm}</strong></td><td>${l.ag}</td><td>${l.lb}</td>
+    <td style="font-weight:700;color:var(--tag)">${l.rv}</td><td>${l.ds}</td>
+    <td><span class="badge ${l.cs.includes('✓')?'b-gr':l.cs.includes('progress')?'b-bl':l.cs.includes('voice')?'b-or':'b-gy'}">${l.cs}</span></td>
+    <td style="font-size:10.5px">${l.rp}</td>
+    <td><button class="btn btn-p btn-sm" onclick="openModal('addCall')">Call</button></td>
+  </tr>`).join('');
+}
+
+function renderCons(){
+  const tc={growth:'var(--bl)',scale:'var(--gr)',opportunity:'var(--go)',activation:'var(--re)'};
+  const tl={growth:'Growth Priority',scale:'Scale Winner',opportunity:'Opportunity',activation:'Activation Needed'};
+  document.getElementById('conc').innerHTML=consortia.map(c=>`
+    <div class="ic-card ${c.pc>75?'act':''}">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:${tc[c.ti]};margin-bottom:6px">${tl[c.ti]}</div>
+      <div class="icn">${c.nm}</div>
+      <div class="icd">${c.nt}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:11px;font-size:11px">
+        <div><span style="color:var(--txm)">YTD Revenue</span><br><strong style="color:var(--tag)">${c.ytd}</strong></div>
+        <div><span style="color:var(--txm)">Target</span><br><strong>${c.tg}</strong></div>
+        <div><span style="color:var(--txm)">Activation</span><br><strong>${c.rt}</strong></div>
+        <div><span style="color:var(--txm)">In Nexus</span><br><strong>${c.nx?c.nx.toLocaleString():'—'}</strong></div>
+      </div>
+      <div class="pb"><div class="pf" style="width:${c.pc}%;background:${c.pc>75?'var(--gr)':c.pc>40?'var(--tag)':'var(--re)'}"></div></div>
+      <div style="font-size:10px;color:var(--txm);margin-top:4px">${c.pc}% to FY26 target</div>
+    </div>`).join('');
+}
+
+function renderEvents(){
+  document.getElementById('evlist').innerHTML=events.map(e=>`
+    <div class="card">
+      <div class="ehdr"><div><div class="en">${e.nm}</div><div class="em">📅 ${e.dt} · 📍 ${e.loc} · 👤 ${e.own}</div></div>
+      <span class="badge ${e.st==='completed'?'b-gr':e.st==='upcoming'?'b-bl':'b-or'}">${e.st}</span></div>
+      <div class="estats"><div class="estat"><strong>${e.att||'—'}</strong>Attendees</div><div class="estat"><strong>${e.na||'—'}</strong>New Agents</div><div class="estat"><strong>${e.bk||'—'}</strong>Bookings</div><div class="estat"><strong>${e.fd}</strong>Follow-Up By</div></div>
+    </div>`).join('');
+}
+
+function renderFU(){
+  document.getElementById('futbody').innerHTML=followups.map(f=>`<tr>
+    <td><strong>${f.av}</strong></td><td style="font-size:10.5px">${f.ev}</td>
+    <td><span class="badge b-bl" style="font-size:8px">${f.tp}</span></td>
+    <td>${f.dd}</td><td style="font-size:10.5px">${f.rp}</td>
+    <td><span class="badge ${f.st==='Completed'?'b-gr':f.st==='Overdue'?'b-re':f.st==='Converted'?'b-go':'b-or'}">${f.st}</span></td>
+    <td style="font-size:10.5px;color:var(--txd);max-width:150px">${f.nt}</td>
+    <td><button class="btn btn-g btn-sm">Update</button></td>
+  </tr>`).join('');
+}
+
+function renderCalls(){
+  document.getElementById('ctbody').innerHTML=calls.map(c=>`<tr>
+    <td><strong>${c.av}</strong></td><td style="font-size:10.5px">${c.rp}</td><td>${c.dt}</td>
+    <td style="font-size:10.5px">${c.pu}</td>
+    <td><span class="badge ${c.oc==='Booked!'?'b-gr':c.oc==='Booking Intent'?'b-go':c.oc==='Had Conversation'?'b-bl':'b-gy'}">${c.oc}</span></td>
+    <td><span class="badge ${c.fu==='Yes'?'b-or':'b-gy'}">${c.fu}</span></td>
+    <td style="font-size:10.5px;color:var(--txd);max-width:170px">${c.nt}</td>
+  </tr>`).join('');
+}
+
+function renderInc(){
+  document.getElementById('incc').innerHTML=incentives.map(i=>`
+    <div class="ic-card ${i.st==='active'?'act':''}">
+      <div class="icn">${i.nm}</div><div class="icd">${i.dc}</div>
+      <div class="ict">${i.tg.map(t=>`<span class="badge b-gy">${t}</span>`).join('')}</div>
+      <div class="icf"><div><strong style="color:var(--tag)">${i.vl}</strong><br><span style="font-size:9.5px">Threshold: ${i.th}</span></div><span class="badge ${i.st==='active'?'b-gr':'b-or'}">${i.st}</span></div>
+    </div>`).join('');
+}
+
+function renderPromos(){
+  document.getElementById('prgrid').innerHTML=promos.map(p=>`
+    <div class="ic-card ${p.ac?'act':''}" style="border-top:3px solid ${p.cl}">
+      <div style="font-size:24px;margin-bottom:7px">${p.ic}</div>
+      <div class="icn" style="color:${p.cl}">${p.dy}</div>
+      <div class="icd">${p.dc}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:11px"><span class="badge b-gy">${p.cd}</span><span class="badge ${p.ac?'b-gr':'b-gy'}">${p.ac?'Active':'Paused'}</span></div>
+    </div>`).join('');
+}
+
+function showPanel(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id)?.classList.add('active');
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+function openModal(id){const e=document.getElementById('modal-'+id);if(e) e.classList.add('open');}
+function closeModal(id){const e=document.getElementById('modal-'+id);if(e) e.classList.remove('open');}
+document.querySelectorAll('.mo').forEach(m=>{m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});});
+
+function saveAgent(){closeModal('addAgent');addAct('New agent added','var(--gr)');}
+function saveEvent(){closeModal('addEvent');addAct('Event logged','var(--bl)');}
+function saveFollowup(){closeModal('addFollowup');addAct('Follow-up logged','var(--tag)');}
+function saveCall(){
+  closeModal('addCall');
+  const n=parseInt(document.getElementById('ccnt')?.textContent||0)+1;
+  if(document.getElementById('ccnt')) document.getElementById('ccnt').textContent=n;
+  if(document.getElementById('cprog')) document.getElementById('cprog').style.width=Math.min(n/5*100,100)+'%';
+  addAct('Call logged','var(--pu)');
+}
+
+function addAct(text,col){
+  const l=document.getElementById('alog');if(!l)return;
+  const d=document.createElement('div');d.className='ai';
+  d.innerHTML=`<div class="ad" style="background:${col}"></div><div class="at">${text}</div><div class="atm">Just now</div>`;
+  l.insertBefore(d,l.firstChild);
+}
+
+init();
+</script>
+</body>
+</html>
