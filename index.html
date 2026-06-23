@@ -677,30 +677,103 @@ textarea{resize:vertical;min-height:65px}
 
     <!-- Why not alternatives -->
     <div class="stitle">How Zoho Compares to the Alternatives</div>
-    <div class="zoho-module-bar"><span class="mod-icon">&#9878;</span><span class="mod-title">Zoho vs Alternatives for TAG</span><span class="mod-sub">Based on TAG's specific requirements</span></div>
+    <div class="zoho-module-bar"><span class="mod-icon">&#9878;</span><span class="mod-title">Zoho vs Alternatives for TAG</span><span class="mod-sub">Based on TAG specific requirements</span></div>
     <div class="zoho-table-wrap">
-      <table>
+      <table style="table-layout:fixed;width:100%">
+        <colgroup>
+          <col style="width:26%">
+          <col style="width:18.5%">
+          <col style="width:18.5%">
+          <col style="width:18.5%">
+          <col style="width:18.5%">
+        </colgroup>
         <thead>
           <tr>
-            <th style="width:28%">Feature / Requirement</th>
-            <th style="text-align:center;color:var(--zoho)">Zoho CRM</th>
+            <th>Feature / Requirement</th>
+            <th style="text-align:center;background:#fff8f6;color:var(--zoho)">&#11088; Zoho CRM</th>
             <th style="text-align:center">Salesforce</th>
             <th style="text-align:center">HubSpot</th>
             <th style="text-align:center">Google Sheets</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="vs-row"><td class="vs-feature">Blueprint / process enforcement</td><td class="vs-col"><span class="check">&#10003;</span> Native</td><td class="vs-col"><span class="check">&#10003;</span> Enterprise only</td><td class="vs-col"><span class="part">&#9670;</span> Partial</td><td class="vs-col"><span class="cross">&#10007;</span></td></tr>
-          <tr class="vs-row"><td class="vs-feature">48hr / 5-day SLA automation</td><td class="vs-col"><span class="check">&#10003;</span> Professional</td><td class="vs-col"><span class="check">&#10003;</span> $80+/user</td><td class="vs-col"><span class="check">&#10003;</span> Paid only</td><td class="vs-col"><span class="cross">&#10007;</span></td></tr>
-          <tr class="vs-row"><td class="vs-feature">Cost for 7 users</td><td class="vs-col" style="color:var(--green);font-weight:700">$161/month</td><td class="vs-col" style="color:var(--red);font-weight:700">$560+/month</td><td class="vs-col" style="color:var(--amber);font-weight:700">$245/month</td><td class="vs-col" style="color:var(--green);font-weight:700">Free</td></tr>
-          <tr class="vs-row"><td class="vs-feature">Mobile app for reps</td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="part">&#9670;</span> Limited</td></tr>
-          <tr class="vs-row"><td class="vs-feature">Survey tool included</td><td class="vs-col"><span class="check">&#10003;</span> Zoho Survey</td><td class="vs-col"><span class="cross">&#10007;</span> Add-on</td><td class="vs-col"><span class="cross">&#10007;</span> Add-on</td><td class="vs-col"><span class="part">&#9670;</span> Google Forms only</td></tr>
-          <tr class="vs-row"><td class="vs-feature">Email campaigns included</td><td class="vs-col"><span class="check">&#10003;</span> Zoho Campaigns</td><td class="vs-col"><span class="cross">&#10007;</span> Add-on</td><td class="vs-col"><span class="check">&#10003;</span> Paid tier</td><td class="vs-col"><span class="cross">&#10007;</span></td></tr>
-          <tr class="vs-row"><td class="vs-feature">ORN already uses Zoho</td><td class="vs-col"><span class="check">&#10003;</span> Yes</td><td class="vs-col"><span class="cross">&#10007;</span></td><td class="vs-col"><span class="cross">&#10007;</span></td><td class="vs-col"><span class="cross">&#10007;</span></td></tr>
-          <tr class="vs-row"><td class="vs-feature">Setup time for TAG</td><td class="vs-col" style="color:var(--green);font-weight:700">2&ndash;3 weeks</td><td class="vs-col" style="color:var(--red);font-weight:700">3&ndash;6 months</td><td class="vs-col" style="color:var(--amber);font-weight:700">4&ndash;8 weeks</td><td class="vs-col" style="color:var(--green);font-weight:700">Immediate</td></tr>
-          <tr class="vs-row"><td class="vs-feature">Free trial</td><td class="vs-col"><span class="check">&#10003;</span> 15 days, no card</td><td class="vs-col"><span class="part">&#9670;</span> 30 days</td><td class="vs-col"><span class="check">&#10003;</span> Free tier</td><td class="vs-col"><span class="check">&#10003;</span> Always free</td></tr>
-          <tr class="vs-row"><td class="vs-feature">Scales to 35,000+ contacts</td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="cross">&#10007;</span> Breaks at scale</td></tr>
-          <tr class="vs-row"><td class="vs-feature">Travel industry proven</td><td class="vs-col"><span class="check">&#10003;</span> Agoda, ADTRAV, Royal Caribbean</td><td class="vs-col"><span class="check">&#10003;</span></td><td class="vs-col"><span class="part">&#9670;</span></td><td class="vs-col"><span class="cross">&#10007;</span></td></tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Blueprint / process enforcement</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Native</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--amber)">Enterprise only</span></td>
+            <td style="text-align:center"><span class="part">&#9670;</span><br><span style="font-size:10px;color:var(--amber)">Partial</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Not available</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">48hr / 5-day SLA automation</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Professional plan</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--amber)">$80+/user</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--amber)">Paid only</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Not available</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Cost for 7 users / month</td>
+            <td style="text-align:center;background:#fff8f6;font-size:16px;font-weight:800;color:var(--green)">$161</td>
+            <td style="text-align:center;font-size:16px;font-weight:800;color:var(--red)">$560+</td>
+            <td style="text-align:center;font-size:16px;font-weight:800;color:var(--amber)">$245</td>
+            <td style="text-align:center;font-size:16px;font-weight:800;color:var(--green)">Free</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Mobile app for reps</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">iOS &amp; Android</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">iOS &amp; Android</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">iOS &amp; Android</span></td>
+            <td style="text-align:center"><span class="part">&#9670;</span><br><span style="font-size:10px;color:var(--amber)">Limited</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Survey tool included</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Zoho Survey</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Add-on cost</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Add-on cost</span></td>
+            <td style="text-align:center"><span class="part">&#9670;</span><br><span style="font-size:10px;color:var(--amber)">Google Forms only</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Email campaigns included</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Zoho Campaigns</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Add-on cost</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--amber)">Paid tier only</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Not available</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">ORN already uses Zoho</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Yes - same account</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">New vendor</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">New vendor</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">New vendor</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Setup time for TAG</td>
+            <td style="text-align:center;background:#fff8f6;font-weight:700;color:var(--green)">2-3 weeks</td>
+            <td style="text-align:center;font-weight:700;color:var(--red)">3-6 months</td>
+            <td style="text-align:center;font-weight:700;color:var(--amber)">4-8 weeks</td>
+            <td style="text-align:center;font-weight:700;color:var(--green)">Immediate</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Free trial available</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">15 days, no card</span></td>
+            <td style="text-align:center"><span class="part">&#9670;</span><br><span style="font-size:10px;color:var(--amber)">30 days</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Free tier exists</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Always free</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Scales to 35,000+ contacts</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span><br><span style="font-size:10px;color:var(--txm)">Breaks at scale</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--tx)">Travel industry proven</td>
+            <td style="text-align:center;background:#fff8f6"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Agoda, ADTRAV, Royal Caribbean</span></td>
+            <td style="text-align:center"><span class="check">&#10003;</span><br><span style="font-size:10px;color:var(--green)">Yes</span></td>
+            <td style="text-align:center"><span class="part">&#9670;</span><br><span style="font-size:10px;color:var(--amber)">Partial</span></td>
+            <td style="text-align:center"><span class="cross">&#10007;</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
