@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORN Connect - EU Sales and Operations Workflow</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#0b0b0b;--wh:#ffffff;--go:#d4a843;--gd:rgba(212,168,67,0.14);--gb:rgba(212,168,67,0.35);--s1:#181818;--s2:#222;--br:rgba(255,255,255,0.1);--au:#1a6fc4;--al:#5fb3f0;--uk:#d4a843;--ul:#e8c87a;--ph:#3a9a6e;--pl:#5cc494;--zo:#e44d26;--zl:#ff7f5c;--ml:#9b59b6;--ml2:#c39bd3;--re:#d44c30;--ap:#2d9e9e;--a2:#4fd4d4;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bk);color:var(--wh);font-family:"Plus Jakarta Sans",sans-serif;font-size:16px;line-height:1.65;}
+/* HEADER */
+.hdr{padding:3.5rem 2.5rem 2rem;max-width:1140px;margin:0 auto;border-bottom:1px solid var(--br);}
+.htop{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.badge{font-family:"Space Mono",monospace;font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--go);background:var(--gd);border:1px solid var(--gb);padding:6px 14px;border-radius:4px;}
+.dbadge{font-family:"Space Mono",monospace;font-size:0.65rem;color:rgba(255,255,255,0.55);letter-spacing:0.1em;}
+h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:0.6rem;}
+h1 span{color:var(--go);}
+.sub{font-size:1rem;color:rgba(255,255,255,0.85);font-weight:300;max-width:660px;line-height:1.75;}
+/* CONTACTS */
+.cbar{background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:1.1rem 1.5rem;margin-top:1.5rem;display:flex;gap:0;flex-wrap:wrap;}
+.ci{flex:1;min-width:200px;padding:0 1.25rem;border-right:1px solid var(--br);}
+.ci:first-child{padding-left:0;}.ci:last-child{border-right:none;}
+.cl{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:4px;}
+.ce{font-family:"Space Mono",monospace;font-size:0.78rem;color:var(--go);font-weight:700;}
+.cd{font-size:0.73rem;color:rgba(255,255,255,0.75);margin-top:3px;}
+/* TABS */
+.tabs{max-width:1140px;margin:2rem auto 0;padding:0 2.5rem;display:flex;gap:5px;flex-wrap:wrap;}
+.tab{font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:9px 18px;border-radius:6px 6px 0 0;cursor:pointer;border:1px solid var(--br);border-bottom:none;color:rgba(255,255,255,0.55);background:var(--s1);transition:all 0.15s;user-select:none;}
+.tab:hover{color:rgba(255,255,255,0.9);}
+.tab.on{color:var(--wh);background:var(--s2);border-color:var(--br);}
+.tab.tau{border-top:3px solid var(--al);}
+.tab.tuk{border-top:3px solid var(--go);}
+.tab.tph{border-top:3px solid var(--pl);}
+.tab.tga{border-top:3px solid var(--ml2);}
+.tab.tzo{border-top:3px solid var(--zl);}
+.tab.tau.on{color:var(--al);}.tab.tuk.on{color:var(--ul);}.tab.tph.on{color:var(--pl);}.tab.tga.on{color:var(--ml2);}.tab.tzo.on{color:var(--zl);}
+/* PANEL */
+.main{max-width:1140px;margin:0 auto;padding:0 2.5rem 5rem;}
+.panel{display:none;background:var(--s2);border:1px solid var(--br);border-radius:0 8px 8px 8px;padding:2.5rem;animation:fi 0.2s ease;}
+.panel.on{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* TYPOGRAPHY */
+.slbl{font-size:0.67rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin:2rem 0 0.85rem;display:flex;align-items:center;gap:10px;}
+.slbl::after{content:"";flex:1;height:1px;background:var(--br);}
+.lede{font-size:0.96rem;color:rgba(255,255,255,0.9);line-height:1.78;margin-bottom:1.75rem;font-weight:300;max-width:900px;}
+.lede strong{color:var(--wh);font-weight:700;}
+.shead{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;}
+.snum{font-family:"Space Mono",monospace;font-size:0.65rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;}
+.stitle{font-size:1.15rem;font-weight:800;color:var(--wh);}
+/* PHASE BADGE */
+.pbadge{display:inline-flex;align-items:center;gap:6px;font-size:0.67rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:0.85rem;}
+.pbadge .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.p1{background:rgba(212,168,67,0.12);color:var(--go);border:1px solid var(--gb);}
+.p2{background:rgba(26,111,196,0.15);color:var(--al);border:1px solid rgba(26,111,196,0.3);}
+/* FLOW */
+.flow{display:flex;gap:0;margin:1.5rem 0;}
+.fs{flex:1;background:var(--s1);border:1px solid var(--br);padding:1.3rem 1.1rem;position:relative;cursor:pointer;transition:all 0.2s;}
+.fs:first-child{border-radius:10px 0 0 10px;}.fs:last-child{border-radius:0 10px 10px 0;}
+.fs+.fs{border-left:none;}
+.fs:hover{background:#2a2a2a;border-color:rgba(255,255,255,0.22);z-index:1;}
+.fs.active{background:rgba(212,168,67,0.1);border-color:var(--gb);z-index:2;}
+.fs::after{content:"›";position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--go);font-size:1rem;font-weight:700;z-index:3;background:var(--s2);padding:0 2px;}
+.fs:last-child::after{display:none;}
+.fn{font-family:"Space Mono",monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;color:var(--go);margin-bottom:6px;}
+.fs h3{font-size:0.84rem;font-weight:700;color:var(--wh);margin-bottom:5px;line-height:1.3;}
+.fs p{font-size:0.72rem;color:rgba(255,255,255,0.85);line-height:1.55;font-weight:300;}
+.ft{display:inline-block;font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-top:7px;}
+.ch{font-size:0.6rem;color:rgba(255,255,255,0.4);margin-top:5px;display:block;}
+/* STEP DETAIL */
+.sd{background:var(--s1);border:1px solid var(--gb);border-radius:10px;padding:1.75rem;margin-top:1rem;display:none;animation:fi 0.18s ease;}
+.sd.on{display:block;}
+.sdt{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--go);margin-bottom:0.85rem;}
+.sdb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;}
+.sdc h4{font-size:0.82rem;font-weight:700;color:var(--wh);margin-bottom:0.4rem;}
+.sdc p,.sdc li{font-size:0.79rem;color:rgba(255,255,255,0.88);line-height:1.6;font-weight:300;}
+.sdc ul{list-style:none;padding:0;}
+.sdc ul li{padding:0.22rem 0 0.22rem 0.9rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.05);}
+.sdc ul li:last-child{border-bottom:none;}
+.sdc ul li::before{content:"·";position:absolute;left:0;color:var(--go);}
+@media(max-width:700px){.sdb{grid-template-columns:1fr;}.flow{flex-direction:column;}.fs{border-radius:0!important;border-left:1px solid var(--br)!important;}.fs::after{content:"↓";right:auto;left:50%;bottom:-10px;top:auto;transform:translateX(-50%);}}
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:none;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(5px);}
+.overlay.on{display:flex;}
+.modal{background:#1e1e1e;border:1px solid var(--gb);border-radius:14px;max-width:540px;width:100%;padding:2rem;position:relative;animation:fi 0.2s ease;}
+.mclose{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.7);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.mclose:hover{background:rgba(255,255,255,0.15);color:#fff;}
+.mey{font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--go);margin-bottom:0.6rem;}
+.modal h3{font-size:1rem;font-weight:800;color:var(--wh);margin-bottom:0.85rem;line-height:1.3;}
+.modal p{font-size:0.85rem;color:rgba(255,255,255,0.88);line-height:1.7;margin-bottom:0.75rem;font-weight:300;}
+.modal p:last-child{margin-bottom:0;}
+.modal strong{color:var(--wh);font-weight:700;}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:0.75rem;}
+.opt{background:var(--s1);border:1px solid var(--br);border-radius:7px;padding:0.65rem 0.9rem;font-size:0.8rem;color:rgba(255,255,255,0.88);line-height:1.5;}
+.opt strong{color:var(--ul);}
+/* Q TRIGGER */
+.qt{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,67,0.12);border:1px solid var(--gb);color:var(--go);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer;transition:all 0.15s;user-select:none;vertical-align:middle;margin:3px 2px;}
+.qt:hover{background:rgba(212,168,67,0.22);}
+.qt::before{content:"?";font-family:"Space Mono",monospace;font-size:0.7rem;font-weight:700;background:var(--go);color:#000;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+/* CARDS */
+.cg{display:grid;gap:1px;background:var(--br);border:1px solid var(--br);border-radius:10px;overflow:hidden;margin:1rem 0;}
+.c2{grid-template-columns:1fr 1fr;}.c3{grid-template-columns:1fr 1fr 1fr;}.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+@media(max-width:700px){.c2,.c3,.c4{grid-template-columns:1fr;}}
+.card{background:var(--s1);padding:1.35rem;}
+.ca{height:3px;margin:-1.35rem -1.35rem 1rem;}
+.card h3{font-size:0.88rem;font-weight:700;color:var(--wh);margin-bottom:0.45rem;}
+.card p{font-size:0.8rem;color:rgba(255,255,255,0.88);line-height:1.6;font-weight:300;margin-bottom:0.6rem;}
+.card p:last-child{margin-bottom:0;}
+.ct{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-top:5px;}
+/* PERSON ROW */
+.prow{display:flex;flex-wrap:wrap;gap:7px;margin:1rem 0;}
+.per{display:flex;align-items:center;gap:9px;background:var(--s1);border:1px solid var(--br);border-radius:7px;padding:7px 11px;}
+.pd{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.pd.au{background:var(--al);}.pd.uk{background:var(--go);}.pd.ph{background:var(--pl);}.pd.ml{background:var(--ml2);}
+.pn{font-size:0.8rem;font-weight:700;color:var(--wh);}
+.pr{font-size:0.67rem;color:rgba(255,255,255,0.65);margin-top:1px;}
+/* INFO BOX */
+.ib{background:var(--gd);border:1px solid var(--gb);border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;font-size:0.84rem;color:rgba(255,255,255,0.92);line-height:1.65;}
+.ib strong{color:var(--go);font-weight:700;}
+.ib.blue{background:rgba(26,111,196,0.1);border-color:rgba(95,179,240,0.3);}
+.ib.blue strong{color:var(--al);}
+.ib.red{background:rgba(212,76,48,0.09);border-color:rgba(212,76,48,0.3);}
+.ib.red strong{color:#ff8070;}
+.ib.gr{background:rgba(58,154,110,0.1);border-color:rgba(58,154,110,0.3);}
+.ib.gr strong{color:var(--pl);}
+/* API NOTE */
+.an{background:rgba(45,158,158,0.08);border:1px solid rgba(45,158,158,0.25);border-radius:8px;padding:0.85rem 1.1rem;margin:0.75rem 0;font-size:0.83rem;color:rgba(255,255,255,0.92);line-height:1.6;}
+.an strong{color:var(--a2);}
+.apib{display:inline-flex;align-items:center;gap:5px;background:rgba(45,158,158,0.15);border:1px solid rgba(45,158,158,0.4);color:var(--a2);border-radius:5px;padding:3px 10px;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin:4px 3px;}
+.apib::before{content:"⚡";}
+/* GATE TIMELINE */
+.tl{position:relative;margin:1.25rem 0;}
+.tl::before{content:"";position:absolute;left:58px;top:0;bottom:0;width:2px;background:var(--br);}
+.gate{display:flex;gap:1.5rem;margin-bottom:1.5rem;position:relative;}
+.gm{width:58px;flex-shrink:0;z-index:1;}
+.gd{font-family:"Space Mono",monospace;font-size:0.85rem;font-weight:700;width:50px;height:50px;border-radius:8px;display:flex;align-items:center;justify-content:center;border:2px solid;}
+.d60{color:#ff8070;border-color:var(--re);background:rgba(212,76,48,0.1);}
+.d45{color:var(--ul);border-color:var(--go);background:var(--gd);}
+.d35{color:var(--ml2);border-color:var(--ml);background:rgba(155,89,182,0.1);}
+.d30{color:var(--pl);border-color:var(--ph);background:rgba(58,154,110,0.1);}
+.gb2{flex:1;background:var(--s1);border:1px solid var(--br);border-radius:8px;padding:1.1rem 1.25rem;}
+.gtitle{font-size:0.9rem;font-weight:700;color:var(--wh);margin-bottom:0.4rem;}
+.gdesc{font-size:0.82rem;color:rgba(255,255,255,0.9);line-height:1.65;font-weight:300;}
+.gown{display:flex;flex-wrap:wrap;gap:5px;margin-top:0.7rem;}
+.go2{font-size:0.63rem;font-weight:700;padding:2px 8px;border-radius:3px;background:var(--s2);color:rgba(255,255,255,0.7);}
+/* FORMAT */
+.fb{background:var(--s1);border:1px solid var(--br);border-radius:8px;padding:1.15rem 1.25rem;margin:0.75rem 0;cursor:pointer;}
+.fb:hover{border-color:rgba(255,255,255,0.2);}
+.ftype{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--go);margin-bottom:0.7rem;}
+.fcode{font-family:"Space Mono",monospace;font-size:0.78rem;background:rgba(0,0,0,0.35);border-radius:6px;padding:0.9rem 1rem;line-height:2.2;color:rgba(255,255,255,0.92);border-left:3px solid var(--go);}
+.ff{color:#fff;font-weight:700;}.fv{color:rgba(255,255,255,0.45);}
+/* ZOHO STEP */
+.zs{display:flex;gap:1.1rem;margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--br);}
+.zs:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.zn{font-family:"Space Mono",monospace;font-size:0.72rem;font-weight:700;color:var(--zl);min-width:26px;padding-top:2px;}
+.zb h4{font-size:0.86rem;font-weight:700;color:var(--wh);margin-bottom:4px;}
+.zb p{font-size:0.8rem;color:rgba(255,255,255,0.88);font-weight:300;line-height:1.55;}
+/* scrollbar */
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bk);}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px;}
+</style>
+</head>
+<body>
+<!-- MODAL -->
+<div class="overlay" id="ov" onclick="if(event.target===this)cm()">
+<div class="modal">
+<button class="mclose" onclick="cm()">&#x2715;</button>
+<div class="mey" id="mey">Open Question</div>
+<h3 id="mtitle"></h3>
+<div id="mbody"></div>
+</div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr">
+<div class="htop"><span class="badge">ORN Connect &middot; EU Sales &amp; Operations Workflow</span><span class="dbadge">June 2026 &middot; Working Document</span></div>
+<h1>AU / US &mdash; Sales &amp; Operations<br><span>Workflow Process</span></h1>
+<p class="sub">Europe inbound workflow for ORN Australia, Travel Answers Group (AU &amp; USA), and India &mdash; covering sales support, operations, UK contracting via Zoho CRM, and Nexus product loading.</p>
+<div class="cbar">
+<div class="ci"><div class="cl">New Enquiries</div><div class="ce">europe@orn.com</div><div class="cd">All new booking enquiries from AU, US, India</div></div>
+<div class="ci"><div class="cl">Customer Support</div><div class="ce">eusupport@orn.com</div><div class="cd">In-trip support &amp; customer queries</div></div>
+<div class="ci"><div class="cl">Operations</div><div class="ce">operations-eu@orn.com</div><div class="cd">Pre &amp; post departure operations</div></div>
+</div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+<div class="tab tau on" onclick="st('p1',this)">&#x2460; Phase 1 &mdash; Sales Support</div>
+<div class="tab tau" onclick="st('p2',this)">&#x2461; Phase 2 &mdash; Full UK Ops</div>
+<div class="tab tga" onclick="st('gates',this)">&#x2462; D-60 &rarr; D-30 Gates</div>
+<div class="tab tzo" onclick="st('zoho',this)">&#x2463; Zoho &amp; Contracting</div>
+<div class="tab tph" onclick="st('nexus',this)">&#x2464; Nexus Loading (PH)</div>
+</div>
+
+<div class="main">
+
+<!-- PHASE 1 -->
+<div class="panel on" id="panel-p1">
+<div class="pbadge p1"><span class="dot"></span>Phase 1 &mdash; Current Operating Model</div>
+<div class="shead"><span class="snum">01</span><span class="stitle">Sales Support confirms bookings &mdash; <em style="font-style:normal;color:var(--al)">click each step to expand</em></span></div>
+<p class="lede">All enquiries from ORN Australia, TAG Australia, TAG USA, and India arrive via <strong>europe@orn.com</strong>. UK sales support confirms at component level within 72hrs. <strong>&#x26A1; If a product books via API on Nexus &mdash; no manual request needed, it confirms instantly.</strong> Manual pricing only for off-system activities. Click any step below to see detail, owners, and open questions.</p>
+<div class="an"><strong>&#x26A1; API Rule:</strong> If a hotel, tour, attraction, or transfer is connected to Nexus via API &mdash; the booking confirms automatically with no manual request and no 72hr wait. The 72hr window only applies to non-API components. <span class="qt" onclick="om('api-rule')">Who decides API vs manual?</span></div>
+<div class="flow" id="fl1">
+<div class="fs" onclick="ts('f1',0,this)"><div class="fn">STEP 01</div><h3>Enquiry In</h3><p>Booking arrives from Agent, TAG AU, TAG USA, or India via europe@orn.com.</p><span class="ft" style="background:rgba(26,111,196,0.18);color:var(--al)">AU / USA / India</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f1',1,this)"><div class="fn">STEP 02 &middot; 72HRS</div><h3>Sales Support Confirms</h3><p>Confirmed at component level within 72hrs. API bookings: instant.</p><span class="ft" style="background:var(--gd);color:var(--ul)">UK &middot; europe@orn.com</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f1',2,this)"><div class="fn">STEP 03</div><h3>Zoho + Ops Tracker</h3><p>Booking logged in Zoho CRM. Shared ops tracker updated by UK Ops.</p><span class="ft" style="background:rgba(228,77,38,0.15);color:var(--zl)">Zoho CRM</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f1',3,this)"><div class="fn">STEP 04</div><h3>Payout in Zoho</h3><p>UK Ops creates payout per service in Zoho. No payout = no vendor payment.</p><span class="ft" style="background:rgba(228,77,38,0.15);color:var(--zl)">Zoho &middot; UK Ops</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f1',4,this)"><div class="fn">STEP 05</div><h3>Payment via AU</h3><p>Phase 1: all payments processed via ORN Australia office.</p><span class="ft" style="background:rgba(26,111,196,0.18);color:var(--al)">Phase 1: via AU</span><span class="ch">&#x25BC; click to expand</span></div>
+</div>
+<div class="sd" id="sd-f1"></div>
+<div class="ib">
+<strong>Phase 1 dependency:</strong> Success depends on activities being loaded in Nexus. Off-system activities require manual pricing and slow the 72hr window. Every API connection removes a manual step. <span class="qt" onclick="om('phase1-scope')">What is in scope for Phase 1?</span>
+</div>
+<div class="slbl">People &mdash; Phase 1</div>
+<div class="prow">
+<div class="per"><div class="pd au"></div><div><div class="pn">Sahil Nijhawan</div><div class="pr">CEO Australia &middot; Primary client</div></div></div>
+<div class="per"><div class="pd au"></div><div><div class="pn">Yukti Kumar</div><div class="pr">ANZ DMC Lead &middot; Booking coordination</div></div></div>
+<div class="per"><div class="pd au"></div><div><div class="pn">Kerryn Collins</div><div class="pr">COO USA &middot; TAG USA</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ajay Kawa</div><div class="pr">CEO UK &amp; Europe &middot; Sign-off</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Head of Reservations <span style="color:var(--go);font-size:0.62rem">(priority hire)</span></div><div class="pr">UK Nexus &middot; 72hr confirmation lead</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Clinton Thomas</div><div class="pr">UK &middot; GIT QC &middot; Pre-departure</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ken Newton</div><div class="pr">UK &middot; Contracts &middot; Hotel rates</div></div></div>
+</div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="panel" id="panel-p2">
+<div class="pbadge p2"><span class="dot"></span>Phase 2 &mdash; Target Operating Model</div>
+<div class="shead"><span class="snum">02</span><span class="stitle">Full UK Ops team &mdash; the Kryz &amp; Martha workflow</span></div>
+<p class="lede">The ideal end-state. Bookings queue directly to UK Europe Ops via <strong>operations-eu@orn.com</strong>. Dedicated local UK ops team handles all confirmations, changes, and pre-departure checks. <strong>All contracting and booking management via Zoho CRM.</strong> Melbourne team handles D-35 QC and D-30 client documents. <span class="qt" onclick="om('phase2-trigger')">What triggers Phase 2?</span></p>
+<div class="flow" id="fl2">
+<div class="fs" onclick="ts('f2',0,this)"><div class="fn">STEP 01</div><h3>Enquiry In</h3><p>From Agent, TAG AU, TAG USA, or India via europe@orn.com.</p><span class="ft" style="background:rgba(26,111,196,0.18);color:var(--al)">AU / USA / India</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f2',1,this)"><div class="fn">STEP 02 &middot; 72HRS</div><h3>Queues to UK Ops</h3><p>Directly to UK Europe Ops team. API bookings: instant, no queue.</p><span class="ft" style="background:var(--gd);color:var(--ul)">operations-eu@orn.com</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f2',2,this)"><div class="fn">STEP 03</div><h3>Zoho + Payout</h3><p>Confirmed in Zoho. Tracker updated. Payout created per service.</p><span class="ft" style="background:rgba(228,77,38,0.15);color:var(--zl)">Zoho CRM</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f2',3,this)"><div class="fn">STEP 04 &middot; D-35</div><h3>Melbourne QC</h3><p>Melbourne document team QC checks all bookings.</p><span class="ft" style="background:rgba(155,89,182,0.15);color:var(--ml2)">Melbourne &middot; QC</span><span class="ch">&#x25BC; click to expand</span></div>
+<div class="fs" onclick="ts('f2',4,this)"><div class="fn">STEP 05 &middot; D-30</div><h3>Docs to Client</h3><p>Melbourne sends finalised documents to client.</p><span class="ft" style="background:rgba(155,89,182,0.15);color:var(--ml2)">Melbourne &middot; Client</span><span class="ch">&#x25BC; click to expand</span></div>
+</div>
+<div class="sd" id="sd-f2"></div>
+<div class="cg c2">
+<div class="card"><div class="ca" style="background:var(--go)"></div><h3>Sales Support &mdash; UK</h3><p>Confirms all bookings within 72hrs. Handles manual pricing for off-system activities. Manages <strong>europe@orn.com</strong>.</p><span class="ct" style="background:var(--gd);color:var(--ul)">72hr turnaround</span> <span class="qt" onclick="om('sales-team-size')">How many people needed?</span></div>
+<div class="card"><div class="ca" style="background:var(--au)"></div><h3>Ops Support &mdash; UK + Melbourne</h3><p>UK ops manages changes, pre-departure, payouts via <strong>operations-eu@orn.com</strong>. Melbourne handles D-35 QC and D-30 docs.</p><span class="ct" style="background:rgba(26,111,196,0.18);color:var(--al)">Changes &middot; Ground delivery</span></div>
+</div>
+<div class="ib blue"><strong>Phase 2 payments:</strong> UK collects all payments directly. No routing via AU. UK CFO manages incoming payments, vendor settlements, P&amp;L. <strong>UK CFO hire is a Phase 2 prerequisite.</strong> <span class="qt" onclick="om('payment-timing')">When does Phase 2 payment start?</span></div>
+<div class="slbl">People &mdash; Phase 2</div>
+<div class="prow">
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ajay Kawa</div><div class="pr">CEO UK &amp; Europe</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Head of Reservations</div><div class="pr">UK &middot; Sales support lead</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Sales Support Agent</div><div class="pr">UK &middot; 72hr confirmations</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ops Support Agent</div><div class="pr">UK &middot; Changes &amp; delivery</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Clinton Thomas</div><div class="pr">UK &middot; GIT QC &middot; D-45 gate owner</div></div></div>
+<div class="per"><div class="pd ml"></div><div><div class="pn">Melbourne Document Team</div><div class="pr">D-35 QC &middot; D-30 client docs</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">UK CFO (TBC)</div><div class="pr">UK &middot; End-to-end payments</div></div></div>
+</div>
+</div>
+
+<!-- GATES -->
+<div class="panel" id="panel-gates">
+<div class="shead"><span class="snum">03</span><span class="stitle">Pre-Departure Gate Schedule &mdash; D-60 through D-30</span></div>
+<p class="lede">Every booking follows this schedule without exception. Gates apply to all booking types &mdash; FIT, GIT, escorted tours, transfers, cruise. <span class="qt" onclick="om('gate-exceptions')">Are there any exceptions?</span></p>
+<div class="tl">
+<div class="gate"><div class="gm"><div class="gd d60">D-60</div></div><div class="gb2"><div class="gtitle">All Paid &amp; Processed &mdash; Hard Deadline</div><div class="gdesc">All bookings and activities must be fully paid and processed &mdash; including anything still pending. UK Operations creates payouts in <strong style="color:var(--zl)">Zoho CRM</strong> for all outstanding services. Shared card transaction sheet updated. Any unprocessed service at D-60 escalated immediately to Ajay Kawa.</div><div class="gown"><span class="go2">UK Ops &middot; operations-eu@orn.com</span><span class="go2">Zoho CRM payout</span><span class="go2">No exceptions</span></div></div></div>
+<div class="gate"><div class="gm"><div class="gd d45">D-45</div></div><div class="gb2"><div class="gtitle">6-Point Check Complete &mdash; All Services</div><div class="gdesc">All 6 booking points completed for every service. Operator, Phone (with country code), Confirmation number, Time (00:00 AM), Departure or Pick-Up Location. If not on email &mdash; find online. Clinton Thomas QC signs off. <span class="qt" onclick="om('6point-detail')">See full 6-point format</span></div><div class="gown"><span class="go2">UK Ops &middot; All services</span><span class="go2">Clinton Thomas &middot; QC sign-off</span></div></div></div>
+<div class="gate"><div class="gm"><div class="gd d35">D-35</div></div><div class="gb2"><div class="gtitle">Document QC</div><div class="gdesc"><strong style="color:var(--ul)">Phase 1:</strong> Clinton Thomas (UK) QC checks all booking documents. <strong style="color:var(--al)">Phase 2:</strong> Melbourne document team QC checks and verifies all bookings. Zoho CRM updated with QC status.</div><div class="gown"><span class="go2">Phase 1: Clinton Thomas</span><span class="go2">Phase 2: Melbourne team</span><span class="go2">Zoho status update</span></div></div></div>
+<div class="gate"><div class="gm"><div class="gd d30">D-30</div></div><div class="gb2"><div class="gtitle">Documents to Client</div><div class="gdesc"><strong style="color:var(--ul)">Phase 1:</strong> UK team sends documents to client. <strong style="color:var(--al)">Phase 2:</strong> Melbourne sends finalised documents. Zoho booking record updated on dispatch. <span class="qt" onclick="om('docs-format')">What is in the document pack?</span></div><div class="gown"><span class="go2">Phase 1: UK team</span><span class="go2">Phase 2: Melbourne</span></div></div></div>
+</div>
+<div class="ib red"><strong>No Payout = No Payment.</strong> UK Operations must create a payout in Zoho CRM for every service before any vendor payment is released. All card transactions recorded on shared sheet, mapped to booking and amount. No exceptions.</div>
+<div class="slbl">The 6-Point Format &mdash; Click any block to copy</div>
+<p style="font-size:0.85rem;color:rgba(255,255,255,0.85);margin-bottom:1rem;font-weight:300;">Phone must include country code. Time in 00:00 AM format. If not on confirmation email &mdash; find it online.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+<div class="fb" onclick="cf(this)" title="Click to copy"><div class="ftype">&#x1F3AB; Tour &mdash; With Pick-Up</div><div class="fcode"><span class="ff">Operator:</span> <span class="fv">_______________</span><br><span class="ff">Phone:</span> <span class="fv">+XX XXX XXX XXXX</span><br><span class="ff">Confirmation:</span> <span class="fv">_______________</span><br><span class="ff">Pick Up Time:</span> <span class="fv">00:00 AM</span><br><span class="ff">Pick Up Location:</span> <span class="fv">_______________</span></div></div>
+<div class="fb" onclick="cf(this)" title="Click to copy"><div class="ftype">&#x1F6A2; Cruise / Tour &mdash; No Pick-Up</div><div class="fcode"><span class="ff">Operator:</span> <span class="fv">_______________</span><br><span class="ff">Phone:</span> <span class="fv">+XX XXX XXX XXXX</span><br><span class="ff">Confirmation:</span> <span class="fv">_______________</span><br><span class="ff">Departure Time:</span> <span class="fv">00:00 AM</span><br><span class="ff">Departure Location:</span> <span class="fv">_______________</span></div></div>
+<div class="fb" onclick="cf(this)" title="Click to copy"><div class="ftype">&#x1F697; Transfer &mdash; Arrival</div><div class="fcode"><span class="ff">Operator:</span> <span class="fv">_______________</span><br><span class="ff">Contact:</span> <span class="fv">+XX XXX XXX XXXX</span><br><span class="ff">Confirmation:</span> <span class="fv">_______________</span><br><span class="ff">Pick Up Time:</span> <span class="fv">00:00 AM</span><br><span class="ff">Pick Up Location:</span> <span class="fv">AIRPORT / STATION</span><br><span class="ff">FLIGHT arrives</span> <span class="fv">CITY</span><br><span class="ff">Drop Off Location:</span> <span class="fv">HOTEL NAME</span></div></div>
+<div class="fb" onclick="cf(this)" title="Click to copy"><div class="ftype">&#x1F697; Transfer &mdash; Departure</div><div class="fcode"><span class="ff">Operator:</span> <span class="fv">_______________</span><br><span class="ff">Contact:</span> <span class="fv">+XX XXX XXX XXXX</span><br><span class="ff">Confirmation:</span> <span class="fv">_______________</span><br><span class="ff">Pick Up Time:</span> <span class="fv">00:00 AM</span><br><span class="ff">Pick Up Location:</span> <span class="fv">HOTEL NAME</span><br><span class="ff">Drop Off Location:</span> <span class="fv">AIRPORT</span><br><span class="ff">FLIGHT</span> <span class="fv">CITY departs at TIME</span></div></div>
+</div>
+<p style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:0.5rem;text-align:center;">&#x2191; Click any format block to copy to clipboard</p>
+</div>
+
+<!-- ZOHO -->
+<div class="panel" id="panel-zoho">
+<div class="shead"><span class="snum">04</span><span class="stitle">Zoho CRM &mdash; Contracting Portal &amp; Management Tool</span></div>
+<p class="lede">ORN Connect UK is the <strong>sole contracting authority</strong> for all UK and European product. <strong>Zoho CRM is the central contracting portal, booking management system, and commercial pipeline tool.</strong> All supplier contracts, rate status, API integration phases, booking pipeline, and payment tracking run through Zoho. <span class="qt" onclick="om('zoho-modules')">Which Zoho modules do we use?</span></p>
+<div class="an"><strong>&#x26A1; API-connected suppliers need no manual request.</strong> If a supplier is on direct API to Nexus &mdash; bookings confirm automatically, no manual sales support step, no 72hr wait. Zoho tracks each supplier's API status and flags issues. <span class="qt" onclick="om('api-priority')">Which suppliers should be API-first?</span></div>
+<div class="slbl">Zoho CRM &mdash; What It Manages</div>
+<div class="cg c3">
+<div class="card"><div class="ca" style="background:var(--zo)"></div><h3>Supplier Contracts</h3><p>Every supplier logged in Zoho &mdash; hotel, DMC, ground, attractions, transfers. Status: Relationship &rarr; Static Contract &rarr; API Connected. Ken Newton (EU hotels) and Manish Suchde (global) own their records.</p><span class="ct" style="background:rgba(228,77,38,0.15);color:var(--zl)">Master contract record</span></div>
+<div class="card"><div class="ca" style="background:var(--zo)"></div><h3>Booking Pipeline</h3><p>All inbound bookings from AU, USA, India, trade agents tracked from enquiry to departure. Status updates at each gate: D-60, D-45, D-35, D-30. Payouts created and tracked per booking.</p><span class="ct" style="background:rgba(228,77,38,0.15);color:var(--zl)">Enquiry &rarr; Departure</span></div>
+<div class="card"><div class="ca" style="background:var(--zo)"></div><h3>Payment &amp; Payout Tracking</h3><p>All payouts created in Zoho per service. No payout = no vendor payment. Card transaction sheet linked to Zoho records. Phase 1: AU payment noted. Phase 2: UK payment managed end-to-end.</p><span class="ct" style="background:rgba(228,77,38,0.15);color:var(--zl)">No payout = no payment</span></div>
+<div class="card"><div class="ca" style="background:var(--ap)"></div><h3>API Integration Status</h3><p>Each supplier's Nexus API phase tracked: Phase 1 (Relationship), Phase 2 (Static on Nexus), Phase 3 (Direct API &mdash; instant booking). Philippines team updates Zoho on completion.</p><span class="apib">3-phase pipeline</span> <span class="qt" onclick="om('api-phases')">What is each phase?</span></div>
+<div class="card"><div class="ca" style="background:var(--zo)"></div><h3>Rate Review &amp; Renewal</h3><p>Annual contract cycle managed in Zoho. Renewal dates, rate expiry, and season dates tracked per supplier. Zoho reminds Ken Newton and Manish Suchde 90 days before any contract expires.</p><span class="ct" style="background:rgba(228,77,38,0.15);color:var(--zl)">90-day renewal reminders</span></div>
+<div class="card"><div class="ca" style="background:var(--zo)"></div><h3>Quarterly Commercial Review</h3><p>Zoho generates quarterly reports for Ajay Kawa, Ken Newton, and Manish Suchde &mdash; booking volume by office, income by stream, API vs manual split, top-performing suppliers. Dashboard available to Sahil.</p><span class="ct" style="background:rgba(228,77,38,0.15);color:var(--zl)">AU dashboard access</span> <span class="qt" onclick="om('zoho-access')">Who gets Zoho access?</span></div>
+</div>
+<div class="slbl">From Contract to Live on Nexus &mdash; Zoho-Powered Process</div>
+<div class="cg" style="--cols:1">
+<div class="card" style="padding:1.5rem">
+<div class="zs"><div class="zn">01</div><div class="zb"><h4>UK contracts rate with supplier</h4><p>Ken Newton (hotels) or Manish Suchde (global DMC) agrees net rate. Zoho contract record created. Ajay Kawa provides sign-off via Zoho approval workflow. <span class="qt" onclick="om('contract-authority')">What needs Ajay sign-off?</span></p></div></div>
+<div class="zs"><div class="zn">02</div><div class="zb"><h4>Rate sheet logged in Zoho and sent to Philippines</h4><p>UK prepares rate sheet in ORN Connect standard format &mdash; attached to Zoho supplier record. Zoho task created for Philippines team with loading deadline. If supplier has direct API &mdash; Zoho task is for API configuration, not rate loading.</p><span class="apib">API = no rate sheet loading needed</span></div></div>
+<div class="zs"><div class="zn">03</div><div class="zb"><h4>Philippines loads onto Nexus &mdash; updates Zoho</h4><p>Philippines loads product to Nexus. On completion, updates Zoho task to "Loaded &mdash; awaiting UK QC". Ken Newton / Contract Processing receives Zoho notification automatically.</p></div></div>
+<div class="zs"><div class="zn">04</div><div class="zb"><h4>UK QC spot-check &mdash; marks live in Zoho</h4><p>UK checks loaded rate against contracted terms. Any error flagged via Zoho comment to Philippines. On approval, Zoho supplier record updated to "Live on Nexus &#x26A1;" &mdash; immediately available to all offices and trade agents.</p></div></div>
+</div>
+</div>
+<div class="slbl">People &mdash; Contracting</div>
+<div class="prow">
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ajay Kawa</div><div class="pr">Commercial sign-off &middot; All contracts</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ken Newton</div><div class="pr">UK &middot; European hotel portfolio &middot; 27+ properties</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Manish Suchde</div><div class="pr">UK &middot; Global DMC &middot; Cathay Pacific &middot; Macau</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Contract Processing (TBC)</div><div class="pr">UK &middot; Zoho records &middot; QC on Nexus loading</div></div></div>
+<div class="per"><div class="pd ph"></div><div><div class="pn">Philippines Nexus Team</div><div class="pr">Loads rates &middot; Updates Zoho &middot; Confirms to UK</div></div></div>
+</div>
+</div>
+
+<!-- NEXUS -->
+<div class="panel" id="panel-nexus">
+<div class="shead"><span class="snum">05</span><span class="stitle">Nexus Loading &mdash; Philippines team process</span></div>
+<p class="lede">The Philippines team handles all Nexus product loading &mdash; receiving rate sheets from UK contracting via Zoho, loading product onto Nexus, and confirming accuracy to UK for QC. <strong>&#x26A1; If a supplier has direct API connection to Nexus &mdash; no rate loading is required.</strong> API suppliers book automatically with zero manual intervention. <span class="qt" onclick="om('ph-team-scope')">What is the Philippines team responsible for?</span></p>
+<div class="an"><strong>&#x26A1; API-connected suppliers = zero loading work.</strong> When a hotel, attraction, or transfer operator connects directly via API, availability and pricing are live in real-time. No rate sheet. No manual load. No QC check on rates. Philippines team role for these suppliers is API configuration and monitoring only.</div>
+<div class="slbl">What Gets Loaded &mdash; by Type</div>
+<div class="cg c3">
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>Hotel &amp; Accommodation</h3><p>Net rates, room types, meal inclusions, release conditions, allotment sizes from Ken Newton's EU portfolio (27+ properties). Season dates and blackout dates included.</p><span class="apib">API where available</span><span class="ct" style="background:rgba(58,154,110,0.15);color:var(--pl)">27+ properties &middot; Annual</span></div>
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>Tours &amp; Experiences</h3><p>Escorted tour departures, series dates, pricing by pax, inclusions, operator details, departure locations. Must match the 6-point format required by D-45.</p><span class="ct" style="background:rgba(58,154,110,0.15);color:var(--pl)">Series departures &middot; 6-point format</span></div>
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>Transfers &amp; Transport</h3><p>Airport transfer rates, intercity pricing, train options. Operator contact in 6-point format. Transfers beyond 3 months held &mdash; loaded closer to departure. <span class="qt" onclick="om('transfer-timing')">When are transfers loaded?</span></p><span class="apib">API where available</span></div>
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>Cruise Product</h3><p>ORN Cruise programme &mdash; cabin types, sailing dates, allotment blocks, port transfers, shore excursions. Available to AU, USA, ME, India via Nexus.</p><span class="ct" style="background:rgba(58,154,110,0.15);color:var(--pl)">ORN Cruise &middot; Global</span></div>
+<div class="card"><div class="ca" style="background:var(--ap)"></div><h3>Attractions &amp; Activities</h3><p>Loaded via <strong>Attraction World API</strong> where available &mdash; live availability direct in Nexus. Off-system activities require manual rate sheet from UK. <span class="qt" onclick="om('attraction-api')">Which attractions are on API?</span></p><span class="apib">Attraction World API</span></div>
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>FIT &amp; Bespoke Components</h3><p>Individual components for FIT packages and bespoke requests from India and direct agents. Loaded as individual components so UK sales support can assemble quotes directly in Nexus.</p><span class="ct" style="background:rgba(58,154,110,0.15);color:var(--pl)">FIT &middot; India &middot; Bespoke</span></div>
+</div>
+<div class="cg c2">
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>Quality Standards</h3><p>Every product checked against UK rate sheet (Zoho attachment) before marking complete. Price, dates, inclusions, release conditions, and operator details must match exactly. Philippines marks Zoho task "Loaded &mdash; awaiting UK QC" &mdash; never "Live" until UK approves.</p></div>
+<div class="card"><div class="ca" style="background:var(--ph)"></div><h3>Turnaround &amp; Zoho Communication</h3><p>Loading completion confirmed by updating the Zoho task &mdash; not by email or WhatsApp. UK Contract Processing receives Zoho notification and completes QC before marking "Live". Any issues raised via Zoho comment. <span class="qt" onclick="om('ph-turnaround')">What turnaround is expected?</span></p></div>
+</div>
+<div class="ib gr"><strong>Phase 1 loading priority:</strong> (1) All 27+ EU hotel properties. (2) Most-booked UK attractions. (3) Airport transfer routes. (4) Series tour departures. (5) Cruise product. Philippines team to confirm loading plan with Ken Newton before Phase 1 launch.</div>
+<div class="slbl">Key Contacts</div>
+<div class="prow">
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ken Newton</div><div class="pr">UK &middot; Sends EU hotel rate sheets via Zoho</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Manish Suchde</div><div class="pr">UK &middot; Sends global DMC rate sheets via Zoho</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Contract Processing (TBC)</div><div class="pr">UK &middot; QC &middot; Approves Nexus loading in Zoho</div></div></div>
+<div class="per"><div class="pd ph"></div><div><div class="pn">Philippines Nexus Team</div><div class="pr">Loads rates &middot; Updates Zoho &middot; Confirms to UK</div></div></div>
+<div class="per"><div class="pd uk"></div><div><div class="pn">Ajay Kawa</div><div class="pr">UK &middot; Commercial sign-off before loading</div></div></div>
+</div>
+</div>
+</div>
+
+<script>
+// TABS
+function st(id,el){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"));document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));document.getElementById("panel-"+id).classList.add("on");el.classList.add("on");}
+
+// STEP DATA
+const SD={
+f1:[
+{t:"Step 1 — Enquiry In",w:["Email arrives at europe@orn.com from Agent, TAG AU, TAG USA, or India","At proposal stage agents may call for manual pricing of off-system activities","Head of Reservations logs enquiry in Zoho CRM — new enquiry record created","Zoho auto-assigns to next available sales support agent"],o:["Head of Reservations (UK) — logs in Zoho","Sales Support Agent (UK) — picks up enquiry","Originating office: Sahil/Yukti (AU), Kerryn (TAG USA), India ops"],n:["If product is on Nexus via API — booking can be initiated immediately without waiting for agent email","Manual pricing requests must include full pax details, dates, and required services"]},
+{t:"Step 2 — Sales Support Confirms (72hrs)",w:["Confirms all components at service level within 72hrs","Exception: airport/intercity transfers and train tickets if departure beyond 3 months — these are held","⚡ API-connected products: confirmed instantly — no 72hr window needed","Off-system activities: manually priced and confirmed by contacting supplier directly"],o:["Sales Support Agent (UK) — confirms in Nexus","Ken Newton — if hotel query or rate question","Philippines team — if Nexus product issue"],n:["72hr clock starts when enquiry logged in Zoho","If delayed beyond 72hrs — Zoho escalates to Head of Reservations automatically","API products do not count against the 72hr window — they are instant"]},
+{t:"Step 3 — Zoho + Ops Tracker Updated",w:["Confirmed booking placed on shared ops tracker","Each component logged with status: confirmed / pending / requires action","UK Operations checks and reconfirms any services still pending","All card transactions recorded on shared sheet — mapped to booking and amount"],o:["UK Operations — updates Zoho and tracker","Operations-eu@orn.com — ops communications"],n:["Zoho booking record updated with all confirmation references","Any pending services highlighted in red on tracker for daily ops review"]},
+{t:"Step 4 — Payout Created in Zoho",w:["UK Operations creates a payout record in Zoho for every confirmed service","No payout = no payment to vendor — no exceptions","Payout includes: supplier name, amount, currency, payment method, booking reference","All card transactions recorded on shared sheet linked to Zoho record"],o:["UK Operations team — creates payout in Zoho","UK CFO (Phase 2) — approves and releases payments"],n:["Phase 1: payout created in Zoho but payment released via AU office","Phase 2: UK CFO releases payment directly from UK entity"]},
+{t:"Step 5 — Payment via AU (Phase 1)",w:["UK Operations notifies AU office of payout amount and vendor details via Zoho","AU office collects payment from originating group office","AU pays vendor using payout details from Zoho","UK Zoho record updated to 'Paid' with AU payment reference"],o:["UK Operations — creates payout, notifies AU","ORN Australia — processes and releases payment"],n:["Phase 2: this step disappears — UK pays vendor directly","UK CFO hire required before Phase 2 payments begin"]}
+],
+f2:[
+{t:"Step 1 — Enquiry In",w:["Email arrives at europe@orn.com from Agent, TAG AU, TAG USA, or India","Proposal-stage manual pricing handled by sales support","Zoho CRM logs enquiry automatically and assigns to UK ops queue"],o:["Head of Reservations — manages queue","Originating: ORN AU, TAG AU, TAG USA, India"],n:["API-bookable products can confirm before the enquiry email arrives if booked via Nexus portal"]},
+{t:"Step 2 — Queues to UK Europe Ops (72hrs)",w:["Booking goes directly to UK Europe Ops team via operations-eu@orn.com","Processed in Nexus within 72hrs","Exception: transfers and train tickets beyond 3 months held","⚡ API products: confirmed instantly — no queue needed"],o:["UK Ops Support Agent — processes in Nexus","Zoho task auto-created on receipt"],n:["Phase 2 ops team is dedicated — separate from sales support function"]},
+{t:"Step 3 — Zoho + Payout",w:["Booking confirmed and fully logged in Zoho CRM","Shared ops tracker updated with all component statuses","Payout created in Zoho per service","All card transactions linked to Zoho booking record"],o:["UK Ops Support Agent — Zoho entry","UK CFO — payout release (Phase 2)"],n:["Zoho is the single source of truth — no manual spreadsheet duplication needed"]},
+{t:"Step 4 — Melbourne QC (D-35)",w:["Melbourne document team receives QC notification from Zoho at D-35","Checks all 6-point booking details for every service","Verifies all payouts created and payments confirmed","Signs off in Zoho — triggers document production"],o:["Melbourne document team — QC in Zoho","Clinton Thomas (UK) — GIT departures QC"],n:["Any QC failure returned to UK ops via Zoho for correction before D-30"]},
+{t:"Step 5 — Documents to Client (D-30)",w:["Melbourne document team sends finalised document pack to client","Documents include: itinerary, vouchers, emergency contacts, supplier details","Zoho booking record updated to 'Documents Sent' with timestamp"],o:["Melbourne document team — creates and sends pack","UK ops — confirms in Zoho, updates tracker"],n:["Phase 1: UK team sends documents","Phase 2: Melbourne sends — UK confirms receipt"]}
+]};
+
+let as={f1:-1,f2:-1};
+function ts(fl,idx,el){
+const steps=document.querySelectorAll("#fl"+fl.slice(1)+" .fs");
+const det=document.getElementById("sd-"+fl);
+if(as[fl]===idx){steps.forEach(s=>s.classList.remove("active"));det.classList.remove("on");as[fl]=-1;return;}
+steps.forEach(s=>s.classList.remove("active"));el.classList.add("active");as[fl]=idx;
+const d=SD[fl][idx];
+det.innerHTML=`<div class="sdt">&#x25B8; ${d.t}</div><div class="sdb"><div class="sdc"><h4>What happens</h4><ul>${d.w.map(x=>`<li>${x}</li>`).join("")}</ul></div><div class="sdc"><h4>Who is responsible</h4><ul>${d.o.map(x=>`<li>${x}</li>`).join("")}</ul></div><div class="sdc"><h4>Notes &amp; open questions</h4><ul>${d.n.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`;
+det.classList.add("on");
+}
+
+// COPY FORMAT
+function cf(el){const code=el.querySelector(".fcode");const txt=code.innerText.replace(/\s+/g,"\n").trim();navigator.clipboard.writeText(txt).then(()=>{const ot=el.querySelector(".ftype").textContent;el.querySelector(".ftype").textContent="\u2713 Copied!";setTimeout(()=>el.querySelector(".ftype").textContent=ot,1500);});}
+
+// MODALS
+const MD={
+"api-rule":{e:"Open Question",t:"Who decides if a product is API or manual?",b:`<p>This needs to be confirmed with Manish Suchde and the Philippines Nexus team. The key question: <strong>which suppliers currently have live API connections to Nexus?</strong></p><div class="opts"><div class="opt"><strong>Action A:</strong> Philippines team produces a list of all current Nexus API connections so UK sales support knows exactly what books automatically.</div><div class="opt"><strong>Action B:</strong> Manish Suchde prioritises the top 10 highest-volume suppliers for API connection before Phase 1 launch, with a clear timeline from Philippines team.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Confirm with Sahil and Manish before Phase 1 launch date.</strong></p>`},
+"phase1-scope":{e:"Open Question",t:"What bookings are in scope for Phase 1?",b:`<p>Suggested Phase 1 scope &mdash; to confirm with Sahil and Ajay:</p><div class="opts"><div class="opt"><strong>In scope:</strong> All TAG AU and TAG USA group bookings for UK &amp; European product. ORN AU FIT requests. India FIT and bespoke requests via europe@orn.com.</div><div class="opt"><strong>Out of scope:</strong> Direct consumer bookings (TripFactory outbound from UK). Middle East bookings (pending ME CEO). Any product not yet on Nexus.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> Are there any AU bookings that should NOT route through UK in Phase 1?</p>`},
+"phase2-trigger":{e:"Open Question",t:"What triggers Phase 2 launch?",b:`<p>Suggested Phase 2 prerequisites &mdash; all must be in place:</p><div class="opts"><div class="opt">&#x2460; <strong>UK CFO hired and in post</strong> &mdash; required for UK end-to-end payment management.</div><div class="opt">&#x2461; <strong>Nexus UK fully configured</strong> &mdash; all key suppliers loaded, API connections active for top-volume products.</div><div class="opt">&#x2462; <strong>Head of Reservations + minimum 2 agents hired</strong> &mdash; UK ops team in place.</div><div class="opt">&#x2463; <strong>Phase 1 running smoothly for minimum 3 months</strong> &mdash; no unresolved payment or ops issues.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Ajay and Sahil:</strong> Is there a target date for Phase 2?</p>`},
+"sales-team-size":{e:"Open Question",t:"How many people does the UK sales team need?",b:`<p>Depends on booking volume from AU, USA, and India. Suggested structure:</p><div class="opts"><div class="opt"><strong>Phase 1 minimum:</strong> Head of Reservations + 1 Sales Support Agent + 1 Ops Support Agent = 3 people. Self-funding from inbound commission by Month 4.</div><div class="opt"><strong>Phase 2 target:</strong> Head of Reservations + 2 Sales Agents + 2 Ops Agents = 5 people. Scale based on Zoho booking volume data.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> What is the current volume of EU bookings per month from AU and TAG? This sizes the initial team.</p>`},
+"payment-timing":{e:"Open Question",t:"When does Phase 2 UK payment management start?",b:`<div class="opts"><div class="opt"><strong>Hard prerequisite:</strong> UK CFO hired and banking/payment infrastructure set up for ORN Connect UK entity.</div><div class="opt"><strong>Suggested timeline:</strong> Phase 1 runs 3&ndash;6 months via AU payments. Phase 2 payments begin once UK CFO confirms infrastructure ready.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Ajay:</strong> Is ORN Connect UK already a trading entity with its own bank account? Or does this need to be established as part of Phase 1?</p>`},
+"gate-exceptions":{e:"Open Question",t:"Are there any exceptions to the gate schedule?",b:`<div class="opts"><div class="opt"><strong>Late bookings (within 60 days):</strong> All gates compress. What is the minimum lead time ORN Connect will accept?</div><div class="opt"><strong>Transfers beyond 3 months:</strong> Confirmed as exception to 72hr rule. When are these confirmed &mdash; D-90? D-60?</div><div class="opt"><strong>API bookings:</strong> No booking exception &mdash; confirms instantly. Gates still apply for documentation and QC.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> What was the minimum lead time in the Kryz &amp; Martha workflow?</p>`},
+"6point-detail":{e:"Reference",t:"The 6-Point Booking Format",b:`<p>All 6 fields must be completed for every service by D-45. See the D-60&rarr;D-30 tab for copyable format templates.</p><p><strong>Key rules:</strong></p><div class="opts"><div class="opt">Phone numbers must include country code prefix (e.g. +44 UK, +61 Australia)</div><div class="opt">Time must be in 00:00 AM/PM format &mdash; not 24-hour</div><div class="opt">If phone or address not on confirmation email &mdash; find it online before D-45</div><div class="opt">Transfers use Contact (driver/local contact) not general operator phone</div></div>`},
+"docs-format":{e:"Open Question",t:"What is in the D-30 document pack?",b:`<div class="opts"><div class="opt"><strong>Standard pack:</strong> Full itinerary with all booking confirmations, all supplier vouchers, emergency contacts (europe@orn.com), pre-departure notes.</div><div class="opt"><strong>Group bookings:</strong> Rooming list, group leader contact, coach manifest (from ORN Connect transport team).</div><div class="opt"><strong>Cruise bookings:</strong> Embarkation details, cabin assignments, shore excursion vouchers.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Melbourne:</strong> Is there a standard ORN document template that should be adapted for ORN Connect UK branding?</p>`},
+"zoho-modules":{e:"Zoho CRM Setup",t:"Which Zoho modules does ORN Connect use?",b:`<div class="opts"><div class="opt"><strong>Contacts:</strong> All supplier contacts &mdash; owned by Ken Newton and Manish Suchde.</div><div class="opt"><strong>Deals/Pipeline:</strong> All inbound bookings from AU, USA, India, TAG. Stage = Enquiry &rarr; Quoted &rarr; Confirmed &rarr; D-60 &rarr; D-45 &rarr; D-35 &rarr; D-30 &rarr; Departed.</div><div class="opt"><strong>Activities/Tasks:</strong> Gate reminders auto-created per booking. Philippines loading tasks. UK QC tasks.</div><div class="opt"><strong>Products:</strong> Contracted rates per supplier, API status, season dates, allotments.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Ajay:</strong> Is Zoho already set up for ORN Connect UK or does this need configuring from scratch?</p>`},
+"zoho-access":{e:"Open Question",t:"Who gets Zoho access?",b:`<div class="opts"><div class="opt"><strong>Full admin:</strong> Ajay Kawa, Ken Newton, Manish Suchde, UK CFO</div><div class="opt"><strong>Sales/Ops access:</strong> Head of Reservations, Sales Support Agents, Ops Support Agents</div><div class="opt"><strong>Read-only dashboard:</strong> Sahil Nijhawan (AU), Kerryn Collins (USA) &mdash; quarterly reports</div><div class="opt"><strong>Task access only:</strong> Philippines Nexus team &mdash; loading tasks only</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> Would the AU team want real-time Zoho access or is a weekly/monthly report sufficient?</p>`},
+"api-priority":{e:"Open Question",t:"Which suppliers should be API-connected first?",b:`<div class="opts"><div class="opt"><strong>Priority 1:</strong> Top 5 highest-volume hotels from Ken Newton's EU portfolio</div><div class="opt"><strong>Priority 2:</strong> Attraction World API &mdash; covers most UK and European attractions in one connection</div><div class="opt"><strong>Priority 3:</strong> Airport transfer operators for top 5 UK airports</div><div class="opt"><strong>Priority 4:</strong> ORN Connect Transport (Adonis fleet) &mdash; direct booking of own vehicles</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Philippines team and Manish:</strong> Which of these are currently possible? What is the build timeline?</p>`},
+"api-phases":{e:"Reference",t:"The 3 Phases of API Integration",b:`<div class="opts"><div class="opt"><strong>Phase 1 &mdash; Relationship:</strong> Supplier agreed. Rate sheet loaded manually to Nexus by Philippines. 72hr window applies. Zoho: "Static &mdash; Manual Load".</div><div class="opt"><strong>Phase 2 &mdash; Static on Nexus:</strong> Rate sheet live on Nexus. Sales support books directly. 72hr window still applies. Zoho: "Static &mdash; Nexus Live".</div><div class="opt"><strong>Phase 3 &mdash; Direct API &#x26A1;:</strong> Live availability and pricing. Booking confirms automatically. No manual request, no 72hr wait. Zoho: "API Connected &#x26A1;".</div></div>`},
+"contract-authority":{e:"Open Question",t:"What requires Ajay Kawa commercial sign-off?",b:`<div class="opts"><div class="opt"><strong>All new supplier contracts</strong> &mdash; regardless of value</div><div class="opt"><strong>Rate changes above threshold</strong> &mdash; e.g. more than 10% from prior season</div><div class="opt"><strong>All new DMC relationships</strong> &mdash; new partner onboarding requires Ajay sign-off before Zoho record created</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Ajay:</strong> Any categories that should always come to you regardless of value?</p>`},
+"ph-team-scope":{e:"Open Question",t:"What is the Philippines team responsible for?",b:`<div class="opts"><div class="opt"><strong>Nexus product loading:</strong> All rate sheets from UK loaded onto Nexus within agreed turnaround. Zoho task updated on completion.</div><div class="opt"><strong>API configuration:</strong> For API-connected suppliers &mdash; configuration and monitoring. Not rate loading.</div><div class="opt"><strong>NOT responsible for:</strong> Contracting, commercial decisions, QC approval, direct supplier contact &mdash; all via UK team.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> Is the Philippines team the same team loading for Nexus AU? Do they have capacity for UK loading as well?</p>`},
+"transfer-timing":{e:"Open Question",t:"When are transfers and train tickets loaded?",b:`<div class="opts"><div class="opt"><strong>Current rule:</strong> Transfers and intercity train tickets for departures more than 3 months away are not confirmed at booking time.</div><div class="opt"><strong>Question 1:</strong> At what point are they confirmed &mdash; D-90? D-60? When the rate becomes available?</div><div class="opt"><strong>Question 2:</strong> Are airport transfers also subject to the 3-month rule or just intercity and trains?</div><div class="opt"><strong>Question 3:</strong> If a transfer supplier is API-connected &mdash; can it be booked and held in advance regardless of the 3-month rule?</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> What was the approach Kryz and Martha used for transfers beyond 3 months?</p>`},
+"attraction-api":{e:"Open Question",t:"Which UK/European attractions are on the Attraction World API?",b:`<div class="opts"><div class="opt"><strong>Known:</strong> Attraction World API connects to major UK and European attractions but the exact list needs confirmation from Philippines team and Manish Suchde.</div><div class="opt"><strong>The gap:</strong> Activities not on Attraction World require manual pricing &mdash; these are the activities that delay the 72hr confirmation window.</div><div class="opt"><strong>Action:</strong> Philippines team to share the current Attraction World API product list from Nexus AU so UK team can plan around it.</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> Can the Philippines team share the current Attraction World API product list from Nexus AU?</p>`},
+"ph-turnaround":{e:"Open Question",t:"What turnaround time for Nexus loading?",b:`<div class="opts"><div class="opt"><strong>Suggested standard:</strong> New rate sheets loaded within 3 business days. Zoho task updated same day loading is complete.</div><div class="opt"><strong>Priority loading:</strong> Rate sheets flagged Urgent in Zoho &mdash; loaded within 1 business day.</div><div class="opt"><strong>UK QC turnaround:</strong> UK Contract Processing completes QC within 1 business day of Philippines marking "Loaded &mdash; awaiting QC".</div></div><p style="margin-top:0.75rem">&#x1F449; <strong>Question for Sahil:</strong> What is the current SLA for Philippines on Nexus AU loading? Can the same SLA apply to UK?</p>`}
+};
+
+function om(id){const d=MD[id];if(!d)return;document.getElementById("mey").textContent=d.e;document.getElementById("mtitle").textContent=d.t;document.getElementById("mbody").innerHTML=d.b;document.getElementById("ov").classList.add("on");}
+function cm(){document.getElementById("ov").classList.remove("on");}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")cm();});
+</script>
+</body>
+</html>
