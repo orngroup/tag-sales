@@ -250,6 +250,103 @@ textarea{resize:vertical;min-height:65px}
 
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--s2)}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
 @media(max-width:900px){.tc,.thc,.tc4{grid-template-columns:1fr}}
+
+/* AOP SPECIFIC */
+.aop-bar{background:linear-gradient(135deg,#1a2e5a,#2a4a80);color:#fff;padding:10px 18px;display:flex;align-items:center;gap:10px;border-radius:8px;margin-bottom:16px}
+.aop-bar-title{font-size:13px;font-weight:700}.aop-bar-sub{font-size:11px;opacity:.7;margin-left:auto}
+.kpi-big{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;margin-bottom:20px}
+.kb{background:var(--white);border:1px solid var(--bd);border-radius:9px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kb.above{border-top:3px solid var(--green)}.kb.below{border-top:3px solid var(--red)}
+.kb-label{font-size:9.5px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.kb-target{font-size:11px;color:var(--txd);margin-top:3px}
+.kb-actual{font-size:22px;font-weight:800;line-height:1}
+.kb.above .kb-actual{color:var(--green)}.kb.below .kb-actual{color:var(--red)}
+.kb-var{font-size:10px;font-weight:700;margin-top:4px}
+.kb.above .kb-var{color:var(--green)}.kb.below .kb-var{color:var(--red)}
+.pillar-card{background:var(--white);border:1px solid var(--bd);border-radius:9px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.pillar-name{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.pillar-num{font-size:20px;font-weight:800;color:var(--navy)}
+.month-bar-wrap{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:8px}
+.month-bar{flex:1;background:var(--tag);border-radius:3px 3px 0 0;position:relative;cursor:pointer;transition:opacity .15s;min-height:4px}
+.month-bar:hover{opacity:.8}
+.month-bar .mb-tip{position:absolute;bottom:105%;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;white-space:nowrap;display:none}
+.month-bar:hover .mb-tip{display:block}
+.month-label{font-size:9px;color:var(--txm);text-align:center;margin-top:4px;font-weight:600}
+
+/* PB SPECIFIC */
+.pb-card{background:var(--white);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:12px;cursor:pointer;transition:border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.pb-card:hover{border-color:var(--tag-bd)}
+.pb-card.expanded{border-color:var(--tag-bd);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.pb-header{display:flex;align-items:center;gap:12px}
+.pb-num{font-size:10.5px;font-weight:800;color:var(--tag);min-width:72px}
+.pb-name{font-size:13px;font-weight:700;color:var(--tx);flex:1}
+.pb-owner{font-size:11px;color:var(--txd);min-width:100px;text-align:right}
+.pb-budget{font-size:14px;font-weight:800;color:var(--navy);min-width:80px;text-align:right}
+.pb-chevron{color:var(--txm);font-size:12px;transition:transform .2s;margin-left:8px}
+.pb-card.expanded .pb-chevron{transform:rotate(90deg)}
+.pb-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)}
+.pb-card.expanded .pb-body{display:block}
+.pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}
+.pb-field{font-size:11px;color:var(--txd)}.pb-field strong{display:block;font-size:12.5px;color:var(--tx);margin-top:2px}
+.pb-obj{font-size:12px;color:var(--txd);line-height:1.6;background:var(--s2);border-radius:7px;padding:10px 12px;margin-bottom:12px;border-left:3px solid var(--tag)}
+.act-table{width:100%;font-size:11.5px;border-collapse:collapse}
+.act-table th{text-align:left;padding:6px 10px;font-size:9.5px;font-weight:800;color:var(--txm);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd);background:var(--s2)}
+.act-table td{padding:7px 10px;border-bottom:1px solid var(--bd);color:var(--tx)}
+.act-table tr:last-child td{border-bottom:none}
+.review-box{background:var(--green-bg);border:1px solid var(--green-bd);border-radius:7px;padding:9px 12px;font-size:11.5px;color:var(--green);margin-top:10px}
+.review-box.pending{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber)}
+.pb-filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.pb-filter-bar select,.pb-filter-bar input{background:var(--white);border:1.5px solid var(--bd);border-radius:7px;padding:7px 10px;font-size:12px;color:var(--tx);font-family:inherit;outline:none}
+.pb-filter-bar select:focus,.pb-filter-bar input:focus{border-color:var(--tag)}
+
+/* GROWTH PLAYBOOK */
+.growth-card{background:var(--white);border:1px solid var(--bd);border-radius:10px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.growth-card:hover{border-color:var(--tag-bd)}
+.growth-num{font-size:32px;font-weight:800;color:var(--tag);line-height:1;margin-bottom:6px}
+.growth-title{font-size:13.5px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.growth-desc{font-size:11.5px;color:var(--txd);line-height:1.6}
+.impact-pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:700;margin-top:8px}
+.impact-high{background:#eaf7f0;color:#1a7a4a;border:1px solid #b8e8d0}
+.impact-med{background:#fff8ec;color:#b45309;border:1px solid #fcd5a0}
+.tactic-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.tactic-row:last-child{border-bottom:none}
+.tactic-num{font-size:18px;font-weight:800;color:var(--tag);min-width:28px}
+.tactic-body{flex:1}
+.tactic-title{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.tactic-desc{font-size:12px;color:var(--txd);line-height:1.6}
+.tactic-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+
+/* JD CARDS */
+.jd-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.jd-tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:var(--white);color:var(--txd);transition:all .15s}
+.jd-tab:hover{border-color:var(--tag);color:var(--tag)}
+.jd-tab.active{background:var(--tag);border-color:var(--tag);color:#fff}
+.jd-panel{display:none}.jd-panel.active{display:block}
+.jd-header{background:linear-gradient(135deg,#1a2e5a,#2a4a80);border-radius:10px;padding:22px 26px;color:#fff;margin-bottom:20px}
+.jd-role{font-size:20px;font-weight:800;margin-bottom:4px}
+.jd-dept{font-size:13px;opacity:.8;margin-bottom:14px}
+.jd-meta{display:flex;gap:20px;flex-wrap:wrap}
+.jd-meta-item{font-size:11px;opacity:.75}
+.jd-meta-item strong{display:block;font-size:13px;opacity:1;font-weight:700}
+.jd-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--txm);margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--bd)}
+.jd-list{list-style:none;padding:0}
+.jd-list li{padding:6px 0;font-size:12.5px;color:var(--txd);border-bottom:1px solid var(--bd);line-height:1.5;display:flex;gap:8px}
+.jd-list li:last-child{border-bottom:none}
+.jd-list li::before{content:"•";color:var(--tag);font-weight:800;flex-shrink:0}
+.jd-tc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* REP KPI TABLE */
+.kpi-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--white);background:var(--navy);padding:8px 14px}
+.kpi-row-rep{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bd)}
+.kpi-row-rep:last-child{border-bottom:none}
+.kpi-row-rep:hover{background:var(--s2)}
+.krm{font-size:12.5px;font-weight:600;flex:1;color:var(--tx)}
+.krt{font-size:12px;color:var(--txd);width:90px;text-align:center}
+.krv{font-size:12px;font-weight:700;color:var(--tag);width:80px;text-align:center}
+.krh{font-size:12px;font-weight:700;color:var(--green);width:80px;text-align:center}
+.krf{font-size:11px;color:var(--txd);width:100px;text-align:center}
+.bonus-card{background:linear-gradient(135deg,#fff8ec,#fff3e6);border:2px solid var(--amber-bd);border-radius:10px;padding:16px}
+.bonus-title{font-size:13px;font-weight:800;color:var(--amber);margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -282,6 +379,12 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('incentives',this)"><span class="ic">&#127873;</span>Incentives</a>
     <a href="#" onclick="showPanel('survey',this)"><span class="ic">&#128203;</span>Agent Survey</a>
     <a href="#" onclick="showPanel('promos',this)"><span class="ic">&#9889;</span>Weekly Promos</a>
+    <div class="nav-s">AOP 2026</div>
+    <a href="#" onclick="showPanel('aop',this)"><span class="ic">&#128200;</span>AOP Dashboard</a>
+    <a href="#" onclick="showPanel('pbs',this)"><span class="ic">&#128196;</span>Project Briefs</a>
+    <a href="#" onclick="showPanel('growth',this)"><span class="ic">&#128640;</span>Growth Playbook</a>
+    <a href="#" onclick="showPanel('jds',this)"><span class="ic">&#128203;</span>Job Descriptions</a>
+    <a href="#" onclick="showPanel('repkpis',this)"><span class="ic">&#127919;</span>Rep KPIs</a>
     <div class="nav-s">Zoho</div>
     <a href="#" onclick="showPanel('why',this)"><span class="ic">&#11088;</span>Why Zoho</a>
     <a href="#" onclick="showPanel('crm',this)"><span class="ic">&#128279;</span>Zoho Setup Guide</a>
@@ -914,6 +1017,333 @@ textarea{resize:vertical;min-height:65px}
   </div>
 </div>
 
+
+<!-- ===== AOP DASHBOARD ===== -->
+<div id="panel-aop" class="panel">
+  <div class="topbar">
+    <h1>AOP Dashboard &mdash; <span>Travel Answers Group 2026</span></h1>
+    <div class="tact">
+      <span style="font-size:11px;color:var(--txm)">Source: TAG_AOP_Dashboard_2026.xlsx</span>
+      <span class="zm">Zoho CRM &middot; Reports &amp; Analytics</span>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="aop-bar">
+      <span style="font-size:18px">&#128200;</span>
+      <div><div class="aop-bar-title">Annual Operating Plan 2026 &mdash; Master Dashboard</div>
+      <div style="font-size:11px;opacity:.7">4 Strategic Pillars &middot; 6 Departments &middot; 61 Project Briefs &middot; $1.74M total investment</div></div>
+      <div class="aop-bar-sub">Kirk Demeter &middot; CEO USA &middot; Kerryn Collins &middot; COO USA</div>
+    </div>
+
+    <div class="stitle">Company KPI Snapshot &mdash; <span style="color:var(--tag);font-size:10px">Update YTD Actual each quarter</span></div>
+    <div class="kpi-big" id="aop-kpis"></div>
+
+    <div class="tc" style="margin-bottom:20px">
+      <div>
+        <div class="stitle">Strategic Pillar Investment</div>
+        <div id="aop-pillars"></div>
+      </div>
+      <div>
+        <div class="stitle">Sales Dept Monthly Cash Flow &mdash; <span style="color:var(--tag);font-size:10px">SAL-AOP</span></div>
+        <div class="tw" style="padding:16px">
+          <div style="font-size:11px;color:var(--txd);margin-bottom:8px">Total Sales Budget: <strong style="color:var(--navy)">$956,029 expense</strong> &middot; <strong style="color:var(--green)">$47,000 income</strong></div>
+          <div id="month-bars"></div>
+          <div id="month-labels" style="display:flex;gap:4px;margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stitle">Department Budget Snapshot</div>
+    <div class="zoho-module-bar"><span class="mod-icon">&#127963;</span><span class="mod-title">Department Budgets 2026</span><span class="mod-sub">Source: Master AOP Summary</span></div>
+    <div class="zoho-table-wrap">
+      <table>
+        <thead><tr><th>Department</th><th>Budget Income</th><th>Budget Expense</th><th>Net</th><th>% of Total Exp</th><th>Owner</th><th>AOP Status</th></tr></thead>
+        <tbody id="aop-depts"></tbody>
+      </table>
+    </div>
+
+    <div class="stitle">Project Brief Status Tracker</div>
+    <div class="zoho-module-bar"><span class="mod-icon">&#128196;</span><span class="mod-title">Project Brief Pipeline</span><span class="mod-sub">61 total PBs across all departments</span></div>
+    <div class="zoho-table-wrap">
+      <table>
+        <thead><tr><th>Department</th><th>Owner</th><th>Total PBs</th><th>Approved</th><th>Needs Clarity</th><th>Pending</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sales</strong></td><td>John / Jeff</td><td>24</td><td><span class="badge b-gr">0</span></td><td><span class="badge b-am">0</span></td><td><span class="badge b-or">24</span></td><td><span class="badge b-or">In Review</span></td></tr>
+          <tr><td><strong>Marketing</strong></td><td>Manmeet</td><td>16</td><td><span class="badge b-gr">0</span></td><td><span class="badge b-am">0</span></td><td><span class="badge b-or">16</span></td><td><span class="badge b-or">In Review</span></td></tr>
+          <tr><td><strong>Operations</strong></td><td>Jackie</td><td>9</td><td><span class="badge b-gr">0</span></td><td><span class="badge b-am">0</span></td><td><span class="badge b-or">9</span></td><td><span class="badge b-or">In Review</span></td></tr>
+          <tr><td><strong>Product</strong></td><td>Linda</td><td>8</td><td><span class="badge b-gr">0</span></td><td><span class="badge b-am">0</span></td><td><span class="badge b-or">8</span></td><td><span class="badge b-or">In Review</span></td></tr>
+          <tr><td><strong>Finance</strong></td><td>Gary</td><td>3</td><td><span class="badge b-gr">0</span></td><td><span class="badge b-am">0</span></td><td><span class="badge b-or">3</span></td><td><span class="badge b-or">In Review</span></td></tr>
+          <tr><td><strong>Europe</strong></td><td>Jonna</td><td>1</td><td><span class="badge b-gr">0</span></td><td><span class="badge b-am">0</span></td><td><span class="badge b-or">1</span></td><td><span class="badge b-or">In Review</span></td></tr>
+          <tr style="background:var(--s2)"><td><strong>TOTAL</strong></td><td></td><td><strong>61</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>61</strong></td><td><span class="badge b-re">0% Approved</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ibox ibox-blue" style="margin-top:6px">
+      <strong>Tip:</strong> To track approval status, add a Status dropdown to cell B2 of each PB sheet (Draft / Needs Clarity / Approved) so the status table auto-links via formula. In Zoho CRM, each PB becomes a Deal with a Blueprint stage for approval tracking.
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== PROJECT BRIEFS ===== -->
+<div id="panel-pbs" class="panel">
+  <div class="topbar">
+    <h1>Project Briefs &mdash; <span>SAL-AOP 2026</span></h1>
+    <div class="tact">
+      <span style="font-size:11px;color:var(--txm)">23 Sales PBs &middot; $956K total</span>
+      <span class="zm">Zoho CRM &middot; Deals Module</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="ibox ibox-zo"><strong>In Zoho CRM:</strong> Each Project Brief is a Deal in the Deals module, linked to its owner (Contact), department (Account), and strategic pillar (custom field). Blueprint stages enforce the approval workflow: Draft &rarr; Reviewed &rarr; Needs Clarity &rarr; Approved &rarr; Active. Kirk and Kerryn approve from the management dashboard without needing to open the spreadsheet.</div>
+
+    <div class="pb-filter-bar">
+      <input type="text" placeholder="Search project briefs..." id="pb-search" oninput="renderPBs()" style="min-width:200px">
+      <select id="pb-filter-owner" onchange="renderPBs()"><option value="">All Owners</option><option>John Gunning</option><option>Jeff Adam</option><option>Michael Brown</option></select>
+      <select id="pb-filter-status" onchange="renderPBs()"><option value="">All Status</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Pending">Pending</option></select>
+      <select id="pb-filter-type" onchange="renderPBs()"><option value="">All Types</option><option>Advertising</option><option>Tradeshow</option><option>Famil</option><option>Incentive</option><option>Other</option></select>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span id="pb-count" style="font-size:12px;color:var(--txd)">Loading...</span>
+      <span style="font-size:11px;color:var(--txm)">Click any brief to expand full details</span>
+    </div>
+
+    <div id="pb-list"></div>
+  </div>
+</div>
+
+<!-- ===== GROWTH PLAYBOOK ===== -->
+<div id="panel-growth" class="panel">
+  <div class="topbar">
+    <h1>&#128640; Growth Playbook &mdash; <span>How to Hit $30M</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">TAC FY26 · Jun–Dec 2026</span></div>
+  </div>
+  <div class="content">
+
+    <div style="background:linear-gradient(135deg,#fff3ec,#ffe8d6);border:2px solid var(--tag-bd);border-radius:10px;padding:20px 24px;margin-bottom:22px">
+      <div style="font-size:18px;font-weight:800;color:var(--tx);margin-bottom:6px">The Gap: $18.65M in 6 months</div>
+      <div style="font-size:12.5px;color:var(--txd);line-height:1.7">YTD revenue is $11.35M. To hit $30M by December, TAG needs $2.5M every month from June through December. With 1,100 active advisors and an ABV of $15,000, that means approximately <strong style="color:var(--tx)">167 bookings per month</strong> — up from the current pace. The playbook below outlines how to get there.</div>
+    </div>
+
+    <div class="stitle">The 5 Biggest Levers</div>
+    <div class="thc" style="margin-bottom:24px">
+      <div class="growth-card">
+        <div class="growth-num">01</div>
+        <div class="growth-title">Activate Travel Leaders</div>
+        <div class="growth-desc">58,000 advisors. Only 2% active. Doubling activation to 4% adds 580 advisors. At $15K ABV that's $8.7M potential. This single consortia is the biggest lever in the entire plan.</div>
+        <span class="impact-pill impact-high">&#9650; Very High Impact</span>
+      </div>
+      <div class="growth-card">
+        <div class="growth-num">02</div>
+        <div class="growth-title">Reactivate 150 Lapsed Advisors</div>
+        <div class="growth-desc">500 lapsed advisors who already know TAG. Converting 150 back at $15K ABV each = $2.25M in incremental revenue. Lowest cost-per-acquisition of any channel since they already have the relationship.</div>
+        <span class="impact-pill impact-high">&#9650; Very High Impact</span>
+      </div>
+      <div class="growth-card">
+        <div class="growth-num">03</div>
+        <div class="growth-title">Launch TIER Travel Wallet</div>
+        <div class="growth-desc">5% first-booking credit + 2% ongoing. The single biggest behavioural nudge available. Advisors who have an incentive to return book more frequently and refer colleagues. Estimated to lift repeat booking rate by 30–40%.</div>
+        <span class="impact-pill impact-high">&#9650; Very High Impact</span>
+      </div>
+      <div class="growth-card">
+        <div class="growth-num">04</div>
+        <div class="growth-title">Webinar → Booking Conversion</div>
+        <div class="growth-desc">350 attendees per week. Currently converting below the 21 bookings per week target (6% conversion). Getting to 8% conversion adds 7 more bookings per week — 210 additional bookings over 30 weeks = $3.15M.</div>
+        <span class="impact-pill impact-med">&#9650; High Impact</span>
+      </div>
+      <div class="growth-card">
+        <div class="growth-num">05</div>
+        <div class="growth-title">Increase Average Booking Value</div>
+        <div class="growth-desc">ABV is $15K. Moving to $17K (+13%) on the same 1,638 bookings adds $3.27M without a single new advisor. Target: luxury upsells, extended itineraries, add-on experiences. Virtuoso and Opulence advisors are the fastest path.</div>
+        <span class="impact-pill impact-med">&#9650; High Impact</span>
+      </div>
+      <div class="growth-card">
+        <div class="growth-num">06</div>
+        <div class="growth-title">Grow Database to 50K</div>
+        <div class="growth-desc">From 35K to 50K advisors. Even at 3% activation of new additions, 450 new active advisors × $15K = $6.75M in pipeline. Load every webinar, roadshow, and event attendee into Mailchimp within 24 hours.</div>
+        <span class="impact-pill impact-med">&#9650; Medium Impact</span>
+      </div>
+    </div>
+
+    <div class="stitle">Weekly Sales Rhythm — What Every Week Should Look Like</div>
+    <div class="tw" style="margin-bottom:22px">
+      <table>
+        <thead><tr><th>Day</th><th>Activity</th><th>Owner</th><th>KPI / Output</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--blue)">Monday</strong></td><td>Manic Monday — 3 meaningful conversations before noon. Weekly pipeline review. Set weekly targets for all reps.</td><td>All reps + Kerryn</td><td>3 conversations per rep logged by noon</td></tr>
+          <tr><td><strong>Tuesday</strong></td><td>Lapsed advisor outreach blitz. Minimum 5 reactivation calls per rep. Webinar follow-up from prior week completed.</td><td>Janie Hall, Jeff Adam</td><td>5 lapsed calls + all webinar FU closed</td></tr>
+          <tr><td><strong style="color:var(--tag)">Wednesday</strong></td><td>Wicked Wednesday — all weekend sales closed before 3pm. New advisor database loading from any recent events.</td><td>All reps</td><td>Bookings closed by 3pm · Results 4pm</td></tr>
+          <tr><td><strong>Thursday</strong></td><td>Webinar day (live session). Prospect calls. Key account check-ins (Cruise Planners, Virtuoso, Signature).</td><td>Jeff Adam, John Gunning</td><td>Webinar run · 350+ attendees</td></tr>
+          <tr><td><strong style="color:var(--green)">Friday</strong></td><td>Friday Finish — most confirmed bookings by 4pm wins. Week summary report to Kirk and Kerryn. Plan following week.</td><td>All reps</td><td>Weekly report + next week plan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tc">
+      <div>
+        <div class="stitle">30-Day Sprint Tactics</div>
+        <div class="tw" style="padding:6px 16px">
+          <div class="tactic-row"><div class="tactic-num">1</div><div class="tactic-body"><div class="tactic-title">First Booking Campaign — Launch immediately</div><div class="tactic-desc">Email every unactivated advisor in database. Subject: "Book your first trip with TAG and earn 5% back." Target: 200 first bookings in 30 days.</div><div class="tactic-tags"><span class="badge b-or">Jeff Adam</span><span class="badge b-bl">Mailchimp</span><span class="badge b-gr">$15K+ per booking</span></div></div></div>
+          <div class="tactic-row"><div class="tactic-num">2</div><div class="tactic-body"><div class="tactic-title">Lapsed Reactivation Phone Blitz</div><div class="tactic-desc">Prioritise top 50 lapsed advisors by historical revenue. Personal call from John Gunning. Offer a re-engagement incentive (Travel Wallet credit or restaurant voucher).</div><div class="tactic-tags"><span class="badge b-or">John Gunning</span><span class="badge b-re">Urgent</span></div></div></div>
+          <div class="tactic-row"><div class="tactic-num">3</div><div class="tactic-body"><div class="tactic-title">Travel Leaders Activation Sprint</div><div class="tactic-desc">Identify the 1,000 most recently registered TLN advisors not yet in Nexus. Run a targeted 3-email sequence + personal call. Goal: 20 first bookings from TLN this month.</div><div class="tactic-tags"><span class="badge b-or">John Gunning</span><span class="badge b-nv">TLN Priority</span></div></div></div>
+          <div class="tactic-row"><div class="tactic-num">4</div><div class="tactic-body"><div class="tactic-title">Destination Specialist Training</div><div class="tactic-desc">Run a 45-minute "Australia Expert" webinar for Signature and Virtuoso advisors. Follow up with a booking incentive for anyone who quotes within 7 days.</div><div class="tactic-tags"><span class="badge b-or">Jeff Adam</span><span class="badge b-pu">Virtuoso + Signature</span></div></div></div>
+          <div class="tactic-row"><div class="tactic-num">5</div><div class="tactic-body"><div class="tactic-title">Wicked Wednesday Weekly Push</div><div class="tactic-desc">Run every single Wednesday without exception. Announce the prize on Monday morning. Results by 4pm. Never skip — consistency builds the habit across the team.</div><div class="tactic-tags"><span class="badge b-or">Kerryn Collins</span><span class="badge b-am">Every Week</span></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="stitle">90-Day Milestones</div>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Milestone</th><th>Target Date</th><th>Owner</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>June Roadshow executed</td><td>Jun 30</td><td>John Gunning</td><td><span class="badge b-am">In Progress</span></td></tr>
+              <tr><td>TIER Program launched</td><td>Jul 15</td><td>John Gunning</td><td><span class="badge b-gy">Planned</span></td></tr>
+              <tr><td>First Booking Campaign live</td><td>Jul 1</td><td>Jeff Adam</td><td><span class="badge b-gy">Planned</span></td></tr>
+              <tr><td>150 lapsed advisors contacted</td><td>Jul 31</td><td>Janie Hall</td><td><span class="badge b-am">In Progress</span></td></tr>
+              <tr><td>CRM (Zoho) go-live</td><td>Aug 1</td><td>Jay / Admin</td><td><span class="badge b-gy">Planned</span></td></tr>
+              <tr><td>TLN activation plan activated</td><td>Jul 15</td><td>John Gunning</td><td><span class="badge b-gy">Planned</span></td></tr>
+              <tr><td>Q2 QBRs completed</td><td>Jul 15</td><td>Kerryn Collins</td><td><span class="badge b-am">In Progress</span></td></tr>
+              <tr><td>Database at 40,000</td><td>Aug 31</td><td>Jeff Adam</td><td><span class="badge b-gy">Planned</span></td></tr>
+              <tr><td>50 reactivated lapsed advisors</td><td>Aug 31</td><td>Janie Hall</td><td><span class="badge b-gy">Planned</span></td></tr>
+              <tr><td>Monthly revenue at $2.5M+</td><td>Aug 31</td><td>Kerryn Collins</td><td><span class="badge b-gy">Planned</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="stitle" style="margin-top:18px">Revenue Impact Scenarios</div>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Scenario</th><th>Advisors</th><th>ABV</th><th>Revenue</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge b-re">Current pace</span></td><td>1,100</td><td>$15K</td><td style="color:var(--red);font-weight:700">~$25M</td></tr>
+              <tr><td><span class="badge b-am">Base target</span></td><td>1,500</td><td>$15K</td><td style="color:var(--amber);font-weight:700">$22.5M</td></tr>
+              <tr><td><span class="badge b-bl">With lapsed reactivation</span></td><td>1,650</td><td>$15K</td><td style="color:var(--blue);font-weight:700">$24.75M</td></tr>
+              <tr><td><span class="badge b-or">With ABV uplift</span></td><td>1,650</td><td>$17K</td><td style="color:var(--tag);font-weight:700">$28.05M</td></tr>
+              <tr><td><span class="badge b-gr">Full plan executed</span></td><td>2,000</td><td>$17K</td><td style="color:var(--green);font-weight:800">$34M+</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== JOB DESCRIPTIONS ===== -->
+<div id="panel-jds" class="panel">
+  <div class="topbar">
+    <h1>&#128203; Job Descriptions &mdash; <span>Sales Team</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Travel Answers Group USA &middot; FY26</span></div>
+  </div>
+  <div class="content">
+    <div class="jd-tabs" id="jd-tabs">
+      <div class="jd-tab active" onclick="showJD('kerryn',this)">Kerryn Collins</div>
+      <div class="jd-tab" onclick="showJD('john',this)">John Gunning</div>
+      <div class="jd-tab" onclick="showJD('janie',this)">Janie Hall</div>
+      <div class="jd-tab" onclick="showJD('jeff',this)">Jeff Adam</div>
+      <div class="jd-tab" onclick="showJD('jane',this)">Jane Moore</div>
+      <div class="jd-tab" onclick="showJD('rep',this)">Sales Rep (Generic)</div>
+    </div>
+    <div id="jd-content"></div>
+  </div>
+</div>
+
+<!-- ===== REP KPIs ===== -->
+<div id="panel-repkpis" class="panel">
+  <div class="topbar">
+    <h1>&#127919; Rep KPIs &mdash; <span>Targets, Tracking &amp; Bonuses</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">FY26 · Review Quarterly</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-blue"><strong>How to use this:</strong> These KPIs are set per rep based on their role and FTE level. They are reviewed weekly by Kerryn Collins and monthly by Kirk Demeter. In Zoho CRM, each KPI maps to an Activity Goal or Report — reps see their own progress daily on their My Desk view.</div>
+
+    <div class="stitle">Company-Level KPI Cascade &mdash; <span style="color:var(--tag);font-size:10px">From AOP to Individual Rep</span></div>
+    <div class="tw" style="margin-bottom:22px">
+      <table>
+        <thead><tr><th>KPI</th><th>Company Target</th><th>Monthly Needed</th><th>Per Rep Share</th><th>Frequency</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Total Revenue</strong></td><td>$30M</td><td>$2.5M</td><td>~$714K</td><td>Monthly</td></tr>
+          <tr><td><strong>Active Booking Advisors</strong></td><td>1,500</td><td>+67/month</td><td>~19 new per rep</td><td>Monthly</td></tr>
+          <tr><td><strong>Lapsed Reactivation</strong></td><td>150 by Dec</td><td>~21/month</td><td>~6 per rep</td><td>Monthly</td></tr>
+          <tr><td><strong>Proactive Calls</strong></td><td>17.5/day</td><td>~350/month</td><td>5/day per rep</td><td>Daily</td></tr>
+          <tr><td><strong>Follow-Up SLA (webinar)</strong></td><td>100%</td><td>All FU within 48hrs</td><td>Zero overdue</td><td>Daily</td></tr>
+          <tr><td><strong>Follow-Up SLA (roadshow)</strong></td><td>100%</td><td>All FU within 5 days</td><td>Zero overdue</td><td>Event-based</td></tr>
+          <tr><td><strong>Database Growth</strong></td><td>50,000</td><td>+1,250/month</td><td>~357 per rep</td><td>Monthly</td></tr>
+          <tr><td><strong>Webinar Bookings</strong></td><td>21/week</td><td>~84/month</td><td>~24 per rep</td><td>Weekly</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tc">
+      <div>
+        <div class="stitle">John Gunning — Director of Key Accounts</div>
+        <div class="tw">
+          <div class="kpi-cat">Revenue KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">Annual revenue from key accounts</div><div class="krt">Target</div><div class="krv">$8M+</div><div class="krh">Quarterly</div><div class="krf"><span class="badge b-or">Q review</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Travel Leaders revenue growth</div><div class="krt">Current 2%</div><div class="krv">4% rate</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-re">Priority</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Virtuoso revenue</div><div class="krt">$1.32M YTD</div><div class="krv">$1.41M</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-gr">On track</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">QBRs completed with top 8 consortia</div><div class="krt">0 done</div><div class="krv">8 per year</div><div class="krh">Quarterly</div><div class="krf"><span class="badge b-re">Overdue</span></div></div>
+          <div class="kpi-cat">Activity KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">Proactive calls per day</div><div class="krt">Target</div><div class="krv">5/day</div><div class="krh">Daily</div><div class="krf"><span class="badge b-am">Tracked</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Roadshow follow-ups within 5 days</div><div class="krt">Ad hoc</div><div class="krv">100%</div><div class="krh">Per event</div><div class="krf"><span class="badge b-re">Not met</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">New advisors from roadshow</div><div class="krt">Last: 12</div><div class="krv">50/event</div><div class="krh">Per event</div><div class="krf"><span class="badge b-am">In progress</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Lapsed advisors reactivated</div><div class="krt">Target</div><div class="krv">40 total</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-gy">Tracking</span></div></div>
+        </div>
+
+        <div class="stitle" style="margin-top:18px">Jeff Adam — Director, Advisor Engagement</div>
+        <div class="tw">
+          <div class="kpi-cat">Activation KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">New advisors activated (first booking)</div><div class="krt">Current 1,100</div><div class="krv">1,500</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-re">400 gap</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Webinar attendance per week</div><div class="krt">Current 350</div><div class="krv">400+</div><div class="krh">Weekly</div><div class="krf"><span class="badge b-am">On watch</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Webinar to booking conversion rate</div><div class="krt">Current ~5%</div><div class="krv">6%</div><div class="krh">Weekly</div><div class="krf"><span class="badge b-re">Below</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Webinar follow-up within 48 hours</div><div class="krt">Ad hoc</div><div class="krv">100%</div><div class="krh">48-hour SLA</div><div class="krf"><span class="badge b-re">Not met</span></div></div>
+          <div class="kpi-cat">Database KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">Total advisor database size</div><div class="krt">35,000</div><div class="krv">50,000</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-am">Growing</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">New advisors added per month</div><div class="krt">Target</div><div class="krv">1,250/mo</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-gy">Tracking</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Event attendees loaded within 24hrs</div><div class="krt">Target</div><div class="krv">100%</div><div class="krh">Per event</div><div class="krf"><span class="badge b-re">Enforce</span></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="stitle">Janie Hall — Director of Sales (Part-time)</div>
+        <div class="tw">
+          <div class="kpi-cat">Reactivation KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">Lapsed advisors reactivated</div><div class="krt">12 done</div><div class="krv">150 total</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-re">8% done</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Lapsed reactivation calls per day</div><div class="krt">Target</div><div class="krv">3/day</div><div class="krh">Daily</div><div class="krf"><span class="badge b-am">Part-time</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">First booking post-reactivation</div><div class="krt">Target</div><div class="krv">Within 30d</div><div class="krh">Per contact</div><div class="krf"><span class="badge b-gy">Tracking</span></div></div>
+          <div class="kpi-cat">Pipeline KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">Advisor pipeline conversion rate</div><div class="krt">Benchmark</div><div class="krv">25%</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-am">Review</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Revenue from reactivated advisors</div><div class="krt">Target</div><div class="krv">$2.25M</div><div class="krh">H2 FY26</div><div class="krf"><span class="badge b-gy">Tracking</span></div></div>
+        </div>
+
+        <div class="stitle" style="margin-top:18px">Jane Moore — Sales Coordinator</div>
+        <div class="tw">
+          <div class="kpi-cat">Admin &amp; Database KPIs</div>
+          <div class="kpi-row-rep"><div class="krm">Event attendees loaded to DB (24hrs)</div><div class="krt">Target</div><div class="krv">100%</div><div class="krh">Per event</div><div class="krf"><span class="badge b-re">Enforce</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Follow-up tasks created post-event</div><div class="krt">Target</div><div class="krv">100%</div><div class="krh">Per event</div><div class="krf"><span class="badge b-am">In review</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Mailchimp campaign accuracy rate</div><div class="krt">Target</div><div class="krv">&gt;99%</div><div class="krh">Per send</div><div class="krf"><span class="badge b-gy">Tracking</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">Survey responses processed</div><div class="krt">84 done</div><div class="krv">500 total</div><div class="krh">Monthly</div><div class="krf"><span class="badge b-am">Ongoing</span></div></div>
+          <div class="kpi-row-rep"><div class="krm">CRM records updated / week</div><div class="krt">Target</div><div class="krv">50+</div><div class="krh">Weekly</div><div class="krf"><span class="badge b-gy">Tracking</span></div></div>
+        </div>
+
+        <div class="stitle" style="margin-top:18px">Bonus &amp; Incentive Structure</div>
+        <div class="bonus-card">
+          <div class="bonus-title">&#127942; Performance Bonus Framework — FY26</div>
+          <div style="font-size:12px;color:var(--txd);line-height:1.9">
+            <strong style="color:var(--tx)">Director level (John, Janie, Jeff):</strong> 10% of base salary at 100% of KPI target. 15% at 120%+. Paid quarterly.<br>
+            <strong style="color:var(--tx)">Coordinator level (Jane):</strong> 5% of base at 100% of KPIs. Paid semi-annually.<br>
+            <strong style="color:var(--tx)">Weekly Wicked Wednesday:</strong> $50–$100 cash/voucher per week to top closer.<br>
+            <strong style="color:var(--tx)">Lapsed Legends:</strong> $150 flat bonus per lapsed advisor successfully reactivated (first booking made).<br>
+            <strong style="color:var(--tx)">First Booking Sprint:</strong> $200 bonus for every advisor activated in July who was previously dormant 6+ months.<br>
+            <strong style="color:var(--tx)">Travel Leaders Sprint:</strong> $500 bonus if rep achieves 10+ TLN first bookings in any calendar month.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div><!-- /main -->
 
 <!-- MODALS -->
@@ -1169,6 +1599,8 @@ function init(){
   });
 
   document.getElementById('ddate').valueAsDate=new Date();
+  renderAOP();
+  renderJD();
 }
 
 function selRating(btn){
@@ -1429,8 +1861,593 @@ function addAct(text,col){
   l.insertBefore(d,l.firstChild);
 }
 
-window.onload=init;
+// onload set at end
 
+
+// ============================================================
+// AOP DATA from TAG_AOP_Dashboard_2026.xlsx
+// ============================================================
+
+const aopKPIs = [
+  {kpi:'Revenue ($)', target:30000000, actual:31000000, fmt:'$M', status:'above'},
+  {kpi:'Gross Margin (%)', target:16, actual:13, fmt:'%', status:'below'},
+  {kpi:'Active Sellers', target:5500, actual:3651, fmt:'#', status:'below'},
+  {kpi:'Qualified Leads', target:9521, actual:6347, fmt:'#', status:'below'},
+  {kpi:'Bookings Total', target:2190, actual:1638, fmt:'#', status:'below'},
+  {kpi:'Bookings per Day', target:6, actual:4, fmt:'#', status:'below'},
+  {kpi:'EBITDA ($)', target:1000000, actual:-720000, fmt:'$K', status:'below'},
+];
+
+const aopPillars = [
+  {name:'1 - Advisor Growth', expense:1429991, income:256505, pct:82, owner:'John / Jeff'},
+  {name:'2 - Conv & Delivery', expense:116065, income:62000, pct:6.7, owner:'Jackie'},
+  {name:'3 - Product Perf.', expense:12050, income:0, pct:0.7, owner:'Linda'},
+  {name:'4 - Financial Perf.', expense:185600, income:0, pct:10.6, owner:'Gary'},
+];
+
+const aopDepts = [
+  {dept:'Sales', income:47000, expense:956029, pct:52.7, owner:'John / Jeff', status:'Done'},
+  {dept:'Marketing', income:209505, expense:539483, pct:32, owner:'Manmeet', status:'Done'},
+  {dept:'Operations', income:0, expense:167000, pct:0.1, owner:'Jackie', status:'Done'},
+  {dept:'Product', income:10000, expense:27950, pct:2.1, owner:'Linda', status:'Done'},
+  {dept:'Finance', income:0, expense:0, pct:0, owner:'Gary', status:'Done'},
+  {dept:'Europe', income:0, expense:0, pct:0, owner:'Jonna', status:'Done'},
+];
+
+const aopMonthly = [
+  {month:'Jan', expense:40763},{month:'Feb', expense:30663},{month:'Mar', expense:30663},
+  {month:'Apr', expense:30663},{month:'May', expense:97588},{month:'Jun', expense:92763},
+  {month:'Jul', expense:89663},{month:'Aug', expense:67913},{month:'Sep', expense:59663},
+  {month:'Oct', expense:61363},{month:'Nov', expense:59663},{month:'Dec', expense:174663},
+];
+
+const projectBriefs = [
+  {pb:'PB-SAL01', name:'Consortia Sales - Cruise Planners', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:33250, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommend to approve', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Cruise Planners is one of our fastest-growing partners, with projected sales expected to reach $3.5M in 2026. We participate in tradeshows and implement targeted marketing initiatives focused on increasing sales, brand awareness, and market share within the consortia.',
+   activities:[{type:'Sales',desc:'May 9-12 Las Vegas Bootcamp',cost:2500},{type:'Sales',desc:'Aug 11-17 Luxury Forum Fort Lauderdale',cost:4000},{type:'Sales',desc:'Oct Cruise Planners Convention',cost:5000},{type:'Sales',desc:'Nov Pre Signature Event Tradeshow',cost:750},{type:'Marketing',desc:'B2C Large Banner Ads',cost:1000},{type:'Marketing',desc:'Agent Website Advertising (4 ads)',cost:2000},{type:'Marketing',desc:'Multi-Supplier Travel Deals eNewsletter',cost:3500},{type:'Marketing',desc:'Sophisticated Traveler Luxury eNewsletter (4)',cost:10000},{type:'Marketing',desc:'Advisor Communication Program',cost:1500},{type:'Marketing',desc:'Vacation Wizard Partner Resource page',cost:2500}]},
+  {pb:'PB-SAL02', name:'Consortia Sales - Signature', owner:'Michael Brown', pillar:'Advisor Growth', type:'Advertising', budget:60500, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommend approve - remove B2C e-news, replace with B2B', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Signature in 2025 had sales of over $6M, over 300 bookings and close to 900 passengers. Equates to about 25% of all agents in the USA.',
+   activities:[{type:'Marketing',desc:'B2B Monthly Theme Email',cost:1500},{type:'Marketing',desc:'B2C eNewsletter',cost:15000},{type:'Marketing',desc:'Microsite',cost:5000},{type:'Sales',desc:'Regional Travel Exchange (2-day event)',cost:10000},{type:'Sales',desc:'Signature Conference Attendance',cost:9000},{type:'Sales',desc:'Owners Meeting',cost:20000}]},
+  {pb:'PB-SAL03', name:'Consortia - AAA Washington', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:14250, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Proceed - remove Jan catalog, add Featured Vacations email', qtr:'Q1+Q2+Q3+Q4',
+   objective:'AAA Washington had just over $500K in sales for 2025 with 30 bookings. Decline since storefronts closed June 2025. Seasoned agents performing; newer agents struggling.',
+   activities:[{type:'Marketing',desc:'January Travel Catalogue (6 months)',cost:6000},{type:'Marketing',desc:'Featured Vacations Bi-Weekly Email',cost:4000},{type:'Marketing',desc:'AAA Travel Website Body & App Spotlight March',cost:2000},{type:'Sales',desc:'Winter Travel Shows: Bellevue + Tacoma',cost:1500},{type:'Sales',desc:'Fall Travel Shows: October',cost:750}]},
+  {pb:'PB-SAL04', name:'Consortia - MAST', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:21900, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommend approve once comments resolved', qtr:'Q1+Q2+Q3+Q4',
+   objective:'MAST has approx 210 agencies, mainly Midwest. 2025 sales just over $1.3M with 69 bookings. Opportunity with Nexus 2.0. Close-knit agent base with strong peer influence.',
+   activities:[{type:'Marketing',desc:'Destination Spotlight Social Content Library',cost:1500},{type:'Marketing',desc:'Members News Email Sponsorship (3x/week)',cost:2000},{type:'Marketing',desc:'Supplier Commission & Sales Reference Guide',cost:750},{type:'Marketing',desc:'Vacation Maker Dec Half Page Ad',cost:3250},{type:'Marketing',desc:'Vacation Maker Oct Quarter Page Ad',cost:1500},{type:'Sales',desc:'Annual Conference Aug 22-26 Denver',cost:2400},{type:'Sales',desc:'Annual Conference Sponsorship',cost:5500},{type:'Sales',desc:'Awards Nights Sponsor March 5',cost:350},{type:'Sales',desc:'Sales Sensation Exhibitor Nov 17',cost:750},{type:'Sales',desc:'Sales Sensation Presenter Nov 17',cost:2250},{type:'Sales',desc:'Sales Sensation Table Sponsor Nov 17',cost:350},{type:'Sales',desc:'Summer Workshops August',cost:1300}]},
+  {pb:'PB-SAL05', name:'Consortia - WESTA', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:17450, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommended to approve - remove B2C, add more sales activity', qtr:'Q1+Q2+Q3+Q4',
+   objective:'WESTA had over $2M in sales in 2025 with 66 bookings. Approx 500 booking agents across 140 member agencies, mainly West Coast.',
+   activities:[{type:'Marketing',desc:'News Item Monthly',cost:1500},{type:'Marketing',desc:'B2C Winter Edition Half Page Ad & Article',cost:3250},{type:'Marketing',desc:'B2C Spring Edition Half Page Ad & Article',cost:3250},{type:'Marketing',desc:'Q3 Journeys of Distinction Luxury Brochure',cost:2500},{type:'Sales',desc:'Connections Trade Shows x5: SAC, SFO, SOCAL, PDX, SEA',cost:1200},{type:'Sales',desc:'2026 Travel Summit (Cunard / Queen Elizabeth)',cost:5000},{type:'Sales',desc:'Monthly Live Webinar',cost:750}]},
+  {pb:'PB-SAL06', name:'Consortia - Ensemble', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:6125, status:'Approved', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Approved', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Ensemble had $635K in sales 2025 with 36 bookings. First year back with marketing agreement. 300+ agents in Mailchimp, 19 in Nexus. Strategy: intensive follow-up from Annual Conference Las Vegas.',
+   activities:[{type:'Marketing',desc:'B2B Multi Partner Email Oct 2026',cost:1700},{type:'Sales',desc:'Annual Conference Las Vegas May 4-6 2026',cost:4425}]},
+  {pb:'PB-SAL07', name:'Consortia - Virtuoso', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:33925, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommend approve', qtr:'Q1+Q2+Q3+Q4',
+   objective:'11,000 Virtuoso agents in USA. First year 2026 as preferred for all brands (previously just Travel2). 752 agents in Mailchimp, 114 activated in Nexus since April 2025.',
+   activities:[{type:'Investment',desc:'Virtuoso Communities Premium Membership',cost:33925}]},
+  {pb:'PB-SAL08', name:'Consortia - Travel Leaders Network (TLN)', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:84500, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommend approve', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Travel Leaders Network is the single largest growth opportunity. 58,000 advisors, only 2% activation rate. Primary FY26 growth priority with target revenue of $8.91M.',
+   activities:[{type:'Investment',desc:'TLN Annual Marketing Agreement',cost:84500}]},
+  {pb:'PB-SAL09', name:'Consortia - Outside Agents', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:10500, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommend approve', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Outside Agents host agency. Annual marketing investment to maintain and grow advisor relationships across the network.',
+   activities:[{type:'Investment',desc:'Outside Agents Marketing Agreement',cost:10500}]},
+  {pb:'PB-SAL10', name:'Travel Answers Roadshow - June', owner:'John Gunning', pillar:'Advisor Growth', type:'Tradeshow', budget:43600, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommendation to approve', qtr:'Q2',
+   objective:'Annual TAG roadshow series. Target 500 attendees, generate 50 bookings. Key advisor activation and brand-building event for June 2026.',
+   activities:[{type:'Event',desc:'Roadshow - venue, logistics, A/V, materials',cost:40000},{type:'Event',desc:'Post-roadshow follow-up campaigns',cost:3600}]},
+  {pb:'PB-SAL11', name:'Famil Program 2026', owner:'John Gunning', pillar:'Advisor Growth', type:'Famil', budget:15000, status:'Reviewed', reviewer:'Jackie Fontanez', reviewDate:'Apr 15 2026', reviewNote:'Recommendation to approve', qtr:'Q3+Q4',
+   objective:'6 FAM trips annually for top-producing advisors. Air NZ, Fiji Airways and Tourism Fiji partnerships. Income: $7,000 from partner ticket funds.',
+   activities:[{type:'Famil',desc:'FAM Trip 1 - Australia / New Zealand',cost:5000},{type:'Famil',desc:'FAM Trip 2 - Fiji / Pacific',cost:5000},{type:'Famil',desc:'FAM Trip 3 - Asia / SE Asia',cost:5000}]},
+  {pb:'PB-SAL12', name:'GTM Events 2026', owner:'John Gunning', pillar:'Advisor Growth', type:'Tradeshow', budget:23350, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 13 2026', reviewNote:'Recommendation to approve', qtr:'Q1+Q3',
+   objective:'Go-to-market events across key US markets. Tradeshows and consortia events to build pipeline and activate new advisors throughout 2026.',
+   activities:[{type:'Event',desc:'Q1 GTM Events',cost:10100},{type:'Event',desc:'Q3 GTM Events',cost:13250}]},
+  {pb:'PB-SAL13', name:'Webinar Program', owner:'John Gunning', pillar:'Advisor Growth', type:'Subscriptions', budget:2379, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 13 2026', reviewNote:'Recommendation to approve', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Weekly webinar series for advisor training and activation. Target 350 attendees per week generating 21 bookings. 100% follow-up within 48 hours SLA.',
+   activities:[{type:'Subscription',desc:'Webinar platform annual subscription',cost:2379}]},
+  {pb:'PB-SAL14', name:'Travel and Entertainment', owner:'John Gunning', pillar:'Advisor Growth', type:'Other', budget:70000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting leadership review', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Sales team T&E budget. Client entertainment, advisor relationship building, industry networking across all quarters.',
+   activities:[{type:'T&E',desc:'Annual T&E budget - Sales team (monthly)',cost:70000}]},
+  {pb:'PB-SAL15', name:'Loyalty Travel Wallet + Incentives', owner:'John Gunning', pillar:'Advisor Growth', type:'Incentive', budget:190000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting leadership review', qtr:'Q2+Q3',
+   objective:'Launch of the TIER Program - Travel Wallet loyalty scheme. 5% credit on first booking, 2% on all ongoing bookings. Key tool for advisor activation and long-term retention.',
+   activities:[{type:'Launch',desc:'Travel Wallet platform launch',cost:50000},{type:'Incentive',desc:'Q2 Loyalty wallet credits and incentives',cost:30000},{type:'Incentive',desc:'Q3 Loyalty wallet credits and incentives',cost:30000},{type:'Reserve',desc:'Additional incentive reserve',cost:80000}]},
+  {pb:'PB-SAL16', name:'Preferred Partnership Incentives', owner:'John Gunning', pillar:'Advisor Growth', type:'Incentive', budget:120000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting leadership review', qtr:'Q4',
+   objective:'Incentive programme for preferred partner advisors. Top-tier booking rewards including FAM trips, retail vouchers, and cash bonuses.',
+   activities:[{type:'Incentive',desc:'Preferred partner incentive pool Q4',cost:120000}]},
+  {pb:'PB-SAL17', name:'Acquisition T&E', owner:'Jeff Adam', pillar:'Advisor Growth', type:'Other', budget:80000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting review', qtr:'Q2+Q3+Q4',
+   objective:'T&E budget specifically for new advisor acquisition. Jeff Adam leads outreach to the 136,000+ unactivated US travel advisors. Less than 2% currently activated.',
+   activities:[{type:'T&E',desc:'Acquisition T&E Q2 through Q4',cost:80000}]},
+  {pb:'PB-SAL18', name:'Agency Training - Acquisition', owner:'Jeff Adam', pillar:'Advisor Growth', type:'Advertising', budget:20000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting review', qtr:'Q2+Q3+Q4',
+   objective:'Training programme for newly acquired advisors. Covers TAG booking platform, destination knowledge, and TIER Program onboarding.',
+   activities:[{type:'Training',desc:'New advisor training programme',cost:20000}]},
+  {pb:'PB-SAL19', name:'Agency Training - Retention', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:10000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting review', qtr:'Q2+Q3+Q4',
+   objective:'Retention training for existing active advisors. New destinations, product updates, Nexus 2.0 training and TIER programme updates.',
+   activities:[{type:'Training',desc:'Retention training programme',cost:10000}]},
+  {pb:'PB-SAL20', name:'Acquisition Campaigns', owner:'Jeff Adam', pillar:'Advisor Growth', type:'Advertising', budget:80000, status:'Pending', reviewer:'', reviewDate:'', reviewNote:'Awaiting review', qtr:'Q2+Q3+Q4',
+   objective:'136,000+ travel advisors selling leisure travel today. TAG has activated less than 2% into active annual users. Opportunity for explosive growth through targeted digital campaigns.',
+   activities:[{type:'Campaign',desc:'Digital acquisition campaign programme',cost:80000}]},
+  {pb:'PB-SAL21', name:'Sales Brochures / Collateral', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:10000, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Awaiting further detail on all collateral requirements', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Showcasing Travel Answers through brochure distribution at trade and consortia events. A memorable reference piece for agents.',
+   activities:[{type:'Collateral',desc:'Sales brochures and print materials',cost:10000}]},
+  {pb:'PB-SAL22', name:'Consortia - Opulence', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:4500, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommended to proceed - further detail on activation needed', qtr:'Q1+Q2+Q3+Q4',
+   objective:"Opulence is Outside Agents' premium/luxury brand tier. Yearly sales over $500K. Second year in programme. Sales tracked under Outside Agents IATA.",
+   activities:[{type:'Investment',desc:'Opulence Marketing Agreement 2026',cost:4500}]},
+  {pb:'PB-SAL23', name:'Consortia - Nexion', owner:'John Gunning', pillar:'Advisor Growth', type:'Advertising', budget:4800, status:'Reviewed', reviewer:'Kerryn Collins', reviewDate:'Apr 10 2026', reviewNote:'Recommended to approve - once sales provides activation plan', qtr:'Q1+Q2+Q3+Q4',
+   objective:'Nexion Travel Group is part of Travel Leaders Group. Approx 5,500 travel advisors. First year renewing. 2025 sales: $484K.',
+   activities:[{type:'Investment',desc:'Nexion Marketing Agreement 2026',cost:4800}]},
+];
+
+// ============================================================
+// AOP RENDER FUNCTIONS
+// ============================================================
+
+function fmtMoney(n) {
+  if (Math.abs(n) >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+  if (Math.abs(n) >= 1000) return '$' + (n/1000).toFixed(0) + 'K';
+  return '$' + n.toLocaleString();
+}
+
+function renderAOPKPIs() {
+  var el = document.getElementById('aop-kpis');
+  if (!el) return;
+  el.innerHTML = aopKPIs.map(function(k) {
+    var pct = k.target !== 0 ? Math.round(k.actual / Math.abs(k.target) * 100) : 0;
+    var varVal = k.actual - k.target;
+    var dispTarget, dispActual, dispVar;
+    if (k.fmt === '$M') {
+      dispTarget = fmtMoney(k.target);
+      dispActual = fmtMoney(k.actual);
+      dispVar = (varVal >= 0 ? '+' : '') + fmtMoney(varVal);
+    } else if (k.fmt === '$K') {
+      dispTarget = fmtMoney(k.target);
+      dispActual = fmtMoney(k.actual);
+      dispVar = (varVal >= 0 ? '+' : '') + fmtMoney(varVal);
+    } else if (k.fmt === '%') {
+      dispTarget = k.target + '%';
+      dispActual = k.actual + '%';
+      dispVar = (varVal >= 0 ? '+' : '') + varVal + '%';
+    } else {
+      dispTarget = k.target.toLocaleString();
+      dispActual = k.actual.toLocaleString();
+      dispVar = (varVal >= 0 ? '+' : '') + varVal.toLocaleString();
+    }
+    return '<div class="kb ' + k.status + '">'
+      + '<div class="kb-label">' + k.kpi + '</div>'
+      + '<div class="kb-actual">' + dispActual + '</div>'
+      + '<div class="kb-target">Target: ' + dispTarget + '</div>'
+      + '<div class="kb-var">' + (k.status === 'above' ? '&#9650; ' : '&#9660; ') + dispVar + ' vs target</div>'
+      + '</div>';
+  }).join('');
+}
+
+function renderAOPPillars() {
+  var el = document.getElementById('aop-pillars');
+  if (!el) return;
+  var total = aopPillars.reduce(function(s,p){return s+p.expense;},0);
+  el.innerHTML = aopPillars.map(function(p) {
+    var barW = Math.round(p.expense / total * 100);
+    var net = p.income - p.expense;
+    return '<div class="pillar-card" style="margin-bottom:10px">'
+      + '<div class="pillar-name">' + p.name + ' <span style="font-size:10px;color:var(--txm);font-weight:400">— ' + p.owner + '</span></div>'
+      + '<div style="display:flex;gap:16px;align-items:baseline">'
+      + '<div><div style="font-size:10px;color:var(--txm)">Expense</div><div class="pillar-num">' + fmtMoney(p.expense) + '</div></div>'
+      + '<div><div style="font-size:10px;color:var(--txm)">Income</div><div style="font-size:16px;font-weight:700;color:var(--green)">' + fmtMoney(p.income) + '</div></div>'
+      + '<div><div style="font-size:10px;color:var(--txm)">Net</div><div style="font-size:15px;font-weight:700;color:' + (net >= 0 ? 'var(--green)' : 'var(--red)') + '">' + fmtMoney(net) + '</div></div>'
+      + '</div>'
+      + '<div class="pb" style="margin-top:8px"><div class="pf" style="width:' + barW + '%;background:var(--navy)"></div></div>'
+      + '<div style="font-size:10px;color:var(--txm);margin-top:3px">' + p.pct + '% of total budget</div>'
+      + '</div>';
+  }).join('');
+}
+
+function renderAOPMonthly() {
+  var barsEl = document.getElementById('month-bars');
+  var labelsEl = document.getElementById('month-labels');
+  if (!barsEl) return;
+  var maxVal = Math.max.apply(null, aopMonthly.map(function(m){return m.expense;}));
+  barsEl.style.display = 'flex';
+  barsEl.style.alignItems = 'flex-end';
+  barsEl.style.gap = '4px';
+  barsEl.style.height = '80px';
+  barsEl.innerHTML = aopMonthly.map(function(m) {
+    var h = Math.max(4, Math.round(m.expense / maxVal * 76));
+    return '<div class="month-bar" style="flex:1;height:' + h + 'px;background:var(--tag);border-radius:3px 3px 0 0" title="' + m.month + ': $' + m.expense.toLocaleString() + '">'
+      + '<div class="mb-tip">' + m.month + ': $' + Math.round(m.expense/1000) + 'K</div></div>';
+  }).join('');
+  if (labelsEl) {
+    labelsEl.style.display = 'flex';
+    labelsEl.style.gap = '4px';
+    labelsEl.innerHTML = aopMonthly.map(function(m) {
+      return '<div style="flex:1;font-size:8.5px;color:var(--txm);text-align:center;font-weight:600">' + m.month + '</div>';
+    }).join('');
+  }
+}
+
+function renderAOPDepts() {
+  var el = document.getElementById('aop-depts');
+  if (!el) return;
+  var totalExp = aopDepts.reduce(function(s,d){return s+d.expense;},0);
+  var totalInc = aopDepts.reduce(function(s,d){return s+d.income;},0);
+  el.innerHTML = aopDepts.map(function(d) {
+    var net = d.income - d.expense;
+    var pctBar = totalExp > 0 ? Math.round(d.expense/totalExp*100) : 0;
+    return '<tr>'
+      + '<td><strong>' + d.dept + '</strong></td>'
+      + '<td style="color:var(--green);font-weight:600">' + (d.income ? fmtMoney(d.income) : '--') + '</td>'
+      + '<td style="color:var(--red);font-weight:600">' + (d.expense ? fmtMoney(d.expense) : '--') + '</td>'
+      + '<td style="font-weight:700;color:' + (net >= 0 ? 'var(--green)' : 'var(--red)') + '">' + fmtMoney(net) + '</td>'
+      + '<td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:80px"><div class="pf" style="width:' + pctBar + '%;background:var(--navy)"></div></div><span style="font-size:10.5px;color:var(--txm)">' + pctBar + '%</span></div></td>'
+      + '<td style="font-size:11.5px">' + d.owner + '</td>'
+      + '<td><span class="badge b-gr">' + d.status + '</span></td>'
+      + '</tr>';
+  }).join('')
+  + '<tr style="background:var(--s2)">'
+  + '<td><strong>TOTAL</strong></td>'
+  + '<td style="color:var(--green);font-weight:800">' + fmtMoney(totalInc) + '</td>'
+  + '<td style="color:var(--red);font-weight:800">' + fmtMoney(totalExp) + '</td>'
+  + '<td style="font-weight:800;color:var(--red)">' + fmtMoney(totalInc - totalExp) + '</td>'
+  + '<td colspan="3"></td></tr>';
+}
+
+function renderPBs() {
+  var srch = (document.getElementById('pb-search') ? document.getElementById('pb-search').value : '').toLowerCase();
+  var fOwner = document.getElementById('pb-filter-owner') ? document.getElementById('pb-filter-owner').value : '';
+  var fStatus = document.getElementById('pb-filter-status') ? document.getElementById('pb-filter-status').value : '';
+  var fType = document.getElementById('pb-filter-type') ? document.getElementById('pb-filter-type').value : '';
+
+  var list = projectBriefs.filter(function(p) {
+    if (srch && (p.name + p.pb + p.objective).toLowerCase().indexOf(srch) < 0) return false;
+    if (fOwner && p.owner !== fOwner) return false;
+    if (fStatus && p.status !== fStatus) return false;
+    if (fType && p.type !== fType) return false;
+    return true;
+  });
+
+  var cntEl = document.getElementById('pb-count');
+  if (cntEl) cntEl.textContent = list.length + ' project brief' + (list.length !== 1 ? 's' : '') + ' shown — $' + list.reduce(function(s,p){return s+p.budget;},0).toLocaleString() + ' total budget';
+
+  var el = document.getElementById('pb-list');
+  if (!el) return;
+
+  el.innerHTML = list.map(function(p, idx) {
+    var stBadge = p.status === 'Approved' ? 'b-gr' : p.status === 'Reviewed' ? 'b-bl' : 'b-am';
+    var actRows = p.activities.map(function(a) {
+      return '<tr><td><span class="badge ' + (a.type === 'Sales' ? 'b-or' : a.type === 'Marketing' ? 'b-bl' : a.type === 'Incentive' ? 'b-pu' : a.type === 'Famil' ? 'b-gr' : 'b-gy') + '">' + a.type + '</span></td>'
+        + '<td>' + a.desc + '</td>'
+        + '<td style="font-weight:700;text-align:right;color:var(--navy)">' + (a.cost ? '$' + a.cost.toLocaleString() : '--') + '</td></tr>';
+    }).join('');
+    var reviewHtml = p.reviewer
+      ? '<div class="review-box"><strong>&#10003; Reviewed by ' + p.reviewer + '</strong> &middot; ' + p.reviewDate + '<br>' + p.reviewNote + '</div>'
+      : '<div class="review-box pending"><strong>&#9654; Pending Leadership Review</strong><br>Awaiting review by Kirk Demeter / Kerryn Collins</div>';
+
+    return '<div class="pb-card" id="pbc-' + p.pb + '" onclick="togglePB(' + idx + ')">' 
+      + '<div class="pb-header">'
+      + '<div class="pb-num">' + p.pb + '</div>'
+      + '<div class="pb-name">' + p.name + '</div>'
+      + '<span class="badge ' + stBadge + '" style="flex-shrink:0">' + p.status + '</span>'
+      + '<div class="pb-owner">' + p.owner + '</div>'
+      + '<div class="pb-budget">$' + p.budget.toLocaleString() + '</div>'
+      + '<div class="pb-chevron">&#9654;</div>'
+      + '</div>'
+      + '<div class="pb-body">'
+      + '<div class="pb-grid">'
+      + '<div class="pb-field"><span>Strategic Pillar</span><strong>' + p.pillar + '</strong></div>'
+      + '<div class="pb-field"><span>Project Type</span><strong>' + p.type + '</strong></div>'
+      + '<div class="pb-field"><span>Quarter</span><strong>' + p.qtr + '</strong></div>'
+      + '<div class="pb-field"><span>Total Budget</span><strong style="color:var(--navy)">$' + p.budget.toLocaleString() + '</strong></div>'
+      + '</div>'
+      + '<div class="pb-obj">' + p.objective + '</div>'
+      + '<table class="act-table"><thead><tr><th>Type</th><th>Activity / Description</th><th style="text-align:right">Cost</th></tr></thead><tbody>' + actRows + '</tbody></table>'
+      + reviewHtml
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function togglePB(idx) {
+  var cards = document.querySelectorAll('.pb-card');
+  var el = cards[idx];
+  if (el) el.classList.toggle('expanded');
+}
+
+function renderAOP() {
+  renderAOPKPIs();
+  renderAOPPillars();
+  renderAOPMonthly();
+  renderAOPDepts();
+  renderPBs();
+}
+
+// Call renderAOP on init
+// AOP renders via init()
+
+
+
+// ============================================================
+// JOB DESCRIPTIONS DATA
+// ============================================================
+var jdData = {
+  kerryn: {
+    name: 'Kerryn Collins',
+    role: 'Chief Operating Officer USA / Key Account Director',
+    dept: 'Sales & Operations Leadership',
+    reports: 'Kirk Demeter (CEO USA)',
+    location: 'USA (Remote / Tampa)',
+    fte: 'Full-time',
+    type: 'Senior Leadership',
+    summary: 'Kerryn leads operational oversight of the US sales team and manages strategic key account relationships with top consortia partners. She drives the weekly sales accountability rhythm and ensures the team executes against the FY26 AOP targets. She is the bridge between sales execution and executive leadership.',
+    responsibilities: [
+      'Oversee daily, weekly and monthly sales performance across the US team — calls, follow-ups, pipeline and revenue',
+      'Lead Quarterly Business Reviews (QBRs) with top 8 consortia partners: Travel Leaders, Signature, Cruise Planners, Virtuoso, MAST, WESTA, Ensemble, AAA',
+      'Establish and enforce the weekly sales accountability rhythm — Monday targets, Wednesday closes, Friday reports',
+      'Manage and mentor John Gunning (Director of Key Accounts), Jeff Adam (Advisor Engagement), Janie Hall (Sales Director), and Jane Moore (Coordinator)',
+      'Report weekly pipeline status to Kirk Demeter and provide monthly AOP progress updates',
+      'Oversee CRM implementation (Zoho) and ensure 100% team adoption and data accuracy',
+      'Drive the lapsed advisor reactivation strategy — target 150 reactivations by December 2026',
+      'Approve project briefs in conjunction with Kirk Demeter for all sales department spend',
+      'Collaborate with Marketing (Manmeet Singh) to align campaigns with sales priorities',
+      'Represent TAG at strategic industry events and senior partner meetings',
+    ],
+    kpis: [
+      'Sales team proactive calls: 17.5 per day (3.5 reps x 5)',
+      '100% follow-up SLA compliance: 48hr webinar, 5-day roadshow',
+      'Monthly revenue on track to $30M full-year target ($2.5M/month)',
+      'All 8 QBRs completed on schedule (2 per quarter)',
+      'Lapsed advisor reactivation: 150 by December 2026',
+      'CRM (Zoho) go-live by August 2026 with 100% team usage',
+      'Weekly accountability meeting held without exception — 52/52',
+    ],
+    skills: [
+      'Proven sales leadership in travel, hospitality, or related distribution sector',
+      'Experience managing consortia or key account partnerships at a senior level',
+      'Strong CRM proficiency (Zoho preferred) and data-driven decision making',
+      'Excellent communication across all levels from sales reps to C-suite',
+      'Ability to build accountability culture without micromanagement',
+      'Experience with remote team management across multiple time zones',
+    ]
+  },
+  john: {
+    name: 'John Gunning',
+    role: 'Director of Key Accounts',
+    dept: 'Sales',
+    reports: 'Kerryn Collins (COO USA) / Kirk Demeter (CEO USA)',
+    location: 'USA',
+    fte: 'Full-time',
+    type: 'Director',
+    summary: "John is the primary revenue owner for TAGs largest consortia relationships including Travel Leaders Network, Virtuoso, Cruise Planners, and Signature. He is personally responsible for driving advisor activation, growing revenue from top accounts, and executing the 90-day priority plan including roadshows, QBRs, and incentive programmes.",
+    responsibilities: [
+      'Own and grow revenue relationships with Travel Leaders Network, Virtuoso, Cruise Planners, Signature, MAST, WESTA, Ensemble, AAA, Outside Agents, Nexion and Opulence',
+      'Execute the Travel Leaders activation plan — from 2% to 4% activation rate, targeting $8.91M revenue',
+      'Execute minimum 5 proactive advisor calls per day, personally logged in CRM',
+      'Lead all roadshow planning and execution — June roadshow and annual series (target 500 attendees, 50 bookings)',
+      'Lead Quarterly Business Reviews with all major consortia partners',
+      'Drive lapsed advisor reactivation — personally call top 50 lapsed advisors by historical revenue',
+      'Manage the TIER Program Travel Wallet launch and rollout to all active advisors',
+      'Target Top 200 Cruise Planners Land Advisors and 246 Opulence luxury advisors',
+      'Manage $500K+ in annual sales and marketing budget across 23 project briefs',
+      'Mentor Janie Hall (Director of Sales) and work collaboratively with Jeff Adam (Advisor Engagement)',
+    ],
+    kpis: [
+      'Annual revenue from key accounts: $8M+ personal contribution',
+      'Travel Leaders activation rate: from 2% to 4%',
+      'Proactive calls: minimum 5 per day, tracked in CRM',
+      'Roadshow bookings: 50+ per annual roadshow',
+      'Lapsed advisor reactivation: 40+ personal reactivations',
+      'QBRs: all 8 major consortia QBRs delivered on schedule',
+      '100% follow-up SLA on all roadshow attendees (5 business days)',
+    ],
+    skills: [
+      '5+ years in travel distribution, wholesale or agency sales',
+      'Proven track record managing large consortia relationships (Travel Leaders, Virtuoso, Signature)',
+      'Strong negotiation skills and executive presence for senior partner conversations',
+      'Excellent pipeline management and CRM discipline',
+      'Experience managing 6-figure marketing and sales budgets',
+      'Deep knowledge of the US travel advisor landscape and consortia structures',
+    ]
+  },
+  janie: {
+    name: 'Janie Hall',
+    role: 'Director of Sales',
+    dept: 'Sales',
+    reports: 'John Gunning (Director of Key Accounts)',
+    location: 'USA',
+    fte: 'Part-time (0.5 FTE)',
+    type: 'Director',
+    summary: 'Janie focuses on converting advisor engagement into confirmed bookings and is the lead on the lapsed advisor reactivation programme. As a part-time Director, her role is highly targeted — she owns the pipeline conversion function and the reactivation of the 500 lapsed advisors who previously booked with TAG in 2023-2025.',
+    responsibilities: [
+      'Own the lapsed advisor reactivation programme — 500 advisors who booked in 2023-2025 but not in 2026',
+      'Prioritise lapsed list by historical revenue and make minimum 3 targeted reactivation calls per day',
+      'Address service concerns from previously lapsed advisors with a structured win-back approach',
+      'Convert advisor engagement (webinars, events, roadshows) into confirmed bookings',
+      'Introduce lapsed advisors to Nexus 2.0, TIER Program, new destinations, and current promotions',
+      'Run targeted email and webinar programme specifically for lapsed advisors',
+      'Track and report reactivation pipeline weekly to John Gunning and Kerryn Collins',
+      'Maintain 100% CRM discipline — every interaction logged, every follow-up scheduled',
+    ],
+    kpis: [
+      'Lapsed advisors reactivated: 150 by December 2026 (personal ownership)',
+      'Proactive calls: minimum 3 per day (adjusted for 0.5 FTE)',
+      'First booking post-reactivation: within 30 days of reconnection',
+      'Pipeline conversion rate: 25% of engaged lapsed advisors to first booking',
+      'Revenue from reactivated advisors: $2.25M (150 x $15K ABV)',
+      'All lapsed interactions logged in CRM within 24 hours',
+    ],
+    skills: [
+      '3+ years in travel sales, account management or customer success',
+      'Experience with outbound sales and pipeline management',
+      'Strong empathy and relationship-rebuilding skills for win-back conversations',
+      'Ability to manage a pipeline of 500 contacts and prioritise effectively',
+      'CRM proficiency and disciplined activity logging',
+    ]
+  },
+  jeff: {
+    name: 'Jeff Adam',
+    role: 'Director, Advisor Engagement & Growth',
+    dept: 'Sales',
+    reports: 'Kirk Demeter (CEO USA)',
+    location: 'USA',
+    fte: 'Full-time',
+    type: 'Director',
+    summary: 'Jeff owns the top of the advisor funnel - activation of new advisors who have never booked with TAG. With over 136,000 unactivated US travel advisors and a database of 35,000, Jeff role is to design and execute the campaigns, webinars, and outreach programmes that convert registered advisors into first-time bookers.',
+    responsibilities: [
+      'Drive new advisor activation — convert registered advisors who have never booked into active booking advisors',
+      'Run and grow the weekly webinar series — target 350+ attendees per week with 6%+ conversion to bookings',
+      'Ensure 100% webinar follow-up within 48 hours of every session — no exceptions',
+      'Load all event and webinar attendees into Mailchimp within 24 hours',
+      'Execute First Booking Campaign — 5% Travel Wallet credit on first booking with TAG',
+      'Promote the TIER Program through consortia partners, host agencies, webinars and trade media',
+      'Manage and execute Acquisition Campaigns ($80,000 budget) targeting 136,000+ unactivated advisors',
+      'Run Agency Training programme for newly acquired advisors (Nexus, destinations, TIER)',
+      'Grow advisor database from 35,000 to 50,000 by year-end',
+      'Execute minimum 2 targeted calls per day to new advisor prospects',
+    ],
+    kpis: [
+      'New advisors activated (first booking): 400 new activations (closing the 1,100 to 1,500 gap)',
+      'Webinar attendance: 350+ per week average maintained',
+      'Webinar follow-up: 100% within 48 hours — tracked in CRM',
+      'Webinar to booking conversion: 6%+ (21 bookings per week)',
+      'Database growth: 35,000 to 50,000 by December 2026',
+      'Event attendees loaded to DB: 100% within 24 hours of any event',
+      'First Booking Campaign: 200+ first bookings in first 30 days of launch',
+    ],
+    skills: [
+      'Experience in B2B marketing, advisor engagement or travel distribution',
+      'Strong email marketing and campaign management skills (Mailchimp or similar)',
+      'Webinar hosting and presentation skills — confident in front of 300+ attendees',
+      'Data-driven mindset — able to track and improve conversion rates',
+      'Knowledge of US travel advisor ecosystem, host agencies and consortia structures',
+      'Strong organisational skills to manage high-volume outreach programmes',
+    ]
+  },
+  jane: {
+    name: 'Jane Moore',
+    role: 'Sales Coordinator',
+    dept: 'Sales',
+    reports: 'John Gunning (Director of Key Accounts)',
+    location: 'USA',
+    fte: 'Full-time',
+    type: 'Coordinator',
+    summary: 'Jane is the operational backbone of the sales team. She handles all post-event database management, follow-up task creation, Mailchimp campaigns, survey administration, and CRM maintenance. Without Jane keeping the database clean and follow-ups on track, the team activity is lost. She is essential to the sales system working at scale.',
+    responsibilities: [
+      'Load all webinar, roadshow and event attendees into Mailchimp within 24 hours of any event',
+      'Create follow-up tasks in CRM for every attendee within 24 hours, assigned to the correct rep',
+      'Manage and maintain the Zoho CRM advisor database — updates, deduplication, segmentation',
+      'Execute Mailchimp email campaigns as directed by Jeff Adam and John Gunning',
+      'Administer the agent survey distribution and response tracking',
+      'Produce weekly sales activity reports for Kerryn Collins and Kirk Demeter',
+      'Support roadshow logistics — registration, materials, attendee lists, post-event follow-up',
+      'Manage all sales collateral inventory and distribution (brochures, digital assets)',
+      'Assist with project brief administration and budget tracking',
+      'Coordinate between sales, marketing and operations teams on shared deliverables',
+    ],
+    kpis: [
+      'Database loading: 100% of event attendees in Mailchimp within 24 hours',
+      'Follow-up tasks: 100% created and assigned within 24 hours of every event',
+      'CRM accuracy: >99% data quality on all advisor records',
+      'Campaign accuracy: zero send errors on Mailchimp campaigns',
+      'Weekly reports: delivered to leadership by 9am Monday without exception',
+      'Survey responses: 500 total processed and logged against Contact records',
+    ],
+    skills: [
+      'Strong organisational skills and attention to detail',
+      'Proficiency in Mailchimp (or equivalent email marketing platforms)',
+      'CRM experience — Zoho preferred',
+      'Excel / Google Sheets proficiency for reporting and data management',
+      'Ability to manage multiple priorities and deadlines simultaneously',
+      'Travel industry knowledge beneficial but not essential',
+    ]
+  },
+  rep: {
+    name: 'Sales Representative',
+    role: 'Travel Advisor Sales Representative',
+    dept: 'Sales',
+    reports: 'Director of Key Accounts (John Gunning) or Director of Advisor Engagement (Jeff Adam)',
+    location: 'USA',
+    fte: 'Full-time',
+    type: 'Representative',
+    summary: 'The Sales Representative is responsible for proactive outreach to travel advisors, converting registered advisors into active bookers, and maintaining ongoing relationships with a portfolio of active advisors. The role is the front line of TAGs advisor activation strategy and is measured daily on call volume, follow-up discipline and booking conversion.',
+    responsibilities: [
+      'Make minimum 5 targeted advisor calls per day — logged in CRM before end of day',
+      'Follow up 100% of assigned webinar attendees within 48 hours',
+      'Follow up 100% of assigned roadshow attendees within 5 business days',
+      'Introduce advisors to TAGs product range, Nexus booking platform and TIER Program',
+      'Build and manage a personal portfolio of 200-300 advisor relationships',
+      'Participate in the weekly sales rhythm: Monday targets, Wednesday closes, Friday reports',
+      'Log all activity (calls, emails, meetings) in Zoho CRM same day',
+      'Attend and participate in roadshows, webinars and consortia events as required',
+      'Actively contribute to lapsed advisor reactivation programme',
+      'Work towards weekly Wicked Wednesday close targets',
+    ],
+    kpis: [
+      'Calls per day: minimum 5 logged in CRM',
+      'Webinar follow-up: 100% within 48 hours',
+      'Roadshow follow-up: 100% within 5 business days',
+      'Monthly new advisor activations (first bookings): 10+',
+      'Pipeline conversion rate: 25% of engaged prospects to booking',
+      'Lapsed reactivations per month: 5+',
+      'Monthly revenue contribution: $200K+',
+    ],
+    skills: [
+      'Experience in sales, travel industry or customer-facing roles',
+      'Confident communicator — comfortable with cold and warm outbound calls',
+      'Strong CRM discipline and activity logging habits',
+      'Knowledge of Australia, New Zealand, Fiji and Pacific destinations preferred',
+      'Self-motivated with ability to manage own daily call targets',
+      'Team player who thrives in a structured accountability environment',
+    ]
+  }
+};
+
+var activeJD = 'kerryn';
+
+function showJD(id, el) {
+  activeJD = id;
+  document.querySelectorAll('.jd-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  renderJD();
+}
+
+function renderJD() {
+  var d = jdData[activeJD];
+  var el = document.getElementById('jd-content');
+  if (!el || !d) return;
+
+  var respHtml = d.responsibilities.map(function(r) {
+    return '<li>' + r + '</li>';
+  }).join('');
+
+  var kpiHtml = d.kpis.map(function(k) {
+    return '<li>' + k + '</li>';
+  }).join('');
+
+  var skillHtml = d.skills.map(function(s) {
+    return '<li>' + s + '</li>';
+  }).join('');
+
+  el.innerHTML = '<div class="jd-header">'
+    + '<div class="jd-role">' + d.name + '</div>'
+    + '<div class="jd-dept">' + d.role + ' &mdash; ' + d.dept + '</div>'
+    + '<div class="jd-meta">'
+    + '<div class="jd-meta-item">Reports To<strong>' + d.reports + '</strong></div>'
+    + '<div class="jd-meta-item">Location<strong>' + d.location + '</strong></div>'
+    + '<div class="jd-meta-item">FTE<strong>' + d.fte + '</strong></div>'
+    + '<div class="jd-meta-item">Level<strong>' + d.type + '</strong></div>'
+    + '</div></div>'
+    + '<div class="ibox ibox-blue" style="margin-bottom:18px">' + d.summary + '</div>'
+    + '<div class="jd-tc">'
+    + '<div>'
+    + '<div class="jd-section-title">Key Responsibilities</div>'
+    + '<ul class="jd-list">' + respHtml + '</ul>'
+    + '<div class="jd-section-title">Required Skills &amp; Experience</div>'
+    + '<ul class="jd-list">' + skillHtml + '</ul>'
+    + '</div>'
+    + '<div>'
+    + '<div class="jd-section-title">KPIs &amp; Performance Targets</div>'
+    + '<ul class="jd-list">' + kpiHtml + '</ul>'
+    + '</div>'
+    + '</div>';
+}
+
+
+// JD rendered via init
+
+window.onload = init;
 </script>
 </body>
 </html>
