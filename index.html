@@ -449,12 +449,12 @@ textarea{resize:vertical;min-height:65px}
           <table>
             <thead><tr><th>Consortia</th><th>Activation</th><th>YTD</th><th>Target</th><th>%</th></tr></thead>
             <tbody>
-              <tr><td><strong>Travel Leaders</strong></td><td>2%</td><td>$2.84M</td><td>$8.91M</td><td><span class="badge b-re">32%</span></td></tr>
-              <tr><td><strong>Signature</strong></td><td>7%</td><td>$3.07M</td><td>$6.64M</td><td><span class="badge b-am">46%</span></td></tr>
-              <tr><td><strong>Cruise Planners</strong></td><td>21%</td><td>$1.83M</td><td>$3.02M</td><td><span class="badge b-bl">61%</span></td></tr>
-              <tr><td><strong>Virtuoso</strong></td><td>2%</td><td>$1.32M</td><td>$1.41M</td><td><span class="badge b-gr">94%</span></td></tr>
-              <tr><td><strong>MAST</strong></td><td>20%</td><td>$544K</td><td>$1.46M</td><td><span class="badge b-am">37%</span></td></tr>
-              <tr><td><strong>Ensemble</strong></td><td>13.6%</td><td>$69K</td><td>$673K</td><td><span class="badge b-re">10%</span></td></tr>
+              <tr><td><strong>Travel Leaders</strong> <span style="font-size:10px;color:var(--txm)">M.Brown</span></td><td>2%</td><td>$2.84M</td><td>$8.91M</td><td><span class="badge b-re">32%</span></td></tr>
+              <tr><td><strong>Signature</strong> <span style="font-size:10px;color:var(--txm)">M.Brown</span></td><td>7%</td><td>$3.07M</td><td>$6.64M</td><td><span class="badge b-am">46%</span></td></tr>
+              <tr><td><strong>Cruise Planners</strong> <span style="font-size:10px;color:var(--txm)">J.Gunning</span></td><td>21%</td><td>$1.83M</td><td>$3.02M</td><td><span class="badge b-bl">61%</span></td></tr>
+              <tr><td><strong>Virtuoso</strong> <span style="font-size:10px;color:var(--txm)">M.Brown</span></td><td>2%</td><td>$1.32M</td><td>$1.41M</td><td><span class="badge b-gr">94%</span></td></tr>
+              <tr><td><strong>MAST</strong> <span style="font-size:10px;color:var(--txm)">J.Gunning</span></td><td>20%</td><td>$544K</td><td>$1.46M</td><td><span class="badge b-am">37%</span></td></tr>
+              <tr><td><strong>Ensemble</strong> <span style="font-size:10px;color:var(--txm)">J.Hall</span></td><td>13.6%</td><td>$69K</td><td>$673K</td><td><span class="badge b-re">10%</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -1239,7 +1239,7 @@ textarea{resize:vertical;min-height:65px}
   </div>
   <div class="content">
     <div class="jd-tabs" id="jd-tabs">
-      <div class="jd-tab active" onclick="showJD('kerryn',this)">Kerryn Collins</div>
+      <div class="jd-tab active" onclick="showJD('michael',this)">Michael Brown</div>
       <div class="jd-tab" onclick="showJD('john',this)">John Gunning</div>
       <div class="jd-tab" onclick="showJD('janie',this)">Janie Hall</div>
       <div class="jd-tab" onclick="showJD('jeff',this)">Jeff Adam</div>
@@ -1395,6 +1395,10 @@ const reps=[
    acts:[{t:'<strong>John Gunning</strong> completed QBR with Cruise Planners',ts:'2h ago',c:'#C9682F'},
          {t:'<strong>Janie Hall</strong> reactivated lapsed advisor',ts:'4h ago',c:'#1a7a4a'},
          {t:'<strong>Jeff Adam</strong> ran Australia webinar — 312 attended',ts:'Yesterday',c:'#1e5fa8'}]},
+  {id:'michael',name:'Michael Brown',role:'National Accounts Manager',col:'#1e5fa8',ini:'MB',calls:5,bk:2,fu:6,rev:'$71K',lp:4,
+   focus:'Travel Leaders Network · Signature · Virtuoso · 58,000+ advisors across three major consortia',
+   notes:'National Accounts Manager. Primary owner of Travel Leaders Network, Signature and Virtuoso relationships. Highest revenue potential in the team.',
+   acts:[{t:'<strong>Michael Brown</strong> called 12 TLN advisors today — 3 booking intent',ts:'1h ago',c:'#1e5fa8'},{t:'Signature QBR scheduled for next Tuesday',ts:'Yesterday',c:'#3db87a'},{t:'Virtuoso luxury webinar - 89 attendees',ts:'2 days ago',c:'#C9682F'}]},
   {id:'john',name:'John Gunning',role:'Director of Key Accounts',col:'#C9682F',ini:'JG',calls:6,bk:2,fu:5,rev:'$56K',lp:3,
    focus:'Travel Leaders · Virtuoso · Cruise Planners · 246 Opulence luxury advisors · Top 200 CP Land',
    notes:'Promoted to Director. Reports to Kirk Demeter. Primary revenue owner for key consortia.',
@@ -1424,9 +1428,9 @@ const reps=[
 ];
 
 const agents=[
-  {id:1,first:'Jennifer',last:'Walsh',agency:'Walsh Travel Group',con:'Travel Leaders',dest:['Australia','Fiji'],reg:'Southeast',st:'active',lb:'Mar 2026',rev:'$84,000',em:'j.walsh@walshtravel.com',own:'John Gunning'},
-  {id:2,first:'Michael',last:'Torres',agency:'Elite Escapes',con:'Signature',dest:['Australia','New Zealand'],reg:'West Coast',st:'active',lb:'Apr 2026',rev:'$127,000',em:'m.torres@eliteescapes.com',own:'John Gunning'},
-  {id:3,first:'Sarah',last:'Henderson',agency:'Henderson Luxury Travel',con:'Virtuoso',dest:['Australia','Japan'],reg:'Northeast',st:'active',lb:'May 2026',rev:'$230,000',em:'sh@hlt.com',own:'John Gunning'},
+  {id:1,first:'Jennifer',last:'Walsh',agency:'Walsh Travel Group',con:'Travel Leaders',dest:['Australia','Fiji'],reg:'Southeast',st:'active',lb:'Mar 2026',rev:'$84,000',em:'j.walsh@walshtravel.com',own:'Michael Brown'},
+  {id:2,first:'Michael',last:'Torres',agency:'Elite Escapes',con:'Signature',dest:['Australia','New Zealand'],reg:'West Coast',st:'active',lb:'Apr 2026',rev:'$127,000',em:'m.torres@eliteescapes.com',own:'Michael Brown'},
+  {id:3,first:'Sarah',last:'Henderson',agency:'Henderson Luxury Travel',con:'Virtuoso',dest:['Australia','Japan'],reg:'Northeast',st:'active',lb:'May 2026',rev:'$230,000',em:'sh@hlt.com',own:'Michael Brown'},
   {id:4,first:'Robert',last:'Kim',agency:'Pacific Dream Vacations',con:'Cruise Planners',dest:['Fiji','Bali'],reg:'West Coast',st:'lapsed',lb:'Nov 2025',rev:'$42,000',em:'r.kim@pdv.com',own:'Janie Hall'},
   {id:5,first:'Amanda',last:'Flores',agency:'Sunbelt Travel',con:'MAST',dest:['Australia'],reg:'Southwest',st:'lapsed',lb:'Sep 2025',rev:'$31,000',em:'a.flores@sunbelt.com',own:'Janie Hall'},
   {id:6,first:'David',last:'Chen',agency:'Horizon Journeys',con:'Travel Leaders',dest:['Australia','New Zealand','Japan'],reg:'Midwest',st:'new',lb:'--',rev:'$0',em:'d.chen@horizonjourneys.com',own:'Jeff Adam'},
@@ -2163,43 +2167,43 @@ function renderAOP() {
 // JOB DESCRIPTIONS DATA
 // ============================================================
 var jdData = {
-  kerryn: {
-    name: 'Kerryn Collins',
-    role: 'Chief Operating Officer USA / Key Account Director',
-    dept: 'Sales & Operations Leadership',
-    reports: 'Kirk Demeter (CEO USA)',
-    location: 'USA (Remote / Tampa)',
+  michael: {
+    name: 'Michael Brown',
+    role: 'National Accounts Manager',
+    dept: 'Sales',
+    reports: 'Kirk Demeter (CEO USA) / Kerryn Collins (COO USA)',
+    location: 'USA',
     fte: 'Full-time',
-    type: 'Senior Leadership',
-    summary: 'Kerryn leads operational oversight of the US sales team and manages strategic key account relationships with top consortia partners. She drives the weekly sales accountability rhythm and ensures the team executes against the FY26 AOP targets. She is the bridge between sales execution and executive leadership.',
+    type: 'Manager',
+    summary: 'Michael Brown is the National Accounts Manager responsible for TAGs three largest and highest-potential consortia relationships: Travel Leaders Network (58,000 advisors), Signature (15,000 advisors), and Virtuoso (11,000 advisors). These three consortia alone represent over $17M of the FY26 revenue target. Michael is the primary relationship owner and activation driver across all three, supported by Jeff Adam on webinar campaigns and Jane Moore on database management.',
     responsibilities: [
-      'Oversee daily, weekly and monthly sales performance across the US team — calls, follow-ups, pipeline and revenue',
-      'Lead Quarterly Business Reviews (QBRs) with top 8 consortia partners: Travel Leaders, Signature, Cruise Planners, Virtuoso, MAST, WESTA, Ensemble, AAA',
-      'Establish and enforce the weekly sales accountability rhythm — Monday targets, Wednesday closes, Friday reports',
-      'Manage and mentor John Gunning (Director of Key Accounts), Jeff Adam (Advisor Engagement), Janie Hall (Sales Director), and Jane Moore (Coordinator)',
-      'Report weekly pipeline status to Kirk Demeter and provide monthly AOP progress updates',
-      'Oversee CRM implementation (Zoho) and ensure 100% team adoption and data accuracy',
-      'Drive the lapsed advisor reactivation strategy — target 150 reactivations by December 2026',
-      'Approve project briefs in conjunction with Kirk Demeter for all sales department spend',
-      'Collaborate with Marketing (Manmeet Singh) to align campaigns with sales priorities',
-      'Represent TAG at strategic industry events and senior partner meetings',
+      'Own and grow the Travel Leaders Network relationship — primary focus for FY26, target $8.91M revenue, activation from 2% to 4%',
+      'Manage the Signature partnership — $6.64M FY26 target, maintain strong existing momentum and scale proven programmes',
+      'Lead Virtuoso relationship — luxury advisor segment, $1.41M target, tracking ahead of plan',
+      'Execute minimum 5 proactive advisor calls per day across TLN, Signature and Virtuoso portfolios',
+      'Lead all QBRs with Travel Leaders Network, Signature and Virtuoso on a quarterly basis',
+      'Target Top 200 Cruise Planners Land Advisors (cross-support with John Gunning)',
+      'Manage Ensemble relationship in collaboration with Janie Hall',
+      'Drive first-booking activation within newly registered TLN advisors — the single biggest growth opportunity in the plan',
+      'Manage combined marketing spend of ~$178,925 across TLN ($84,500), Signature ($60,500) and Virtuoso ($33,925)',
+      'Report weekly pipeline by consortia to Kerryn Collins and Kirk Demeter',
     ],
     kpis: [
-      'Sales team proactive calls: 17.5 per day (3.5 reps x 5)',
-      '100% follow-up SLA compliance: 48hr webinar, 5-day roadshow',
-      'Monthly revenue on track to $30M full-year target ($2.5M/month)',
-      'All 8 QBRs completed on schedule (2 per quarter)',
-      'Lapsed advisor reactivation: 150 by December 2026',
-      'CRM (Zoho) go-live by August 2026 with 100% team usage',
-      'Weekly accountability meeting held without exception — 52/52',
+      'Travel Leaders Network revenue: $8.91M FY26 target — activation rate from 2% to 4%',
+      'Signature revenue: $6.64M FY26 target — maintain activation momentum',
+      'Virtuoso revenue: $1.41M FY26 target — currently tracking at 94%, maintain and exceed',
+      'Proactive calls: minimum 5 per day logged in CRM across all three consortia',
+      'QBRs: 3 per consortia per year (9 total) delivered on schedule',
+      'First booking activations from TLN: minimum 20 per month',
+      'Follow-up SLA: 100% of all leads within 48 hours (webinar) or 5 days (events)',
     ],
     skills: [
-      'Proven sales leadership in travel, hospitality, or related distribution sector',
-      'Experience managing consortia or key account partnerships at a senior level',
-      'Strong CRM proficiency (Zoho preferred) and data-driven decision making',
-      'Excellent communication across all levels from sales reps to C-suite',
-      'Ability to build accountability culture without micromanagement',
-      'Experience with remote team management across multiple time zones',
+      '5+ years in travel distribution, wholesale or key account management',
+      'Proven track record with large US consortia — Travel Leaders, Signature or Virtuoso experience strongly preferred',
+      'Strong relationship management skills with senior consortia leadership',
+      'Confident presenter and webinar host for large advisor audiences',
+      'CRM discipline and pipeline management — Zoho preferred',
+      'Experience managing 6-figure annual marketing agreements with third-party partners',
     ]
   },
   john: {
@@ -2212,20 +2216,20 @@ var jdData = {
     type: 'Director',
     summary: "John is the primary revenue owner for TAGs largest consortia relationships including Travel Leaders Network, Virtuoso, Cruise Planners, and Signature. He is personally responsible for driving advisor activation, growing revenue from top accounts, and executing the 90-day priority plan including roadshows, QBRs, and incentive programmes.",
     responsibilities: [
-      'Own and grow revenue relationships with Travel Leaders Network, Virtuoso, Cruise Planners, Signature, MAST, WESTA, Ensemble, AAA, Outside Agents, Nexion and Opulence',
-      'Execute the Travel Leaders activation plan — from 2% to 4% activation rate, targeting $8.91M revenue',
+      'Own and grow revenue relationships with Cruise Planners, WESTA, MAST, AAA, Outside Agents, Nexion and Opulence',
+      'Execute the Cruise Planners growth plan — build on 21% activation rate, target $3.02M revenue',
       'Execute minimum 5 proactive advisor calls per day, personally logged in CRM',
       'Lead all roadshow planning and execution — June roadshow and annual series (target 500 attendees, 50 bookings)',
       'Lead Quarterly Business Reviews with all major consortia partners',
       'Drive lapsed advisor reactivation — personally call top 50 lapsed advisors by historical revenue',
       'Manage the TIER Program Travel Wallet launch and rollout to all active advisors',
-      'Target Top 200 Cruise Planners Land Advisors and 246 Opulence luxury advisors',
+      'Target Top 200 Cruise Planners Land Advisors and grow Opulence luxury segment',
       'Manage $500K+ in annual sales and marketing budget across 23 project briefs',
       'Mentor Janie Hall (Director of Sales) and work collaboratively with Jeff Adam (Advisor Engagement)',
     ],
     kpis: [
-      'Annual revenue from key accounts: $8M+ personal contribution',
-      'Travel Leaders activation rate: from 2% to 4%',
+      'Annual revenue from key accounts: $8M+ across Cruise Planners, WESTA, MAST, AAA and Opulence',
+      'Cruise Planners activation rate: maintain 21%, grow to 25%',
       'Proactive calls: minimum 5 per day, tracked in CRM',
       'Roadshow bookings: 50+ per annual roadshow',
       'Lapsed advisor reactivation: 40+ personal reactivations',
@@ -2251,8 +2255,8 @@ var jdData = {
     type: 'Director',
     summary: 'Janie focuses on converting advisor engagement into confirmed bookings and is the lead on the lapsed advisor reactivation programme. As a part-time Director, her role is highly targeted — she owns the pipeline conversion function and the reactivation of the 500 lapsed advisors who previously booked with TAG in 2023-2025.',
     responsibilities: [
-      'Own the lapsed advisor reactivation programme — 500 advisors who booked in 2023-2025 but not in 2026',
-      'Prioritise lapsed list by historical revenue and make minimum 3 targeted reactivation calls per day',
+      'Support Michael Brown on the Ensemble consortia relationship — activation and event follow-up',
+      'Own the lapsed advisor reactivation programme and make minimum 3 targeted reactivation calls per day',
       'Address service concerns from previously lapsed advisors with a structured win-back approach',
       'Convert advisor engagement (webinars, events, roadshows) into confirmed bookings',
       'Introduce lapsed advisors to Nexus 2.0, TIER Program, new destinations, and current promotions',
@@ -2394,7 +2398,7 @@ var jdData = {
   }
 };
 
-var activeJD = 'kerryn';
+var activeJD = 'michael';
 
 function showJD(id, el) {
   activeJD = id;
