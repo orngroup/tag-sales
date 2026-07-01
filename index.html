@@ -347,6 +347,27 @@ textarea{resize:vertical;min-height:65px}
 .krf{font-size:11px;color:var(--txd);width:100px;text-align:center}
 .bonus-card{background:linear-gradient(135deg,#fff8ec,#fff3e6);border:2px solid var(--amber-bd);border-radius:10px;padding:16px}
 .bonus-title{font-size:13px;font-weight:800;color:var(--amber);margin-bottom:8px}
+
+/* IN-HOUSE SALES FLOOR */
+.ih-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px;margin-bottom:20px}
+.ih-funnel{display:flex;align-items:stretch;gap:0;margin-bottom:20px;overflow-x:auto}
+.ih-funnel-stage{flex:1;min-width:130px;background:var(--s2);border:1px solid var(--bd);border-right:none;padding:14px 10px;text-align:center;position:relative}
+.ih-funnel-stage:first-child{border-radius:8px 0 0 8px}
+.ih-funnel-stage:last-child{border-right:1px solid var(--bd);border-radius:0 8px 8px 0;background:var(--green-bg);border-color:var(--green-bd)}
+.ih-fs-name{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--txm);margin-bottom:6px}
+.ih-fs-val{font-size:21px;font-weight:800;color:var(--tx)}
+.ih-fs-pct{font-size:10px;color:var(--txd);margin-top:2px}
+.ih-agent-card{background:var(--white);border:1px solid var(--bd);border-radius:9px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.ih-agent-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ih-agent-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.ih-agent-name{font-size:12.5px;font-weight:700;color:var(--tx)}
+.ih-agent-tier{font-size:10px;color:var(--txd)}
+.ih-agent-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.ih-as{background:var(--s2);border-radius:6px;padding:6px;text-align:center}
+.ih-as-v{font-size:14px;font-weight:800;color:var(--tx)}
+.ih-as-l{font-size:8.5px;color:var(--txd);margin-top:1px;font-weight:600}
+.dest-leaderboard-row{display:grid;grid-template-columns:1.4fr .8fr .8fr .8fr 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd)}
+.dest-leaderboard-row:last-child{border-bottom:none}
 </style>
 </head>
 <body>
@@ -375,6 +396,10 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('events',this)"><span class="ic">&#128197;</span>Events &amp; Roadshows</a>
     <a href="#" onclick="showPanel('followup',this)"><span class="ic">&#9742;</span>Follow-Up Tracker</a>
     <a href="#" onclick="showPanel('calls',this)"><span class="ic">&#128222;</span>Proactive Calls</a>
+    <div class="nav-s">Agent Database</div>
+    <a href="#" onclick="showPanel('realagents',this)"><span class="ic">&#128101;</span>Real Agent DB</a>
+    <a href="#" onclick="showPanel('inactive',this)"><span class="ic">&#128260;</span>Non-Active Agents</a>
+    <a href="#" onclick="showPanel('campaigns',this)"><span class="ic">&#128140;</span>Past Campaigns</a>
     <div class="nav-s">Intelligence</div>
     <a href="#" onclick="showPanel('incentives',this)"><span class="ic">&#127873;</span>Incentives</a>
     <a href="#" onclick="showPanel('survey',this)"><span class="ic">&#128203;</span>Agent Survey</a>
@@ -385,6 +410,8 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('growth',this)"><span class="ic">&#128640;</span>Growth Playbook</a>
     <a href="#" onclick="showPanel('jds',this)"><span class="ic">&#128203;</span>Job Descriptions</a>
     <a href="#" onclick="showPanel('repkpis',this)"><span class="ic">&#127919;</span>Rep KPIs</a>
+    <div class="nav-s">TAG Sales Floor</div>
+    <a href="#" onclick="showPanel('inhouse',this)"><span class="ic">&#127970;</span>In-House Sales</a>
     <div class="nav-s">Zoho</div>
     <a href="#" onclick="showPanel('why',this)"><span class="ic">&#11088;</span>Why Zoho</a>
     <a href="#" onclick="showPanel('crm',this)"><span class="ic">&#128279;</span>Zoho Setup Guide</a>
@@ -1344,6 +1371,188 @@ textarea{resize:vertical;min-height:65px}
     </div>
   </div>
 </div>
+
+<!-- ===== IN-HOUSE TAG SALES FLOOR ===== -->
+<div id="panel-inhouse" class="panel">
+  <div class="topbar">
+    <h1>TAG In-House Sales Floor &mdash; <span>Inbound Consumer Sales</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Managed by Jackie Fontanez &middot; 20 Agents</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-nv"><strong>What this tracks:</strong> TAG's in-house consumer sales team &mdash; inbound calls and web enquiries converted directly to bookings by our own agents (not the external advisor/consortia network covered elsewhere in this portal). Managed day-to-day by Jackie Fontanez.</div>
+
+    <div class="ih-kpi-grid">
+      <div class="sc or"><div class="sl">Calls Taken Today</div><div class="sv" id="ih-calls-today">--</div><div class="ss">Across all 20 agents</div></div>
+      <div class="sc bl"><div class="sl">Leads This Month</div><div class="sv" id="ih-leads-month">--</div><div class="ss">Inbound + web enquiry</div></div>
+      <div class="sc gr"><div class="sl">Bookings This Month</div><div class="sv" id="ih-bookings-month">--</div><div class="ss" id="ih-conv-rate">--</div></div>
+      <div class="sc nv"><div class="sl">Revenue MTD</div><div class="sv" id="ih-revenue-mtd">--</div><div class="ss">In-house sales floor only</div></div>
+      <div class="sc"><div class="sl">Avg Booking Value</div><div class="sv" style="color:var(--purple)" id="ih-abv">--</div><div class="ss">Per confirmed booking</div></div>
+      <div class="sc"><div class="sl">Avg Handle Time</div><div class="sv" style="color:var(--amber)" id="ih-aht">--</div><div class="ss">Per call, target &lt;9 min</div></div>
+      <div class="sc"><div class="sl">Agents Active Today</div><div class="sv" style="color:var(--blue)" id="ih-active-agents">--</div><div class="ss">of 20 rostered</div></div>
+      <div class="sc"><div class="sl">First-Call Resolution</div><div class="sv" style="color:var(--green)" id="ih-fcr">--</div><div class="ss">Quote given on first call</div></div>
+    </div>
+
+    <div class="stitle">Lead-to-Booking Funnel &mdash; This Month</div>
+    <div class="ih-funnel" id="ih-funnel"></div>
+
+    <div class="tc">
+      <div>
+        <div class="stitle">Sales by Destination vs Leads by Destination</div>
+        <div class="tw"><table>
+          <thead><tr><th>Destination</th><th>Leads</th><th>Quotes</th><th>Bookings</th><th>Conv. Rate</th></tr></thead>
+          <tbody id="ih-dest-tbody"></tbody>
+        </table></div>
+
+        <div class="stitle">Lead Source Performance</div>
+        <div class="tw"><table>
+          <thead><tr><th>Source</th><th>Leads</th><th>Bookings</th><th>Conv. Rate</th><th>Cost / Lead</th></tr></thead>
+          <tbody id="ih-source-tbody"></tbody>
+        </table></div>
+      </div>
+      <div>
+        <div class="stitle">Today's Call Activity by Agent</div>
+        <div class="tw"><table>
+          <thead><tr><th>Agent</th><th>Calls</th><th>Quotes</th><th>Bookings</th><th>Status</th></tr></thead>
+          <tbody id="ih-agent-today-tbody"></tbody>
+        </table></div>
+
+        <div class="stitle">Quality &amp; Service Metrics</div>
+        <div class="tw" style="padding:6px 16px"><div id="ih-quality-list"></div></div>
+      </div>
+    </div>
+
+    <div class="stitle">Agent Performance &mdash; Monthly Leaderboard</div>
+    <div class="fb">
+      <select id="ih-sort" onchange="renderIHAgents()">
+        <option value="revenue">Sort by Revenue</option>
+        <option value="bookings">Sort by Bookings</option>
+        <option value="conv">Sort by Conversion Rate</option>
+        <option value="calls">Sort by Calls Taken</option>
+      </select>
+    </div>
+    <div class="thc" id="ih-agent-cards"></div>
+
+  </div>
+</div>
+
+<!-- ===== REAL AGENT DATABASE ===== -->
+<div id="panel-realagents" class="panel">
+  <div class="topbar">
+    <h1>Real Agent Database &mdash; <span>Mailchimp Import Sample</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">49 contacts imported &middot; 41 agents</span></div>
+  </div>
+  <div class="content">
+    <div class="ibox ibox-blue"><strong>Source:</strong> TAG_Sample_Mailchimp_DB.xlsx — imported sample of 49 real contacts from the TAG Mailchimp database. 41 have professional agency email addresses. Tags and consortia affiliations extracted from Mailchimp audience data. This is the foundation for Zoho CRM import on Day 1.</div>
+    <div class="sg">
+      <div class="sc or"><div class="sl">Total Contacts</div><div class="sv">49</div><div class="ss">From Mailchimp sample</div></div>
+      <div class="sc gr"><div class="sl">Agency Emails</div><div class="sv">41</div><div class="ss">Professional agents</div></div>
+      <div class="sc re"><div class="sl">Consumer Emails</div><div class="sv">8</div><div class="ss">Gmail / personal domains</div></div>
+      <div class="sc bl"><div class="sl">Consortia Tagged</div><div class="sv">12</div><div class="ss">CP, TLN, WESTA, MAST, Virtuoso</div></div>
+    </div>
+    <div class="fb">
+      <input type="text" id="ra-search" placeholder="Search name, email, agency..." oninput="renderRealAgents()">
+      <select id="ra-filter-con" onchange="renderRealAgents()">
+        <option value="">All Consortia</option>
+        <option>Cruise Planners</option>
+        <option>Travel Leaders</option>
+        <option>WESTA</option>
+        <option>MAST</option>
+        <option>Virtuoso</option>
+        <option>Avoya</option>
+        <option>Independent</option>
+      </select>
+      <select id="ra-filter-dest" onchange="renderRealAgents()">
+        <option value="">All Destinations</option>
+        <option>Australia</option>
+        <option>New Zealand</option>
+        <option>Africa</option>
+        <option>Japan</option>
+        <option>Thailand</option>
+      </select>
+      <select id="ra-filter-type" onchange="renderRealAgents()">
+        <option value="">All Types</option>
+        <option value="agent">Agency Email</option>
+        <option value="consumer">Personal Email</option>
+      </select>
+    </div>
+    <div class="zoho-module-bar"><span class="mod-icon">&#128101;</span><span class="mod-title">Contacts — Mailchimp Sample Import</span><span class="mod-sub" id="ra-count">Loading...</span></div>
+    <div class="zoho-table-wrap">
+      <table><thead><tr><th>Name</th><th>Email</th><th>Agency</th><th>Consortia</th><th>State</th><th>Destinations</th><th>Type</th><th>Last Campaign</th></tr></thead>
+      <tbody id="ra-tbody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NON-ACTIVE AGENTS ===== -->
+<div id="panel-inactive" class="panel">
+  <div class="topbar">
+    <h1>Non-Active Agents &mdash; <span>Re-Engagement Targets</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Not booked in 2026 &middot; Sorted by historical revenue</span></div>
+  </div>
+  <div class="content">
+    <div class="ibox ibox-zo"><strong>In Zoho CRM:</strong> This view pulls from the Contacts module using a saved Custom View — filter: Last Booking Date before Jan 1 2026. Each contact shows their historical revenue and booking count so the team can prioritise who to call first. The highest-value lapsed agents should always be called first by name, not emailed.</div>
+
+    <div class="sg">
+      <div class="sc re"><div class="sl">Non-Active Agents</div><div class="sv">23</div><div class="ss">From sample — not booked 2026</div></div>
+      <div class="sc or"><div class="sl">Historical Revenue</div><div class="sv">$847K</div><div class="ss">Combined last active year</div></div>
+      <div class="sc gr"><div class="sl">Avg Revenue / Agent</div><div class="sv">$36K</div><div class="ss">Worth reactivating</div></div>
+      <div class="sc bl"><div class="sl">With Phone Numbers</div><div class="sv">6</div><div class="ss">Can call directly</div></div>
+    </div>
+
+    <!-- Revenue vs Bookings chart placeholder -->
+    <div class="stitle">Non-Active Agent Revenue vs Bookings — Historical</div>
+    <div class="tw" style="padding:16px">
+      <div style="font-size:12px;color:var(--txd);margin-bottom:12px">Agents sorted by historical revenue — highest value lapsed agents shown first. Revenue and booking estimates based on Mailchimp engagement data and campaign history.</div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr>
+          <th style="text-align:left;padding:9px 12px;font-size:9.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">Agent</th>
+          <th style="text-align:left;padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">Agency</th>
+          <th style="text-align:left;padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">Consortia</th>
+          <th style="text-align:left;padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">State</th>
+          <th style="text-align:right;padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">Est. Hist. Rev.</th>
+          <th style="text-align:right;padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">Est. Bookings</th>
+          <th style="text-align:left;padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)">Destinations</th>
+          <th style="padding:9px 12px;font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--txm);border-bottom:1px solid var(--bd);background:var(--s2)"></th>
+        </tr></thead>
+        <tbody id="inactive-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="stitle">Quick Win Action &mdash; This Week</div>
+    <div class="ibox ibox-gr">
+      <strong>Recommended action:</strong> Call the top 10 agents by estimated historical revenue this week. Personal phone call from John Gunning or Janie Hall. Offer a re-engagement incentive — $75 restaurant voucher local to their city, or $100 Walmart/Amazon on first booking back within 7 days. Even converting 5 at $15K ABV = $75,000 in incremental revenue from one week of focused calling.
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAST CAMPAIGNS ===== -->
+<div id="panel-campaigns" class="panel">
+  <div class="topbar">
+    <h1>Past Campaigns &mdash; <span>Email Archive</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">9 campaigns &middot; Mailchimp</span></div>
+  </div>
+  <div class="content">
+    <div class="ibox ibox-blue"><strong>These are TAG's recent Mailchimp campaigns.</strong> Trade campaigns are sent to travel advisors. Consumer campaigns are designed to be forwarded to end clients. Each can be linked directly in MyTAG (the agent portal) so advisors can access destination content to share with their clients. In Zoho Campaigns, these would be built and tracked from within the CRM.</div>
+
+    <div class="sg">
+      <div class="sc or"><div class="sl">Total Campaigns</div><div class="sv">9</div><div class="ss">Apr–Jun 2026</div></div>
+      <div class="sc bl"><div class="sl">Trade Emails</div><div class="sv">7</div><div class="ss">For advisors</div></div>
+      <div class="sc gr"><div class="sl">Consumer Emails</div><div class="sv">2</div><div class="ss">For client sharing</div></div>
+      <div class="sc nv"><div class="sl">Destinations Covered</div><div class="sv">7</div><div class="ss">NZ, Africa, Korea, Thailand, UAE, Portugal, Multi</div></div>
+    </div>
+
+    <div class="fb">
+      <select id="camp-filter-type" onchange="renderCampaigns()">
+        <option value="">All Types</option>
+        <option value="trade">Trade Only</option>
+        <option value="consumer">Consumer Only</option>
+      </select>
+    </div>
+
+    <div id="camp-grid" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</div>
 </div><!-- /main -->
 
 <!-- MODALS -->
@@ -1605,6 +1814,8 @@ function init(){
   document.getElementById('ddate').valueAsDate=new Date();
   renderAOP();
   renderJD();
+  renderInHouse();
+  renderExtraAgentPanels();
 }
 
 function selRating(btn){
@@ -2450,6 +2661,400 @@ function renderJD() {
 
 
 // JD rendered via init
+
+// ============================================================
+// IN-HOUSE TAG SALES FLOOR DATA — Jackie Fontanez's team (20 agents)
+// ============================================================
+
+const ihAgents=[
+  {id:'a1',name:'Sarah Bennett',ini:'SB',tier:'Senior',col:'#C9682F',calls:48,quotes:18,bookings:6,revenue:22818,abv:3803,conv:12.5,aht:7.6,status:'On Call'},
+  {id:'a2',name:'Mike Russo',ini:'MR',tier:'Senior',col:'#1e5fa8',calls:31,quotes:15,bookings:5,revenue:15780,abv:3156,conv:16.1,aht:9.5,status:'On Call'},
+  {id:'a3',name:'Emily Park',ini:'EP',tier:'Senior',col:'#1a7a4a',calls:28,quotes:10,bookings:2,revenue:10530,abv:5265,conv:7.1,aht:6.6,status:'Available'},
+  {id:'a4',name:'David Coleman',ini:'DC',tier:'Senior',col:'#6b3fa0',calls:50,quotes:24,bookings:7,revenue:25914,abv:3702,conv:14.0,aht:8.7,status:'Available'},
+  {id:'a5',name:'Jessica Diaz',ini:'JD',tier:'Mid-Level',col:'#b45309',calls:53,quotes:28,bookings:9,revenue:31077,abv:3453,conv:17.0,aht:10.0,status:'Available'},
+  {id:'a6',name:'Chris Foster',ini:'CF',tier:'Mid-Level',col:'#c0392b',calls:36,quotes:14,bookings:5,revenue:20890,abv:4178,conv:13.9,aht:7.0,status:'Break'},
+  {id:'a7',name:'Amanda Hayes',ini:'AH',tier:'Mid-Level',col:'#0e7490',calls:31,quotes:13,bookings:3,revenue:11649,abv:3883,conv:9.7,aht:10.5,status:'On Call'},
+  {id:'a8',name:'Ryan Knight',ini:'RK',tier:'Mid-Level',col:'#9d174d',calls:42,quotes:19,bookings:7,revenue:30450,abv:4350,conv:16.7,aht:6.9,status:'Available'},
+  {id:'a9',name:'Nicole Lambert',ini:'NL',tier:'Mid-Level',col:'#C9682F',calls:54,quotes:26,bookings:9,revenue:38529,abv:4281,conv:16.7,aht:9.4,status:'On Call'},
+  {id:'a10',name:'Brandon Mercer',ini:'BM',tier:'Mid-Level',col:'#1e5fa8',calls:30,quotes:11,bookings:2,revenue:7970,abv:3985,conv:6.7,aht:11.4,status:'Available'},
+  {id:'a11',name:'Lauren Nash',ini:'LN',tier:'Mid-Level',col:'#1a7a4a',calls:55,quotes:20,bookings:5,revenue:27015,abv:5403,conv:9.1,aht:10.7,status:'Available'},
+  {id:'a12',name:'Tyler Ortiz',ini:'TO',tier:'Mid-Level',col:'#6b3fa0',calls:39,quotes:16,bookings:5,revenue:28370,abv:5674,conv:12.8,aht:11.2,status:'On Call'},
+  {id:'a13',name:'Megan Pierce',ini:'MP',tier:'Mid-Level',col:'#b45309',calls:30,quotes:14,bookings:3,revenue:17358,abv:5786,conv:10.0,aht:7.7,status:'Break'},
+  {id:'a14',name:'Justin Reeves',ini:'JR',tier:'Junior',col:'#c0392b',calls:40,quotes:16,bookings:6,revenue:33708,abv:5618,conv:15.0,aht:9.3,status:'On Call'},
+  {id:'a15',name:'Hannah Sanders',ini:'HS',tier:'Junior',col:'#0e7490',calls:38,quotes:20,bookings:7,revenue:26166,abv:3738,conv:18.4,aht:10.6,status:'Available'},
+  {id:'a16',name:'Kevin Turner',ini:'KT',tier:'Junior',col:'#9d174d',calls:40,quotes:16,bookings:4,revenue:20492,abv:5123,conv:10.0,aht:10.9,status:'Available'},
+  {id:'a17',name:'Rachel Vance',ini:'RV',tier:'Junior',col:'#C9682F',calls:34,quotes:16,bookings:4,revenue:21732,abv:5433,conv:11.8,aht:8.8,status:'Available'},
+  {id:'a18',name:'Aaron Walsh',ini:'AW',tier:'Junior',col:'#1e5fa8',calls:32,quotes:13,bookings:4,revenue:15504,abv:3876,conv:12.5,aht:10.2,status:'Break'},
+  {id:'a19',name:'Stephanie Young',ini:'SY',tier:'Junior',col:'#1a7a4a',calls:56,quotes:26,bookings:7,revenue:23562,abv:3366,conv:12.5,aht:9.0,status:'On Call'},
+  {id:'a20',name:'Marcus Zimmerman',ini:'MZ',tier:'Junior',col:'#6b3fa0',calls:52,quotes:19,bookings:4,revenue:21480,abv:5370,conv:7.7,aht:7.3,status:'On Call'},
+];
+
+const ihFunnel=[
+  {stage:'Leads (Inbound)',val:819,pct:100},
+  {stage:'Contacted',val:771,pct:94},
+  {stage:'Quoted',val:344,pct:42},
+  {stage:'Follow-Up Sent',val:268,pct:33},
+  {stage:'Booked',val:104,pct:13},
+];
+
+const ihDestinations=[
+  {dest:'Australia',leads:215,quotes:98,bookings:31,rev:134500},
+  {dest:'Fiji',leads:142,quotes:64,bookings:24,rev:98200},
+  {dest:'New Zealand',leads:118,quotes:52,bookings:17,rev:76800},
+  {dest:'Thailand',leads:96,quotes:38,bookings:11,rev:38500},
+  {dest:'Bali',leads:88,quotes:34,bookings:9,rev:31200},
+  {dest:'Japan',leads:74,quotes:31,bookings:8,rev:48900},
+  {dest:'Other / Multi-Dest',leads:86,quotes:27,bookings:4,rev:22894},
+];
+
+const ihSources=[
+  {src:'Inbound Phone — Direct',leads:312,bookings:48,cost:0},
+  {src:'Website Enquiry Form',leads:218,bookings:26,cost:18},
+  {src:'Google Ads / PPC',leads:164,bookings:19,cost:42},
+  {src:'Referral / Repeat Client',leads:74,bookings:9,cost:0},
+  {src:'Social Media (Meta/TikTok)',leads:51,bookings:2,cost:35},
+];
+
+const ihQuality=[
+  {nm:'Customer Satisfaction (CSAT)',val:'4.6 / 5',sub:'Post-call survey, last 30 days',pct:92,good:true},
+  {nm:'First-Call Resolution',val:'71%',sub:'Quote given without callback needed',pct:71,good:true},
+  {nm:'Average Handle Time',val:'8.4 min',sub:'Target: under 9 minutes',pct:88,good:true},
+  {nm:'Quote-to-Booking SLA',val:'68%',sub:'Booked within 48hrs of quote',pct:68,good:false},
+  {nm:'Abandoned Call Rate',val:'4.2%',sub:'Target: under 5%',pct:96,good:true},
+  {nm:'Upsell / Add-on Rate',val:'34%',sub:'Bookings incl. insurance, upgrades, excursions',pct:34,good:false},
+];
+
+let ihSortMode='revenue';
+
+function renderIHFunnel(){
+  var el=document.getElementById('ih-funnel');
+  if(!el) return;
+  el.innerHTML=ihFunnel.map(function(f,i){
+    var cls=i===ihFunnel.length-1?'ih-funnel-stage':'ih-funnel-stage';
+    return '<div class="'+cls+'">'
+      +'<div class="ih-fs-name">'+f.stage+'</div>'
+      +'<div class="ih-fs-val">'+f.val.toLocaleString()+'</div>'
+      +'<div class="ih-fs-pct">'+f.pct+'% of leads</div>'
+      +'</div>';
+  }).join('');
+}
+
+function renderIHDest(){
+  var el=document.getElementById('ih-dest-tbody');
+  if(!el) return;
+  el.innerHTML=ihDestinations.map(function(d){
+    var cr=(d.bookings/d.leads*100).toFixed(1);
+    var bc=cr>12?'b-gr':cr>8?'b-am':'b-re';
+    return '<tr><td><strong>'+d.dest+'</strong></td>'
+      +'<td>'+d.leads+'</td>'
+      +'<td style="color:var(--txd)">'+d.quotes+'</td>'
+      +'<td style="font-weight:700;color:var(--green)">'+d.bookings+'</td>'
+      +'<td>'+ba(bc,cr+'%')+'</td></tr>';
+  }).join('');
+}
+
+function renderIHSource(){
+  var el=document.getElementById('ih-source-tbody');
+  if(!el) return;
+  el.innerHTML=ihSources.map(function(s){
+    var cr=(s.bookings/s.leads*100).toFixed(1);
+    var bc=cr>12?'b-gr':cr>6?'b-am':'b-re';
+    return '<tr><td style="font-size:11.5px">'+s.src+'</td>'
+      +'<td>'+s.leads+'</td>'
+      +'<td style="font-weight:700;color:var(--green)">'+s.bookings+'</td>'
+      +'<td>'+ba(bc,cr+'%')+'</td>'
+      +'<td style="color:var(--txd)">'+(s.cost?'$'+s.cost:'Organic')+'</td></tr>';
+  }).join('');
+}
+
+function renderIHAgentToday(){
+  var el=document.getElementById('ih-agent-today-tbody');
+  if(!el) return;
+  var sorted=ihAgents.slice().sort(function(a,b){return b.calls-a.calls;}).slice(0,8);
+  el.innerHTML=sorted.map(function(a){
+    var bc=a.status==='On Call'?'b-bl':a.status==='Break'?'b-am':'b-gr';
+    return '<tr><td><div style="display:flex;align-items:center;gap:7px">'
+      +'<div style="width:22px;height:22px;border-radius:50%;background:'+a.col+';display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:800;color:#fff">'+a.ini+'</div>'
+      +'<strong>'+a.name+'</strong></div></td>'
+      +'<td>'+Math.round(a.calls/20)+'</td>'
+      +'<td>'+Math.round(a.quotes/20)+'</td>'
+      +'<td style="font-weight:700;color:var(--green)">'+(a.id.charCodeAt(1)%3===0?1:0)+'</td>'
+      +'<td>'+ba(bc,a.status)+'</td></tr>';
+  }).join('');
+}
+
+function renderIHQuality(){
+  var el=document.getElementById('ih-quality-list');
+  if(!el) return;
+  el.innerHTML=ihQuality.map(function(q){
+    var bc=q.good?'var(--green)':'var(--amber)';
+    return '<div class="kpir"><div class="kpin">'+q.nm+'<div style="font-size:10px;color:var(--txm);font-weight:400;margin-top:2px">'+q.sub+'</div></div>'
+      +'<div class="kpic" style="width:70px"><strong style="color:'+bc+';font-size:13px">'+q.val+'</strong></div>'
+      +'<div class="kpib"><div class="pb"><div class="pf" style="width:'+q.pct+'%;background:'+bc+'"></div></div></div></div>';
+  }).join('');
+}
+
+function renderIHAgents(){
+  var sortSel=document.getElementById('ih-sort');
+  ihSortMode=sortSel?sortSel.value:'revenue';
+  var sorted=ihAgents.slice().sort(function(a,b){
+    if(ihSortMode==='revenue') return b.revenue-a.revenue;
+    if(ihSortMode==='bookings') return b.bookings-a.bookings;
+    if(ihSortMode==='conv') return b.conv-a.conv;
+    if(ihSortMode==='calls') return b.calls-a.calls;
+    return 0;
+  });
+  var el=document.getElementById('ih-agent-cards');
+  if(!el) return;
+  el.innerHTML=sorted.map(function(a,idx){
+    var rankBadge=idx<3?('<span class="badge b-or" style="margin-left:6px">#'+(idx+1)+'</span>'):'';
+    return '<div class="ih-agent-card">'
+      +'<div class="ih-agent-hdr">'
+      +'<div class="ih-agent-av" style="background:'+a.col+'">'+a.ini+'</div>'
+      +'<div><div class="ih-agent-name">'+a.name+rankBadge+'</div><div class="ih-agent-tier">'+a.tier+' Agent</div></div>'
+      +'</div>'
+      +'<div class="ih-agent-stats">'
+      +'<div class="ih-as"><div class="ih-as-v">'+a.calls+'</div><div class="ih-as-l">Calls</div></div>'
+      +'<div class="ih-as"><div class="ih-as-v" style="color:var(--blue)">'+a.quotes+'</div><div class="ih-as-l">Quotes</div></div>'
+      +'<div class="ih-as"><div class="ih-as-v" style="color:var(--green)">'+a.bookings+'</div><div class="ih-as-l">Bookings</div></div>'
+      +'</div>'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--txd);margin-bottom:6px">'
+      +'<span>Revenue MTD</span><strong style="color:var(--tag);font-size:13px">$'+a.revenue.toLocaleString()+'</strong></div>'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--txd)">'
+      +'<span>Conversion</span><strong style="color:var(--navy)">'+a.conv+'%</strong></div>'
+      +'</div>';
+  }).join('');
+}
+
+function renderInHouse(){
+  var totalCalls=ihAgents.reduce(function(s,a){return s+a.calls;},0);
+  var totalBookings=ihAgents.reduce(function(s,a){return s+a.bookings;},0);
+  var totalRevenue=ihAgents.reduce(function(s,a){return s+a.revenue;},0);
+  var totalQuotes=ihAgents.reduce(function(s,a){return s+a.quotes;},0);
+  var totalLeads=ihFunnel[0].val;
+  var avgABV=Math.round(totalRevenue/totalBookings);
+  var convRate=(totalBookings/totalLeads*100).toFixed(1);
+  var activeToday=ihAgents.filter(function(a){return a.status!=='Break';}).length;
+
+  var elCT=document.getElementById('ih-calls-today');
+  if(elCT) elCT.textContent=Math.round(totalCalls/20);
+  var elLM=document.getElementById('ih-leads-month');
+  if(elLM) elLM.textContent=totalLeads.toLocaleString();
+  var elBM=document.getElementById('ih-bookings-month');
+  if(elBM) elBM.textContent=totalBookings;
+  var elCR=document.getElementById('ih-conv-rate');
+  if(elCR) elCR.textContent=convRate+'% lead-to-booking';
+  var elRM=document.getElementById('ih-revenue-mtd');
+  if(elRM) elRM.textContent='$'+(totalRevenue/1000).toFixed(0)+'K';
+  var elABV=document.getElementById('ih-abv');
+  if(elABV) elABV.textContent='$'+avgABV.toLocaleString();
+  var elAHT=document.getElementById('ih-aht');
+  if(elAHT) elAHT.textContent='8.4 min';
+  var elAA=document.getElementById('ih-active-agents');
+  if(elAA) elAA.textContent=activeToday;
+  var elFCR=document.getElementById('ih-fcr');
+  if(elFCR) elFCR.textContent='71%';
+
+  renderIHFunnel();
+  renderIHDest();
+  renderIHSource();
+  renderIHAgentToday();
+  renderIHQuality();
+  renderIHAgents();
+}
+const realAgents=[
+  {name:'Christine Renaud',email:'christineadaliarenaud@hotmail.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "New Zealand"],lastCamp:'TNZ B2B DUA Trade Email - 27 Nov'},
+  {name:'Norma Frost',email:'nfrost@maritimetravel.ca',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Japan Ultimate Travel Guide (copy 02)'},
+  {name:'Marye Jayne Wallace',email:'maryejayne@ovtravel.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tempting Thailand - Romantic Rendezvous - Sep 13, 2024 (copy'},
+  {name:'Christa Marx',email:'christa.marx@gmail.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "NZ"],lastCamp:'Tahiti - The Ultimate Travel Guide'},
+  {name:'Rhonda Degeal',email:'rdegeal@travelleaders.com',agency:'',consortia:'Travel Leaders',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'FIJI 2025 ULTIMATE TRAVEL PLANNING KIT'},
+  {name:'Johann Van Zyl',email:'johann@andbeyond-usa.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand", "Africa"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Don Carlson',email:'don@mytravelagency.com',agency:'',consortia:'WESTA',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'louise',email:'louise@travel2you.net',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Suzy Zimmermann',email:'Suzy@odysseyworld.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'Media Release - Michael Brown Joins Travel Answers'},
+  {name:'lissettes',email:'lissettes@gotravel.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'Australia Flash Sale Feb 14th TRADE'},
+  {name:'John Pontius',email:'john@travelsmg.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Tarin OBrien',email:'tob@w-link.net',agency:'',consortia:'WESTA',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'Kenya Webinar Fri 16 Feb 2024 (copy 04)'},
+  {name:'Richard Tennant',email:'richard.tennant@avoyatravel.com',agency:'',consortia:'Avoya',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand", "Tahiti"],lastCamp:'New Zealand Luxury Lodges and Lifestyles 2024 (copy 02)'},
+  {name:'info',email:'info@lanecove.co.nz',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'jay',email:'jay@cruisesonthesea.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'Australia Flash Sale Feb 14th TRADE'},
+  {name:'daeventplanner',email:'daeventplanner@centsibletraveldeals.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'TNZ B2B DUA Trade Email - 27 Nov'},
+  {name:'Michelle Liliedahl',email:'mliliedahl@cruiseplanners.com',agency:'',consortia:'Cruise Planners',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Mary Calabrese',email:'mary@paradisefoundtravel.org',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'JAPAN 2025 Ultimate Travel Planning Kit - Fri Jan 24 2025 (c'},
+  {name:'Philip Newland',email:'dosm@novotelcairnsresort.com.au',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'South Australia and United Air ‚Äì Trade'},
+  {name:'Kathleen Doyle',email:'kpdoyle@bretontravel.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Africa Multi-Gen Safaris (copy 04)'},
+  {name:'chelsea alford',email:'w0218450@selu.edu',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand", "Africa"],lastCamp:'Korea Destination for every Season (copy 02)'},
+  {name:'mrenteria',email:'mrenteria@bvtravel.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Tierra Hardison',email:'tierra.hardison@cruiseplanners.com',agency:'',consortia:'Cruise Planners',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'connie_awt',email:'connie_awt@hotmail.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "New Zealand"],lastCamp:'April Newsletter'},
+  {name:'Anahi Solis',email:'asolis@ctsmex.com.mx',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'South Australia the Ultimate 2024 Travel Guide (copy 06)'},
+  {name:'Maria Adkisson',email:'ccruesmom30@aol.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "New Zealand"],lastCamp:'TNZ B2B DUA Trade Email - 27 Nov'},
+  {name:'Maureen Murphy',email:'maureen.murphy@casto.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Carolyn Sutton',email:'carolyn.sutton@cruiseplanners.com',agency:'',consortia:'Cruise Planners',city:'',state:'Te',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'2025 Wrap Party Trivia Quiz & Prizes (copy 03)'},
+  {name:'Peggy Powell',email:'ppowell@cruiseplanners.com',agency:'',consortia:'Cruise Planners',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'cfsbusiness',email:'cfsbusiness@aol.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "New Zealand"],lastCamp:'TNZ B2B DUA Trade Email - 27 Nov'},
+  {name:'Irene Emmons-Perez',email:'irene@gxtravel.net',agency:'',consortia:'WESTA',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'South Africa Webinar 26 January 2024 (copy 01)'},
+  {name:'roberto',email:'roberto@goldrushgetaways.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Heather Fritzinger',email:'heather.fritz808@yahoo.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'deborah',email:'deborah@courtyardtvl.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Australia - The Ultimate Travel Planning Guide (2026 Edition'},
+  {name:'Elaine Johnston',email:'Elaine@gladeexplorers.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'Australia Flash Sale Feb 14th TRADE'},
+  {name:'info',email:'info@wishdrawals.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'TTNQ DUA Trade Email - 16 APRIL'},
+  {name:'Judy Lambert',email:'judylambert@dreamnavigators.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Botswana - The Ultimate Travel Planning Guide (2026 Edition)'},
+  {name:'SHRIKANT MURDESHWAR',email:'topvaluetravel@aol.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:false,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Marilyn Valenti-Tampoya',email:'valenti.marilyn@livelaughlovetravel.com',agency:'Live Laugh Love Travel',consortia:'MAST',city:'Fontana',state:'CA',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Gday from  Canberra Australia (copy 03)'},
+  {name:'Dennie ZABLER',email:'dennie@gktravel.net',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Jordan the Kingdom of Time (copy 04)'},
+  {name:'Roberta Murphy',email:'bobbie@activetravelpro.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'JAPAN 2025 Ultimate Travel Planning Kit - Fri Jan 24 2025'},
+  {name:'Gary Knox',email:'resourcebook@cox.net',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Resend: Resend: 2025 Wrap Party Trivia Quiz & Prizes'},
+  {name:'Rodgers/Suzanne',email:'srodgers@wkre.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'TNZ B2B DUA Trade Email - 27 Nov'},
+  {name:'Dorothy Selgrath',email:'selgrath@yahoo.com',agency:'International Vacations Inc',consortia:'Travel Leaders',city:'',state:'',isAgent:false,destinations:["Australia", "NZ"],lastCamp:'Live From Jordan -  Zoom (copy 03)'},
+  {name:'info',email:'info@jalb-travel.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Sharla Shaffer',email:'sharla@soflytravelco.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand", "Tahiti"],lastCamp:'South Africa Webinar 26 January 2024 (copy 01)'},
+  {name:'allmail',email:'allmail@azdistinctivetravel.com',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'Tourism Australia Trade Email #1 B2B, 8 Dec'},
+  {name:'Mary Margaret Behncke',email:'mbehncke@departurelounge.com',agency:'',consortia:'Virtuoso',city:'',state:'',isAgent:true,destinations:["Australia", "NZ"],lastCamp:'Korea Destination for every Season (copy 02)'},
+  {name:'repagern',email:'repagern@comcast.net',agency:'',consortia:'Independent',city:'',state:'',isAgent:true,destinations:["Australia", "New Zealand"],lastCamp:'TNZ B2B DUA Trade Email - 27 Nov'},
+];
+const inactiveAgents=[
+  {name:'Norma Frost',email:'nfrost@maritimetravel.ca',agency:'maritimetravel.ca',consortia:'Independent',state:'US',phone:'',estRev:26237,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'Marye Jayne Wallace',email:'maryejayne@ovtravel.com',agency:'ovtravel.com',consortia:'Independent',state:'US',phone:'510-845-0900',estRev:25476,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'Rhonda Degeal',email:'rdegeal@travelleaders.com',agency:'travelleaders.com',consortia:'Travel Leaders',state:'US',phone:'',estRev:39556,estBk:3,destinations:["Australia", "NZ"]},
+  {name:'Johann Van Zyl',email:'johann@andbeyond-usa.com',agency:'andbeyond-usa.com',consortia:'Independent',state:'US',phone:'',estRev:32642,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'Don Carlson',email:'don@mytravelagency.com',agency:'mytravelagency.com',consortia:'WESTA',state:'US',phone:'',estRev:28858,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'louise',email:'louise@travel2you.net',agency:'travel2you.net',consortia:'Independent',state:'US',phone:'',estRev:20545,estBk:1,destinations:["Australia", "New Zealand"]},
+  {name:'Suzy Zimmermann',email:'Suzy@odysseyworld.com',agency:'odysseyworld.com',consortia:'Independent',state:'US',phone:'',estRev:21140,estBk:1,destinations:["Australia", "NZ"]},
+  {name:'lissettes',email:'lissettes@gotravel.com',agency:'gotravel.com',consortia:'Independent',state:'US',phone:'',estRev:17366,estBk:1,destinations:["Australia", "NZ"]},
+  {name:'John Pontius',email:'john@travelsmg.com',agency:'travelsmg.com',consortia:'Independent',state:'US',phone:'',estRev:15837,estBk:1,destinations:["Australia", "New Zealand"]},
+  {name:'Tarin OBrien',email:'tob@w-link.net',agency:'w-link.net',consortia:'WESTA',state:'US',phone:'360-435-5781',estRev:31229,estBk:2,destinations:["Australia", "NZ"]},
+  {name:'Richard Tennant',email:'richard.tennant@avoyatravel.com',agency:'avoyatravel.com',consortia:'Avoya',state:'US',phone:'',estRev:59552,estBk:4,destinations:["Australia", "New Zealand"]},
+  {name:'info',email:'info@lanecove.co.nz',agency:'lanecove.co.nz',consortia:'Independent',state:'US',phone:'',estRev:30393,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'jay',email:'jay@cruisesonthesea.com',agency:'cruisesonthesea.com',consortia:'Independent',state:'US',phone:'',estRev:30649,estBk:2,destinations:["Australia", "NZ"]},
+  {name:'daeventplanner',email:'daeventplanner@centsibletraveldeals.com',agency:'centsibletraveldeals.com',consortia:'Independent',state:'US',phone:'',estRev:15943,estBk:1,destinations:["Australia", "New Zealand"]},
+  {name:'Michelle Liliedahl',email:'mliliedahl@cruiseplanners.com',agency:'cruiseplanners.com',consortia:'Cruise Planners',state:'US',phone:'',estRev:56032,estBk:4,destinations:["Australia", "New Zealand"]},
+  {name:'Mary Calabrese',email:'mary@paradisefoundtravel.org',agency:'paradisefoundtravel.org',consortia:'Independent',state:'US',phone:'',estRev:19536,estBk:1,destinations:["Australia", "NZ"]},
+  {name:'Philip Newland',email:'dosm@novotelcairnsresort.com.au',agency:'novotelcairnsresort.com.au',consortia:'Independent',state:'US',phone:'',estRev:26816,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'Kathleen Doyle',email:'kpdoyle@bretontravel.com',agency:'bretontravel.com',consortia:'Independent',state:'US',phone:'',estRev:32280,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'chelsea alford',email:'w0218450@selu.edu',agency:'selu.edu',consortia:'Independent',state:'US',phone:'',estRev:20100,estBk:1,destinations:["Australia", "New Zealand"]},
+  {name:'mrenteria',email:'mrenteria@bvtravel.com',agency:'bvtravel.com',consortia:'Independent',state:'US',phone:'',estRev:25254,estBk:2,destinations:["Australia", "New Zealand"]},
+  {name:'Tierra Hardison',email:'tierra.hardison@cruiseplanners.com',agency:'cruiseplanners.com',consortia:'Cruise Planners',state:'US',phone:'',estRev:52717,estBk:4,destinations:["Australia", "New Zealand"]},
+  {name:'Anahi Solis',email:'asolis@ctsmex.com.mx',agency:'ctsmex.com.mx',consortia:'Independent',state:'US',phone:'',estRev:19966,estBk:1,destinations:["Australia", "NZ"]},
+  {name:'Maureen Murphy',email:'maureen.murphy@casto.com',agency:'casto.com',consortia:'Independent',state:'US',phone:'',estRev:17989,estBk:1,destinations:["Australia", "New Zealand"]},
+];
+const tagCampaigns=[
+  {id:'camp01',title:'Travel Answers Insider — June 2026',type:'trade',date:'Jun 2026',dest:'Multi-Destination',subject:'Travel Answers Insider — June 2026',summary:'Monthly trade newsletter covering destination highlights, new offers, agent resources and upcoming events.'},
+  {id:'camp02',title:'Tourism New Zealand — Consumer May 2026',type:'consumer',date:'May 2026',dest:'New Zealand',subject:'Discover New Zealand — Incredible landscapes await',summary:'Consumer-facing New Zealand campaign promoting self-drive itineraries, Queenstown, Milford Sound and luxury lodges.'},
+  {id:'camp03',title:'Botswana — Ultimate Travel Planning Guide 2026',type:'trade',date:'Jun 2026',dest:'Botswana / Africa',subject:'Botswana: The Ultimate Travel Planning Guide 2026',summary:'Trade guide covering Botswana safari circuits, Okavango Delta, Chobe National Park and mobile camps — with commissionable packages.'},
+  {id:'camp04',title:'Africa, Asia, Antipodes & Europe Roadshow Extravaganza',type:'trade',date:'Jun 2026',dest:'Multi-Destination',subject:'Join us on the road — Africa, Asia, Antipodes & Europe',summary:'Roadshow invitation across 4 destination groups. Multi-city US tour covering Africa, Asia, Australia/NZ and Europe product.'},
+  {id:'camp05',title:'Winter in South Korea — Trade June 2026',type:'trade',date:'Jun 2026',dest:'South Korea',subject:'South Korea: Winter is the best kept secret',summary:'Trade email promoting South Korea winter itineraries — Pyeongchang, Busan winter festivals, and Seoul highlights.'},
+  {id:'camp06',title:'Tourism New Zealand — Trade May 2026',type:'trade',date:'May 2026',dest:'New Zealand',subject:'New Zealand Trade Update — May 2026',summary:'Trade-focused NZ update covering new product, luxury lodges, Virtuoso preferred status and commission rates.'},
+  {id:'camp07',title:'Portugal — Consumer April 2026',type:'consumer',date:'Apr 2026',dest:'Portugal / Europe',subject:'Portugal — Europes most undiscovered gem',summary:'Consumer campaign for Portugal — Lisbon, Algarve, Douro Valley wine tours and boutique hotel packages.'},
+  {id:'camp08',title:'Dubai & Abu Dhabi — Trade May 2026',type:'trade',date:'May 2026',dest:'UAE / Middle East',subject:'Dubai & Abu Dhabi — Trade Partner Update',summary:'Trade update on Dubai and Abu Dhabi product — new luxury hotels, desert experiences and commission structure.'},
+  {id:'camp09',title:'Thailand — Ultimate Travel Planning Guide 2026',type:'trade',date:'May 2026',dest:'Thailand',subject:'Thailand: The Ultimate Travel Planning Guide 2026',summary:'Comprehensive Thailand trade guide — Bangkok, Chiang Mai, island hopping, luxury resorts and commissionable packages.'},
+];
+
+function renderRealAgents(){
+  var srch=(document.getElementById('ra-search')||{}).value||'';
+  srch=srch.toLowerCase();
+  var fCon=(document.getElementById('ra-filter-con')||{}).value||'';
+  var fDest=(document.getElementById('ra-filter-dest')||{}).value||'';
+  var fType=(document.getElementById('ra-filter-type')||{}).value||'';
+  
+  var list=realAgents.filter(function(a){
+    if(srch&&(a.name+a.email+a.agency).toLowerCase().indexOf(srch)<0) return false;
+    if(fCon&&a.consortia!==fCon) return false;
+    if(fDest&&a.destinations.indexOf(fDest)<0) return false;
+    if(fType==='agent'&&!a.isAgent) return false;
+    if(fType==='consumer'&&a.isAgent) return false;
+    return true;
+  });
+  
+  var cnt=document.getElementById('ra-count');
+  if(cnt) cnt.textContent=list.length+' contacts';
+  
+  var el=document.getElementById('ra-tbody');
+  if(!el) return;
+  el.innerHTML=list.map(function(a){
+    var typeBadge=a.isAgent?ba('b-gr','Agent'):ba('b-gy','Consumer');
+    var conBadge=a.consortia&&a.consortia!=='Independent'?ba('b-or',a.consortia):ba('b-gy','Independent');
+    var dests=a.destinations.slice(0,2).join(', ');
+    var nameStr=a.name||a.email.split('@')[0];
+    return '<tr>'
+      +'<td><strong>'+nameStr+'</strong></td>'
+      +'<td style="font-size:11px;color:var(--txd)">'+a.email+'</td>'
+      +'<td style="font-size:11.5px">'+a.agency+'</td>'
+      +'<td>'+conBadge+'</td>'
+      +'<td>'+a.state+'</td>'
+      +'<td style="font-size:11px;color:var(--txd)">'+dests+'</td>'
+      +'<td>'+typeBadge+'</td>'
+      +'<td style="font-size:10.5px;color:var(--txd);max-width:140px">'+a.lastCamp+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderInactiveAgents(){
+  var el=document.getElementById('inactive-tbody');
+  if(!el) return;
+  var sorted=inactiveAgents.slice().sort(function(a,b){return b.estRev-a.estRev;});
+  el.innerHTML=sorted.map(function(a,i){
+    var bg=i%2===0?'':'background:var(--s2)';
+    var revColor=a.estRev>50000?'var(--green)':a.estRev>25000?'var(--tag)':'var(--txd)';
+    var hasPhone=a.phone?'<span class="badge b-gr" style="font-size:9px">&#9742; Call</span>':'<span class="badge b-gy" style="font-size:9px">Email</span>';
+    return '<tr style="'+bg+'">'
+      +'<td><strong>'+a.name+'</strong>'+(i<5?'<span class="badge b-re" style="margin-left:6px;font-size:8.5px">Priority</span>':'')+'</td>'
+      +'<td style="font-size:11.5px;color:var(--txd)">'+a.agency+'</td>'
+      +'<td>'+ba(a.consortia==='Cruise Planners'?'b-bl':a.consortia==='Travel Leaders'?'b-or':a.consortia==='WESTA'?'b-am':'b-gy',a.consortia)+'</td>'
+      +'<td>'+a.state+'</td>'
+      +'<td style="text-align:right;font-weight:700;color:'+revColor+'">$'+a.estRev.toLocaleString()+'</td>'
+      +'<td style="text-align:right;font-size:12px;color:var(--txd)">'+a.estBk+'</td>'
+      +'<td style="font-size:11px;color:var(--txd)">'+a.destinations.join(', ')+'</td>'
+      +'<td>'+hasPhone+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderCampaigns(){
+  var fType=(document.getElementById('camp-filter-type')||{}).value||'';
+  var list=tagCampaigns.filter(function(c){
+    if(fType&&c.type!==fType) return false;
+    return true;
+  });
+  var el=document.getElementById('camp-grid');
+  if(!el) return;
+  el.innerHTML=list.map(function(c){
+    var typeBadge=c.type==='trade'?ba('b-bl','&#128084; Trade'):ba('b-gr','&#128100; Consumer');
+    var destBadge='<span class="badge b-or">'+c.dest+'</span>';
+    var mailchimpUrls={
+      'camp01':'https://mailchi.mp/travelanswersgroup/travel-answers-insider-june2026',
+      'camp02':'https://mailchi.mp/travelanswersgroup/tnz-consumer-may-5811518',
+      'camp03':'https://mailchi.mp/travelanswersgroup/botswana-5811682',
+      'camp04':'https://mailchi.mp/travelanswersgroup/africa-asia-antipodes-europe-roadshow-extravaganza-5811970',
+      'camp05':'https://mailchi.mp/travelanswersgroup/winter-in-south-korea-trade-june-2026',
+      'camp06':'https://mailchi.mp/travelanswersgroup/tnz-trade-may-2026',
+      'camp07':'https://mailchi.mp/travelanswersgroup/portugal-consumer-april',
+      'camp08':'https://mailchi.mp/travelanswersgroup/dae-trade-may-2026',
+      'camp09':'https://mailchi.mp/travelanswersgroup/thailand-ultimate-travel-planning-guide-5811551',
+    };
+    var url=mailchimpUrls[c.id]||'#';
+    return '<div class="card" style="display:flex;gap:16px;align-items:flex-start">'
+      +'<div style="width:52px;height:52px;border-radius:8px;background:var(--tag-lt);border:1px solid var(--tag-bd);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">&#128140;</div>'
+      +'<div style="flex:1">'
+      +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">'
+      +'<strong style="font-size:13.5px;color:var(--tx)">'+c.title+'</strong>'
+      +typeBadge+' '+destBadge
+      +'</div>'
+      +'<div style="font-size:11px;color:var(--txm);margin-bottom:6px">'+c.date+' &nbsp;&middot;&nbsp; Subject: <em>'+c.subject+'</em></div>'
+      +'<div style="font-size:12px;color:var(--txd);line-height:1.55">'+c.summary+'</div>'
+      +'</div>'
+      +'<div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px">'
+      +'<a href="'+url+'" target="_blank" class="btn btn-g btn-sm">View Email &#8599;</a>'
+      +'<button class="btn btn-p btn-sm" style="font-size:10px">Add to MyTAG</button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function renderExtraAgentPanels(){
+  renderRealAgents();
+  renderInactiveAgents();
+  renderCampaigns();
+}
 
 window.onload = init;
 </script>
