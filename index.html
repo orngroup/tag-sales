@@ -414,7 +414,10 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('inhouse',this)"><span class="ic">&#127970;</span>In-House Sales</a>
     <div class="nav-s">Zoho</div>
     <a href="#" onclick="showPanel('why',this)"><span class="ic">&#11088;</span>Why Zoho</a>
-    <a href="#" onclick="showPanel('crm',this)"><span class="ic">&#128279;</span>Zoho Setup Guide</a>
+    <a href="#" onclick="showPanel('zohomarketing',this)"><span class="ic">&#128231;</span>Zoho Marketing</a>
+    <a href="#" onclick="showPanel('crm',this)"><span class="ic">&#128196;</span>Zoho Setup Guide</a>
+    <a href="#" onclick="showPanel('implplan',this)"><span class="ic">&#128203;</span>Implementation Plan</a>
+    <a href="#" onclick="showPanel('teamqa',this)"><span class="ic">&#10067;</span>Team Q&amp;A</a>
   </nav>
   <div class="sfooter">
     <div class="ubadge">
@@ -1551,6 +1554,316 @@ textarea{resize:vertical;min-height:65px}
     </div>
 
     <div id="camp-grid" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</div>
+
+<!-- ===== ZOHO MARKETING ===== -->
+<div id="panel-zohomarketing" class="panel">
+  <div class="topbar">
+    <h1>Zoho Marketing &mdash; <span>Replacing Mailchimp</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Confirmed by Kerryn Collins &middot; July 2026</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-gr"><strong>Decision confirmed:</strong> TAG USA will adopt Zoho Campaigns as the email marketing platform, replacing Mailchimp. This removes the Mailchimp licence cost entirely and brings all email marketing, CRM, and advisor database management into one connected system. All campaign history, audience segments and contacts migrate across on Day 1 of Zoho setup.</div>
+
+    <div class="sg">
+      <div class="sc gr"><div class="sl">Mailchimp Cost Removed</div><div class="sv">$0</div><div class="ss">Replaced by Zoho Campaigns</div></div>
+      <div class="sc or"><div class="sl">Zoho Campaigns</div><div class="sv">Included</div><div class="ss">In Professional plan</div></div>
+      <div class="sc bl"><div class="sl">Contacts to Migrate</div><div class="sv">35,000</div><div class="ss">Full advisor database</div></div>
+      <div class="sc nv"><div class="sl">Migration Time</div><div class="sv">1&ndash;2 days</div><div class="ss">CSV export / import</div></div>
+    </div>
+
+    <div class="tc">
+      <div>
+        <div class="stitle">Mailchimp vs Zoho Campaigns</div>
+        <div class="tw"><table>
+          <thead><tr><th>Feature</th><th>Mailchimp</th><th>Zoho Campaigns</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cost</strong></td><td style="color:var(--red)">$299+/month (35K contacts)</td><td style="color:var(--green);font-weight:700">Included in Zoho plan</td></tr>
+            <tr><td><strong>CRM integration</strong></td><td style="color:var(--red)">Third-party API only</td><td style="color:var(--green);font-weight:700">Native — one database</td></tr>
+            <tr><td><strong>Segmentation</strong></td><td>Tags and groups</td><td style="color:var(--green);font-weight:700">CRM fields, views, territories</td></tr>
+            <tr><td><strong>Automation</strong></td><td>Customer journeys</td><td style="color:var(--green);font-weight:700">Blueprint + workflow rules</td></tr>
+            <tr><td><strong>Contact sync</strong></td><td style="color:var(--red)">Manual or API sync</td><td style="color:var(--green);font-weight:700">Real-time — same record</td></tr>
+            <tr><td><strong>Send from CRM</strong></td><td style="color:var(--red)">No</td><td style="color:var(--green);font-weight:700">Yes — directly from Contact</td></tr>
+            <tr><td><strong>Reply tracking</strong></td><td>Opens/clicks only</td><td style="color:var(--green);font-weight:700">Full CRM activity log</td></tr>
+            <tr><td><strong>Webinar follow-up</strong></td><td style="color:var(--red)">Manual export/import</td><td style="color:var(--green);font-weight:700">Automated post-webinar sequence</td></tr>
+            <tr><td><strong>Lead nurturing</strong></td><td>Basic drip campaigns</td><td style="color:var(--green);font-weight:700">CRM-triggered, behaviour-based</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="stitle">What Migrates from Mailchimp</div>
+        <div class="tw"><table>
+          <thead><tr><th>Asset</th><th>How It Migrates</th><th>Owner</th><th>Timeline</th></tr></thead>
+          <tbody>
+            <tr><td><strong>35,000 contacts</strong></td><td>CSV export from Mailchimp &rarr; import to Zoho Contacts</td><td>Jane Moore</td><td>Day 1</td></tr>
+            <tr><td><strong>Audience tags/segments</strong></td><td>Map to Zoho Contact fields and saved views</td><td>Jane Moore + Zoho setup</td><td>Day 1&ndash;2</td></tr>
+            <tr><td><strong>Campaign templates</strong></td><td>Rebuild in Zoho Campaigns drag-drop editor (or HTML paste)</td><td>Jeff Adam</td><td>Week 1</td></tr>
+            <tr><td><strong>Active automations</strong></td><td>Recreate as Zoho Workflow Rules or Blueprint journeys</td><td>Zoho admin</td><td>Week 2</td></tr>
+            <tr><td><strong>Past campaign archive</strong></td><td>Mailchimp archive URLs remain live &mdash; link from MyTAG portal</td><td>Jeff Adam</td><td>Ongoing</td></tr>
+            <tr><td><strong>Unsubscribe list</strong></td><td>Export suppression list &rarr; import to Zoho as opt-out</td><td>Jane Moore</td><td>Day 1 (critical)</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div>
+        <div class="stitle">Zoho Campaigns — Key Features for TAG</div>
+        <div class="card" style="margin-bottom:10px">
+          <div class="kpir"><div class="kpin">Advisor Nurture Sequences<div style="font-size:10.5px;color:var(--txm);font-weight:400;margin-top:2px">Auto-triggered when a new advisor registers. 5-email onboarding sequence — welcome, first destination, TIER intro, webinar invite, first booking nudge.</div></div></div>
+          <div class="kpir"><div class="kpin">Post-Webinar Follow-Up<div style="font-size:10.5px;color:var(--txm);font-weight:400;margin-top:2px">Triggered automatically from Jeff's webinar attendee list. Personalised follow-up email within 24 hours, with quote request CTA.</div></div></div>
+          <div class="kpir"><div class="kpin">Lapsed Advisor Re-engagement<div style="font-size:10.5px;color:var(--txm);font-weight:400;margin-top:2px">Saved view of advisors with no booking in 180+ days. One-click campaign send to the segment. Offer email triggers Janie Hall task if opened but not clicked.</div></div></div>
+          <div class="kpir"><div class="kpin">Destination Campaigns<div style="font-size:10.5px;color:var(--txm);font-weight:400;margin-top:2px">Segment by advisor destination interest (from Mailchimp tags). Send Australia campaign only to Australia-tagged advisors. Relevance = higher open rates.</div></div></div>
+          <div class="kpir"><div class="kpin">Weekly Promo Emails<div style="font-size:10.5px;color:var(--txm);font-weight:400;margin-top:2px">Wicked Wednesday, flash sales, and weekly offers sent from Zoho Campaigns directly from Jane Moore's desktop, linked to the active advisor list automatically.</div></div></div>
+        </div>
+
+        <div class="stitle">Monthly Cost Comparison</div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)">
+            <div><strong style="color:var(--txd)">Mailchimp (35K contacts)</strong></div>
+            <div style="font-size:18px;font-weight:800;color:var(--red)">~$299/mo</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)">
+            <div><strong>Zoho CRM + Campaigns (7 users)</strong></div>
+            <div style="font-size:18px;font-weight:800;color:var(--green)">$161/mo</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;background:var(--green-bg);border-radius:6px;margin-top:8px;padding-left:12px;padding-right:12px">
+            <div><strong style="color:var(--green)">Monthly saving</strong></div>
+            <div style="font-size:20px;font-weight:800;color:var(--green)">$138/mo &nbsp;&middot;&nbsp; $1,656/yr</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== IMPLEMENTATION PLAN ===== -->
+<div id="panel-implplan" class="panel">
+  <div class="topbar">
+    <h1>Implementation Plan &mdash; <span>TAG USA Tech Stack 2026</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Requested by Kerryn Collins &middot; July 2026</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-nv"><strong>Scope:</strong> This plan covers the full TAG USA technology implementation — Zoho CRM, Zoho Campaigns (replacing Mailchimp), MyTAG Agent Portal, and the MyTAG Mobile App. It includes timeline, action items, owners and dependencies. Updated as items are completed.</div>
+
+    <div class="sg">
+      <div class="sc or"><div class="sl">Total Timeline</div><div class="sv">10 weeks</div><div class="ss">From approval to full go-live</div></div>
+      <div class="sc bl"><div class="sl">Workstreams</div><div class="sv">4</div><div class="ss">CRM / Campaigns / Portal / App</div></div>
+      <div class="sc gr"><div class="sl">Phase 1 Start</div><div class="sv">Week of 7 Jul</div><div class="ss">Zoho trial + data prep</div></div>
+      <div class="sc nv"><div class="sl">Full Go-Live Target</div><div class="sv">Mid Sep 2026</div><div class="ss">All 4 workstreams live</div></div>
+    </div>
+
+    <div class="stitle">Phase 1 &mdash; Weeks 1&ndash;2 &nbsp;|&nbsp; 7&ndash;18 July &nbsp;|&nbsp; Foundation</div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Action Item</th><th>Owner</th><th>Dependency</th><th>Due</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--tag);font-weight:700">1.1</td><td><strong>Start Zoho CRM 15-day free trial</strong> — sign up at zoho.com/crm. Check if ORN existing Zoho account can extend to TAG USA or if new account needed.</td><td>Kerryn Collins / Ajay Kawa</td><td>None</td><td>9 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">1.2</td><td><strong>Confirm Zoho plan and user count</strong> — Professional plan recommended at $23/user/month. Confirm 7 users: Kirk, Kerryn, Michael, John, Janie, Jeff, Jane.</td><td>Kirk Demeter / Kerryn Collins</td><td>1.1</td><td>11 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">1.3</td><td><strong>Export Mailchimp database</strong> — full audience CSV export including all tags, segments and suppression list. Jane Moore to own this.</td><td>Jane Moore</td><td>None</td><td>9 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">1.4</td><td><strong>Team walkthrough session</strong> — Ajay to walk through CRM, Portal and Mobile App with full sales team. Kerryn to send calendar invite.</td><td>Ajay Kawa / Kerryn Collins</td><td>None</td><td>Week of 7 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">1.5</td><td><strong>Confirm Nexus 2.0 API capability</strong> — contact Nexus platform team to confirm: can Nexus export active advisors, lapsed advisors, revenue by advisor, and booking events via API or webhook?</td><td>Kirk Demeter / Operations</td><td>None</td><td>11 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">1.6</td><td><strong>Confirm Monday.com decision</strong> — team currently uses Monday. Decision needed: migrate project management to Zoho Projects, or keep Monday and integrate with Zoho via Zapier?</td><td>Kerryn Collins / Michael Brown</td><td>None</td><td>11 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">1.7</td><td><strong>Confirm Res interaction logging scope</strong> — agree with ops team which Destination Specialist interactions should be logged in Zoho (calls, quotes, confirmations) and who enters them.</td><td>Kerryn Collins / Ops</td><td>1.5</td><td>14 Jul</td><td><span class="badge b-am">Pending</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="stitle">Phase 2 &mdash; Weeks 3&ndash;4 &nbsp;|&nbsp; 21 Jul&ndash;1 Aug &nbsp;|&nbsp; Zoho CRM Build</div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Action Item</th><th>Owner</th><th>Dependency</th><th>Due</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--tag);font-weight:700">2.1</td><td><strong>Import advisor database to Zoho Contacts</strong> — clean and import Mailchimp CSV. Map fields: email, name, agency, consortia, state, destination interest, last booking date.</td><td>Jane Moore + Ajay</td><td>1.3</td><td>25 Jul</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">2.2</td><td><strong>Set up Zoho Accounts module for consortia</strong> — create Account records for 8 consortia. Link all advisor Contacts to their consortia Account.</td><td>Jane Moore</td><td>2.1</td><td>25 Jul</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">2.3</td><td><strong>Configure rep assignment rules</strong> — Michael &rarr; TLN/Signature/Virtuoso. John &rarr; CP/WESTA/MAST/AAA. Janie &rarr; Ensemble. Auto-assign Contact owner based on consortia field.</td><td>Ajay Kawa / Zoho admin</td><td>2.1</td><td>28 Jul</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">2.4</td><td><strong>Build Blueprint — lapsed advisor reactivation</strong> — stages: Not Contacted &rarr; Called &rarr; Conversation &rarr; Quote Sent &rarr; Reactivated. SLA rules and overdue alerts per stage.</td><td>Ajay Kawa / Zoho admin</td><td>2.1</td><td>28 Jul</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">2.5</td><td><strong>Set up Activities module</strong> — configure Tasks (follow-ups), Events (webinars/roadshows), Calls (proactive outreach). Build SLA alerts: webinar follow-up 48hr, roadshow follow-up 5 days.</td><td>Ajay Kawa / Zoho admin</td><td>2.1</td><td>30 Jul</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">2.6</td><td><strong>Outlook plugin install for all reps</strong> — install Zoho CRM for Outlook on Michael, John, Janie, Jeff and Jane's machines. Test two-way email and calendar sync.</td><td>IT / each rep</td><td>1.2</td><td>1 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">2.7</td><td><strong>Configure webinar attendance tracking</strong> — build workflow: webinar attendee list imported &rarr; Contact created/updated in Zoho &rarr; Task created for Jeff/Jane &rarr; follow-up email triggered via Zoho Campaigns within 24hrs.</td><td>Jeff Adam / Ajay</td><td>2.5</td><td>1 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="stitle">Phase 3 &mdash; Weeks 5&ndash;6 &nbsp;|&nbsp; 4&ndash;15 Aug &nbsp;|&nbsp; Zoho Campaigns + Nexus</div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Action Item</th><th>Owner</th><th>Dependency</th><th>Due</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--tag);font-weight:700">3.1</td><td><strong>Migrate Mailchimp to Zoho Campaigns</strong> — deactivate Mailchimp. Rebuild key email templates in Zoho Campaigns. Recreate active automations as Zoho workflows.</td><td>Jeff Adam / Jane Moore</td><td>2.1</td><td>8 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">3.2</td><td><strong>Build advisor nurture sequence</strong> — 5-email onboarding journey for newly registered advisors. Triggered automatically when new Contact added to Zoho with status "New".</td><td>Jeff Adam / Ajay</td><td>3.1</td><td>11 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">3.3</td><td><strong>Nexus integration — Phase 1</strong> — if Nexus API confirmed (1.5): build integration to push active advisor list and booking events to Zoho. Priority: active/lapsed status sync and last booking date.</td><td>Ajay / Nexus team</td><td>1.5</td><td>15 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">3.4</td><td><strong>Res interaction logging — agree and configure</strong> — if Destination Specialist call logging agreed (1.7): configure Zoho Activities so res team logs calls against Contact records. Train res team.</td><td>Kerryn / Ops / Ajay</td><td>1.7</td><td>15 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">3.5</td><td><strong>CRM training — full sales team</strong> — hands-on training session for Michael, John, Janie, Jeff and Jane. Cover: logging calls, creating tasks, updating contact status, running reports.</td><td>Ajay Kawa</td><td>2.7</td><td>15 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="stitle">Phase 4 &mdash; Weeks 7&ndash;10 &nbsp;|&nbsp; 18 Aug&ndash;12 Sep &nbsp;|&nbsp; MyTAG Portal + Mobile App</div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Action Item</th><th>Owner</th><th>Dependency</th><th>Due</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--tag);font-weight:700">4.1</td><td><strong>MyTAG web portal — final build</strong> — complete all 7 sections: Profile, Offers, TAG Partners, Destination Wiki, Messages, Contact Directory, TAG Events. Agent login with consortia-based rep assignment.</td><td>Ajay Kawa (build)</td><td>2.3</td><td>29 Aug</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">4.2</td><td><strong>MyTAG mobile app — WhatsApp-shareable build</strong> — PWA-style mobile version. Login, push-style notifications, offers feed, event RSVP, contact card. Shareable via WhatsApp link.</td><td>Ajay Kawa (build)</td><td>4.1</td><td>5 Sep</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">4.3</td><td><strong>Hosting — GitHub Pages or equivalent</strong> — deploy MyTAG web portal to orngroup.github.io/mytag or preferred domain. Confirm SSL and custom domain if needed.</td><td>Ajay / IT</td><td>4.1</td><td>5 Sep</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">4.4</td><td><strong>Agent onboarding to MyTAG</strong> — send login credentials to all active advisors via Zoho Campaigns. Jeff Adam to host onboarding webinar. Jackie to onboard in-house team.</td><td>Jeff Adam / Jackie F.</td><td>4.1, 3.1</td><td>12 Sep</td><td><span class="badge b-gy">Not started</span></td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">4.5</td><td><strong>TAG Partner onboarding — monetisation</strong> — approach first 3 tourism board partners for paid placement in MyTAG Partners section. Tourism Australia, Air New Zealand, Qantas recommended as first partners.</td><td>Kerryn Collins / John G.</td><td>4.1</td><td>12 Sep</td><td><span class="badge b-gy">Not started</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="stitle">Open Questions &mdash; Decisions Required</div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Question</th><th>Options</th><th>Decision Owner</th><th>Needed By</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--tag);font-weight:700">OQ-1</td><td><strong>Monday.com</strong> — keep and integrate with Zoho, or replace with Zoho Projects?</td><td>Keep Monday (Zapier integration $20/mo) &nbsp;/&nbsp; Replace with Zoho Projects (included in plan)</td><td>Kerryn / Michael</td><td>11 Jul</td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">OQ-2</td><td><strong>Nexus 2.0 API</strong> — does Nexus support data export via API or webhook for advisor booking activity?</td><td>Yes &rarr; proceed with integration &nbsp;/&nbsp; No &rarr; manual weekly CSV extract</td><td>Kirk / Nexus team</td><td>11 Jul</td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">OQ-3</td><td><strong>Zoho account</strong> — extend existing ORN Zoho account to include TAG USA, or create a separate TAG account?</td><td>Extend ORN account (simpler) &nbsp;/&nbsp; Separate account (cleaner separation)</td><td>Ajay / Kerryn</td><td>9 Jul</td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">OQ-4</td><td><strong>Res interaction logging</strong> — should Destination Specialist calls be logged in Zoho against advisor Contact records?</td><td>Yes &rarr; train res team on Zoho &nbsp;/&nbsp; No &rarr; sales team only logs interactions</td><td>Kerryn / Ops</td><td>14 Jul</td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">OQ-5</td><td><strong>MyTAG hosting</strong> — use orngroup.github.io/mytag (free, immediate) or custom domain mytag.travelanswersgroup.com?</td><td>GitHub Pages (free) &nbsp;/&nbsp; Custom domain (~$15/yr + DNS config)</td><td>Kirk / Kerryn</td><td>18 Jul</td></tr>
+        <tr><td style="color:var(--tag);font-weight:700">OQ-6</td><td><strong>White-label loyalty app</strong> — Ajay to assess available platforms that could be branded as MyTAG rather than custom-built.</td><td>White-label licence &nbsp;/&nbsp; Custom PWA build (already in progress)</td><td>Ajay / Kirk</td><td>18 Jul</td></tr>
+      </tbody>
+    </table></div>
+
+  </div>
+</div>
+
+<!-- ===== TEAM Q&A ===== -->
+<div id="panel-teamqa" class="panel">
+  <div class="topbar">
+    <h1>Team Q&amp;A &mdash; <span>Michael Brown &amp; Sales Team</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Questions received 3 July 2026 &middot; Answered by Ajay Kawa</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-or"><strong>Context:</strong> After reviewing the CRM dashboard, portal and mobile app concepts, Michael Brown and the TAG sales team submitted 7 questions on 3 July 2026. All questions are answered below. These answers will be covered in the walkthrough session scheduled for the week of 7 July 2026.</div>
+
+    <!-- Q1 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--tag)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--tag);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q1</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">How do we enter and track webinar attendance data?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px">&#10003; Answer</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65">Zoho CRM has a native webinar workflow built around the <strong>Events module</strong> inside Activities. Here's exactly how it works for TAG:<br><br>
+        <strong>1. Before the webinar:</strong> Jeff or Jane creates an Event record in Zoho (webinar name, date, topic, host). The event links to a registration landing page or the existing Humanitix/webinar platform link.<br><br>
+        <strong>2. After the webinar:</strong> The attendee list is exported from the webinar platform (Zoom, GoTo etc) as a CSV. Jane imports it into Zoho — each attendee either creates a new Contact or matches an existing one. A Task is automatically created for Jeff or Jane to follow up within 24 hours (this is the SLA rule).<br><br>
+        <strong>3. Follow-up automation:</strong> Zoho Campaigns sends a personalised follow-up email to all attendees within 24 hours automatically — triggered by the import. Any reply or link click is logged against the Contact record.<br><br>
+        <strong>4. In the portal:</strong> The Events &amp; Roadshows tab shows every webinar with attendee count, new agents added, bookings generated and follow-up SLA compliance in real time.</div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--blue)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q2</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">Agent tracker &mdash; can we schedule follow-up reminders, track last interaction, and build lead nurturing?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px">&#10003; Answer — Yes to all three</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65">This is core Zoho CRM functionality and is already modelled in the portal's <strong>Follow-Up Tracker</strong> and <strong>Lapsed Advisors</strong> tabs.<br><br>
+        <strong>Follow-up reminders:</strong> Every Task in Zoho has a due date and alert. When a rep logs a call or attends a roadshow, they set the follow-up task date. Zoho sends them an email and in-app alert when it's due. If it goes overdue, the Contact is flagged red in the dashboard — which is what the portal currently shows.<br><br>
+        <strong>Last interaction tracking:</strong> Every email sent, call logged, task completed, or meeting recorded appears in the Contact's Activity timeline. The rep can see at a glance: last emailed 3 days ago, last called 2 weeks ago, no response in 30 days. This is automatic once the Outlook plugin is installed — emails sync both ways without manual entry.<br><br>
+        <strong>Lead nurturing:</strong> Built in Zoho Campaigns as automated sequences. Example: a new advisor registers &rarr; they receive a 5-email welcome sequence over 3 weeks &rarr; if they don't open email 3, they're added to Janie's call queue automatically. This is the lapsed advisor re-engagement flow already designed in the portal.</div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--green)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q3</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">We assume this will integrate with the database?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px">&#10003; Answer — Yes, this is the whole point</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65">The 35,000-contact Mailchimp database <strong>becomes</strong> the Zoho CRM database on Day 1 of implementation. There is no separate database — everything lives in Zoho Contacts from that point forward.<br><br>
+        All 35,000 advisor records import from Mailchimp into Zoho Contacts as a one-time CSV import. From then on, Zoho <em>is</em> the database. Every email sent, call logged, webinar attended, roadshow RSVP, and booking recorded links to the same Contact record. The rep sees the full picture in one place.<br><br>
+        Zoho Campaigns (the email tool replacing Mailchimp) reads directly from these same Contact records — so when Jeff sends a destination campaign, he's pulling from the live, up-to-date CRM database, not a separate Mailchimp audience that needs syncing.</div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--amber)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q4</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">Will the CRM link to Outlook and Nexus 2.0?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px">&#10003; Outlook — Yes confirmed &nbsp;&nbsp;|&nbsp;&nbsp; &#9888; Nexus — depends on API</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65"><strong>Outlook:</strong> Zoho has a native <strong>Zoho CRM for Outlook plugin</strong> that installs directly into Outlook (desktop and web). Once installed: every email you send to an advisor from Outlook is automatically logged against their Contact record in Zoho. Replies are captured too. Calendar events sync both ways. You can view the advisor's full Zoho profile from directly inside Outlook without switching tabs. This is a standard install — no custom development needed.<br><br>
+        <strong>Nexus 2.0:</strong> This depends on whether the Nexus platform team can confirm API or webhook access. If Nexus has an API (which most modern booking platforms do), Zoho can receive booking events automatically — every time an advisor makes a booking in Nexus, their Contact in Zoho updates: last booking date, total revenue, booking count. This is the most powerful integration on the roadmap and the one that makes the KPI dashboard fully live rather than manually updated. <strong>Kirk needs to confirm with the Nexus platform team this week</strong> — this is flagged as OQ-2 in the Implementation Plan.</div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--purple)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q5</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">Alerts?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px">&#10003; Answer — Yes, fully configurable</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65">Zoho CRM has a comprehensive <strong>Notification and Alert</strong> system. For TAG, we would configure the following alerts out of the box:<br><br>
+        &bull; <strong>Follow-up overdue</strong> — alert to the rep when a task passes its due date without being completed<br>
+        &bull; <strong>Webinar follow-up SLA</strong> — alert to Jeff/Jane if 24 hours pass after a webinar without a follow-up being logged<br>
+        &bull; <strong>Roadshow follow-up SLA</strong> — alert after 5 days<br>
+        &bull; <strong>New advisor registration</strong> — alert to Jeff Adam when a new Contact is added with status "New"<br>
+        &bull; <strong>Lapsed advisor identified</strong> — alert to Janie Hall when a Contact's last booking date passes 180 days<br>
+        &bull; <strong>Deal stage change</strong> — alert to Kerryn when a lead moves to "Booking Confirmed"<br>
+        &bull; <strong>High-value lead assigned</strong> — alert to Michael when an advisor with estimated revenue &gt;$50K is added to his territory<br><br>
+        Alerts can be sent by email, in-app notification, or SMS. All configurable per user and per rule.</div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--navy)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q6</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">Calendar? Are we still going to use Monday?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--amber-bg,#fff9ec);border:1px solid var(--amber-bd,#f5d4a0);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--amber);margin-bottom:6px">&#9888; Decision needed — two options</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65">This is a team decision and has been logged as <strong>OQ-1</strong> in the Implementation Plan. Here are the two options:<br><br>
+        <strong>Option A — Replace Monday with Zoho Projects (recommended):</strong> Zoho Professional includes Zoho Projects — a project management tool similar to Monday. All current Monday boards migrate across. The advantage is everything is in one place: CRM, email, calendar, tasks, and projects all connected. No additional cost.<br><br>
+        <strong>Option B — Keep Monday, integrate with Zoho:</strong> A Zapier integration connects Monday and Zoho so tasks created in Monday appear in Zoho and vice versa. This costs approximately $20/month for Zapier and requires maintenance. The advantage is the team doesn't need to change how they work in Monday.<br><br>
+        <strong>Calendar specifically:</strong> Zoho CRM has its own calendar that syncs with Outlook (and optionally Google Calendar). Roadshow dates, webinar dates, follow-up calls and rep tasks all appear in the Zoho calendar — and in Outlook via the plugin. This works regardless of the Monday decision.<br><br>
+        Kerryn and Michael to decide by 11 July — flagged as OQ-1 in the Implementation Plan.</div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="card" style="margin-bottom:12px;border-left:4px solid var(--red)">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">Q7</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:3px">Will Res interaction be logged so we can view last contact details with Destination Specialists?</div>
+          <div style="font-size:12px;color:var(--txm)">Asked by Michael Brown &amp; Sales Team</div>
+        </div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:14px 16px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px">&#10003; Answer — Yes, two ways to achieve this</div>
+        <div style="font-size:12.5px;color:var(--tx);line-height:1.65">This is a great ask and exactly the kind of visibility Zoho CRM is built for. There are two ways to make it happen:<br><br>
+        <strong>Option A — Nexus pushes res events to Zoho (best outcome):</strong> If Nexus 2.0 has an API, every time a Destination Specialist processes a booking or quotes for an advisor, that event is pushed automatically to the advisor's Contact record in Zoho. The sales rep can see: "Last res interaction — 4 days ago, Japan quote for 2 pax." Zero manual entry.<br><br>
+        <strong>Option B — Res team logs calls manually in Zoho:</strong> The reservations team installs Zoho on their own and logs calls, quotes and confirmations against the relevant advisor Contact. Takes approximately 30 seconds per interaction. The sales rep then has full visibility in the Contact's activity timeline.<br><br>
+        Both options are achievable. The choice depends on (a) Nexus API availability (OQ-2) and (b) whether Kerryn wants the res team using Zoho directly (OQ-4). This has been flagged as a decision item — Kerryn to confirm with the operations team. Either way, the answer is yes — this visibility is possible and this is a high-value use of the CRM.</div>
+      </div>
+    </div>
+
+    <div class="ibox ibox-gr" style="margin-top:20px">
+      <strong>Next step:</strong> Walkthrough session scheduled for week of 7 July 2026. Kerryn Collins to send calendar invite. Ajay Kawa to present: CRM demo, portal walkthrough, mobile app demo, and live Q&amp;A on the above. All 7 questions above will be demonstrated live in the Zoho trial environment.
+    </div>
   </div>
 </div>
 </div><!-- /main -->
