@@ -368,6 +368,11 @@ textarea{resize:vertical;min-height:65px}
 .ih-as-l{font-size:8.5px;color:var(--txd);margin-top:1px;font-weight:600}
 .dest-leaderboard-row{display:grid;grid-template-columns:1.4fr .8fr .8fr .8fr 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd)}
 .dest-leaderboard-row:last-child{border-bottom:none}
+
+.view-toggle{display:flex;gap:6px;align-items:center}
+.vt-btn{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--txm);cursor:pointer;transition:all .15s}
+.vt-btn.active{background:var(--tag);color:#fff;border-color:var(--tag)}
+.vt-btn:hover:not(.active){border-color:var(--tag);color:var(--tag)}
 </style>
 </head>
 <body>
@@ -412,6 +417,9 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('repkpis',this)"><span class="ic">&#127919;</span>Rep KPIs</a>
     <div class="nav-s">TAG Sales Floor</div>
     <a href="#" onclick="showPanel('inhouse',this)"><span class="ic">&#127970;</span>In-House Sales</a>
+    <div class="nav-s">Reservations</div>
+    <a href="#" onclick="showPanel('resdash',this)"><span class="ic">&#128204;</span>Res Dashboard</a>
+    <a href="#" onclick="showPanel('nexusplan',this)"><span class="ic">&#128279;</span>Nexus Integration</a>
     <div class="nav-s">Zoho</div>
     <a href="#" onclick="showPanel('why',this)"><span class="ic">&#11088;</span>Why Zoho</a>
     <a href="#" onclick="showPanel('zohomarketing',this)"><span class="ic">&#128231;</span>Zoho Marketing</a>
@@ -1866,6 +1874,238 @@ textarea{resize:vertical;min-height:65px}
     </div>
   </div>
 </div>
+
+<!-- ===== RESERVATIONS DASHBOARD ===== -->
+<div id="panel-resdash" class="panel">
+  <div class="topbar">
+    <h1>Reservations Dashboard &mdash; <span>Live Booking Operations</span></h1>
+    <div class="tact">
+      <div class="view-toggle" id="res-view-toggle">
+        <button class="vt-btn active" onclick="setResView('manager',this)">&#128202; Manager View</button>
+        <button class="vt-btn" onclick="setResView('agent',this)">&#128100; Agent View</button>
+      </div>
+      <span style="font-size:11px;color:var(--txm)">Connected to Nexus &middot; Jackie Fontanez</span>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- ── MANAGER VIEW ── -->
+    <div id="res-manager-view">
+      <div class="ibox ibox-nv"><strong>Manager view:</strong> Full reservations pipeline across all res agents. Sortable by status, agent, destination and travel date. Connects to Nexus for live booking data. Switch to Agent View so individual res agents see only their own portfolio.</div>
+
+      <!-- KPI strip -->
+      <div class="sg">
+        <div class="sc or"><div class="sl">Total Active Files</div><div class="sv" id="rd-total">--</div><div class="ss">All statuses</div></div>
+        <div class="sc bl"><div class="sc-inner"><div class="sl">Proposals</div><div class="sv" id="rd-proposals" style="color:var(--amber)">--</div><div class="ss">Awaiting deposit</div></div></div>
+        <div class="sc gr"><div class="sl">Deposited</div><div class="sv" id="rd-deposited">--</div><div class="ss">Deposit received</div></div>
+        <div class="sc nv"><div class="sl">Paid in Full</div><div class="sv" id="rd-paid">--</div><div class="ss">Fully paid</div></div>
+        <div class="sc"><div class="sl">Balance Owing</div><div class="sv" style="color:var(--red)" id="rd-balance">--</div><div class="ss">Across all files</div></div>
+        <div class="sc"><div class="sl">Travel This Month</div><div class="sv" style="color:var(--purple)" id="rd-travel-month">--</div><div class="ss">Departures due</div></div>
+      </div>
+
+      <!-- Status summary bars -->
+      <div class="stitle">Pipeline by Status</div>
+      <div class="card" style="margin-bottom:16px">
+        <div id="rd-status-bars"></div>
+      </div>
+
+      <!-- Filters -->
+      <div class="fb" style="flex-wrap:wrap">
+        <input type="text" id="rd-search" placeholder="Search booking #, advisor, destination..." oninput="renderResTable()" style="min-width:240px">
+        <select id="rd-filter-status" onchange="renderResTable()">
+          <option value="">All Statuses</option>
+          <option value="Proposal">Proposal</option>
+          <option value="Deposited">Deposited</option>
+          <option value="Paid in Full">Paid in Full</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="On Request">On Request</option>
+        </select>
+        <select id="rd-filter-agent" onchange="renderResTable()">
+          <option value="">All Res Agents</option>
+        </select>
+        <select id="rd-filter-dest" onchange="renderResTable()">
+          <option value="">All Destinations</option>
+        </select>
+        <select id="rd-sort" onchange="renderResTable()">
+          <option value="travel">Sort: Travel Date</option>
+          <option value="status">Sort: Status</option>
+          <option value="balance">Sort: Balance Owing</option>
+          <option value="booking">Sort: Booking #</option>
+          <option value="agent">Sort: Res Agent</option>
+        </select>
+      </div>
+
+      <!-- Count line -->
+      <div style="font-size:11.5px;color:var(--txm);margin-bottom:8px;padding-left:2px" id="rd-count-line">Showing all files</div>
+
+      <!-- Main booking table -->
+      <div class="tw">
+        <table id="rd-table">
+          <thead>
+            <tr>
+              <th onclick="rdSortBy('booking')" style="cursor:pointer">Booking # &#8597;</th>
+              <th onclick="rdSortBy('agent')" style="cursor:pointer">Res Agent &#8597;</th>
+              <th>Travel Advisor</th>
+              <th onclick="rdSortBy('dest')" style="cursor:pointer">Destination &#8597;</th>
+              <th onclick="rdSortBy('travel')" style="cursor:pointer">Travel Date &#8597;</th>
+              <th>Pax</th>
+              <th>Gross Value</th>
+              <th onclick="rdSortBy('balance')" style="cursor:pointer">Balance Owing &#8597;</th>
+              <th onclick="rdSortBy('status')" style="cursor:pointer">Status &#8597;</th>
+              <th>Days to Depart</th>
+            </tr>
+          </thead>
+          <tbody id="rd-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Manager insights -->
+      <div class="tc" style="margin-top:20px">
+        <div>
+          <div class="stitle">Performance by Res Agent</div>
+          <div class="tw"><table>
+            <thead><tr><th>Agent</th><th>Files</th><th>Proposals</th><th>Deposited</th><th>Paid Full</th><th>Total Value</th><th>Bal. Owing</th></tr></thead>
+            <tbody id="rd-agent-summary"></tbody>
+          </table></div>
+        </div>
+        <div>
+          <div class="stitle">Top Destinations by File Count</div>
+          <div class="tw"><table>
+            <thead><tr><th>Destination</th><th>Files</th><th>Total Value</th><th>Balance Owing</th><th>Avg Pax</th></tr></thead>
+            <tbody id="rd-dest-summary"></tbody>
+          </table></div>
+
+          <div class="stitle">Upcoming Departures &mdash; Next 30 Days</div>
+          <div class="tw"><table>
+            <thead><tr><th>Booking #</th><th>Destination</th><th>Travel Date</th><th>Status</th><th>Balance</th></tr></thead>
+            <tbody id="rd-upcoming"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AGENT VIEW ── -->
+    <div id="res-agent-view" style="display:none">
+      <div class="ibox ibox-or">Showing files for: <strong id="ra-agent-name">All Agents</strong> &mdash; Switch to a specific agent using the selector below.</div>
+      <div class="fb">
+        <select id="ra-agent-select" onchange="renderAgentView()">
+          <option value="">Select Res Agent...</option>
+        </select>
+      </div>
+      <div class="sg" id="ra-agent-kpis"></div>
+      <div class="tw" style="margin-top:12px">
+        <table>
+          <thead><tr><th>Booking #</th><th>Travel Advisor</th><th>Destination</th><th>Travel Date</th><th>Pax</th><th>Gross Value</th><th>Balance Owing</th><th>Status</th><th>Days to Depart</th></tr></thead>
+          <tbody id="ra-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== NEXUS INTEGRATION PLAN ===== -->
+<div id="panel-nexusplan" class="panel">
+  <div class="topbar">
+    <h1>Nexus Integration &mdash; <span>What We Propose to Connect</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">Pending confirmation from Nexus platform team &middot; OQ-2</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-nv"><strong>Purpose of this tab:</strong> This outlines exactly what data we propose to pull from Nexus into the TAG Sales Portal, Zoho CRM, and the MyTAG Agent Portal — and how. The Reservations Dashboard above is currently populated with sample data. Once Nexus API access is confirmed by Kirk and the Nexus platform team, these feeds become live. Kirk to confirm API availability by 11 July (OQ-2).</div>
+
+    <!-- Status indicator -->
+    <div class="card" style="border-left:4px solid var(--amber);margin-bottom:20px;display:flex;gap:16px;align-items:center">
+      <div style="font-size:36px">&#9888;</div>
+      <div>
+        <div style="font-weight:700;font-size:14px;color:var(--ink);margin-bottom:4px">Nexus API confirmation pending</div>
+        <div style="font-size:12.5px;color:var(--txm);line-height:1.6">Kirk Demeter to confirm with the Nexus platform team whether API or webhook access is available. This is the single most important technical dependency in the implementation plan. If API is available &rarr; all data below flows automatically. If not &rarr; weekly manual CSV extracts are the fallback.</div>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <span class="badge b-am">Decision Owner: Kirk Demeter</span>
+          <span class="badge b-re">Needed by: 11 July 2026</span>
+          <span class="badge b-gy">Ref: OQ-2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="tc">
+      <div>
+
+        <div class="stitle">What We Propose to Pull from Nexus</div>
+        <div class="tw"><table>
+          <thead><tr><th>Data Field</th><th>Where It Goes</th><th>Frequency</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Active booking advisor list</strong><br><span style="font-size:10.5px;color:var(--txd)">All advisors with at least 1 booking in last 12 months</span></td><td>Zoho CRM — Contacts<br>Portal — Agent Database</td><td>Daily sync</td><td><span class="badge b-re">HIGH</span></td></tr>
+            <tr><td><strong>Lapsed advisor list</strong><br><span style="font-size:10.5px;color:var(--txd)">Booked 2023-2025, no booking in 2026</span></td><td>Zoho CRM — Lapsed view<br>Portal — Lapsed Advisors tab</td><td>Weekly</td><td><span class="badge b-re">HIGH</span></td></tr>
+            <tr><td><strong>Booking records</strong><br><span style="font-size:10.5px;color:var(--txd)">Booking #, status, value, balance, travel date, pax, destination</span></td><td>Portal — Res Dashboard<br>Zoho CRM — Contact timeline</td><td>Real-time / webhook</td><td><span class="badge b-re">HIGH</span></td></tr>
+            <tr><td><strong>Revenue by advisor</strong><br><span style="font-size:10.5px;color:var(--txd)">YTD total value of bookings per advisor</span></td><td>Zoho CRM — Contact field<br>Portal — KPI Tracker</td><td>Daily</td><td><span class="badge b-re">HIGH</span></td></tr>
+            <tr><td><strong>Last booking date per advisor</strong><br><span style="font-size:10.5px;color:var(--txd)">Used to trigger lapsed status and Janie's call queue</span></td><td>Zoho CRM — Contact field<br>Lapsed advisor alert rule</td><td>Daily</td><td><span class="badge b-re">HIGH</span></td></tr>
+            <tr><td><strong>Booking status events</strong><br><span style="font-size:10.5px;color:var(--txd)">Proposal &rarr; Deposited &rarr; Paid in Full &rarr; Cancelled transitions</span></td><td>Portal — Res Dashboard<br>Zoho — Activity timeline</td><td>Real-time / webhook</td><td><span class="badge b-re">HIGH</span></td></tr>
+            <tr><td><strong>Balance owing per booking</strong><br><span style="font-size:10.5px;color:var(--txd)">Outstanding payment per file, used for payment chasing alerts</span></td><td>Portal — Res Dashboard<br>Zoho — Contact field</td><td>Daily</td><td><span class="badge b-or">MED</span></td></tr>
+            <tr><td><strong>Revenue by consortia / partner</strong><br><span style="font-size:10.5px;color:var(--txd)">Total bookings aggregated by consortia group for monthly reporting</span></td><td>Portal — Consortia tab<br>Portal — KPI Tracker</td><td>Monthly</td><td><span class="badge b-or">MED</span></td></tr>
+            <tr><td><strong>New advisor first login</strong><br><span style="font-size:10.5px;color:var(--txd)">First time an advisor logs into Nexus — triggers activation workflow</span></td><td>Zoho — New Contact alert<br>Jeff Adam activation queue</td><td>Daily</td><td><span class="badge b-or">MED</span></td></tr>
+            <tr><td><strong>Quote-to-booking conversion rate</strong><br><span style="font-size:10.5px;color:var(--txd)">Quotes issued vs confirmed bookings per advisor</span></td><td>Portal — KPI Tracker<br>Portal — Agent Database</td><td>Monthly</td><td><span class="badge b-gy">LOW</span></td></tr>
+            <tr><td><strong>Average Booking Value (ABV) by advisor</strong><br><span style="font-size:10.5px;color:var(--txd)">Total revenue / number of bookings per advisor</span></td><td>Portal — KPI Tracker<br>Zoho — Contact field</td><td>Monthly</td><td><span class="badge b-gy">LOW</span></td></tr>
+            <tr><td><strong>Destination mix per advisor</strong><br><span style="font-size:10.5px;color:var(--txd)">Which destinations each advisor books most — used for targeted campaigns</span></td><td>Zoho — Contact tags<br>Zoho Campaigns — segmentation</td><td>Monthly</td><td><span class="badge b-gy">LOW</span></td></tr>
+          </tbody>
+        </table></div>
+
+      </div>
+      <div>
+
+        <div class="stitle">How the Connection Works</div>
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--tag);margin-bottom:10px">Option A &mdash; API / Webhook (Preferred)</div>
+          <div style="font-size:12.5px;color:var(--txd);line-height:1.7;margin-bottom:10px">Nexus sends a webhook event to Zoho every time a booking is created, updated, or status-changed. Zoho receives it and updates the Contact record automatically. No manual export or import. Real-time. Zero maintenance once configured.</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--green);font-weight:800">&#10003;</span> Real-time updates — no delay</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--green);font-weight:800">&#10003;</span> Zero manual work after setup</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--green);font-weight:800">&#10003;</span> Res Dashboard becomes fully live</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--green);font-weight:800">&#10003;</span> Advisor status auto-updates (active / lapsed)</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--amber);font-weight:800">&#9888;</span> Requires Nexus API access — pending confirmation</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;border-color:var(--bd)">
+          <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--txm);margin-bottom:10px">Option B &mdash; Weekly CSV Extract (Fallback)</div>
+          <div style="font-size:12.5px;color:var(--txd);line-height:1.7;margin-bottom:10px">If Nexus does not have API access, Jane Moore exports a weekly CSV from Nexus reports and imports it into Zoho manually. Automated import script can be built to reduce effort to &lt;5 minutes per week.</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--green);font-weight:800">&#10003;</span> Works without API access</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--green);font-weight:800">&#10003;</span> Can be partially automated via script</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--red);font-weight:800">&#10007;</span> Data is 1 week old by definition</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--red);font-weight:800">&#10007;</span> Res Dashboard not real-time</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--red);font-weight:800">&#10007;</span> Manual control risk for financial data</div>
+          </div>
+        </div>
+
+        <div class="stitle">What the Res Dashboard Needs from Nexus</div>
+        <div class="card">
+          <div style="font-size:12px;color:var(--txd);line-height:1.7;margin-bottom:10px">For the Reservations Dashboard (Jackie's request) to be fully live and accurate, Nexus needs to supply these specific fields per booking record:</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Res Agent Name / ID</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Booking Number</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Travel Advisor Name / ID</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Travel Date (departure)</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Destination</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Booking Status</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Gross Value</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Balance Owing</span><span class="badge b-re">Required</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="font-weight:600;color:var(--tx)">Number of Pax</span><span class="badge b-or">Needed</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px"><span style="font-weight:600;color:var(--tx)">Last Status Change Date</span><span class="badge b-or">Needed</span></div>
+          </div>
+        </div>
+
+        <div class="stitle">Nexus &rarr; MyTAG Agent Portal</div>
+        <div class="card">
+          <div style="font-size:12.5px;color:var(--txd);line-height:1.7">Once Nexus API is confirmed, the MyTAG agent-facing portal (currently in build) will also connect to Nexus so travel advisors can log in to MyTAG and see their own booking history, active files, and travel dates — without needing to call the res team. This is the single biggest service upgrade for the advisor relationship and is already scoped in the MyTAG portal brief.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
 </div><!-- /main -->
 
 <!-- MODALS -->
@@ -2129,6 +2369,7 @@ function init(){
   renderJD();
   renderInHouse();
   renderExtraAgentPanels();
+  renderResDashboard();
 }
 
 function selRating(btn){
@@ -3367,6 +3608,341 @@ function renderExtraAgentPanels(){
   renderRealAgents();
   renderInactiveAgents();
   renderCampaigns();
+}
+const resBookings=[
+  {bk:'NX24001',agent:'Tom Bradley',advisor:"Tarin O'Brien",dest:'Europe Multi',travel:'15 Sep 2026',travel_ts:'2026-09-15',pax:1,gross:8539,balance:0,status:'Paid in Full'},
+  {bk:'NX24002',agent:'Tom Bradley',advisor:"Mary Behncke",dest:'Tahiti',travel:'05 Oct 2026',travel_ts:'2026-10-05',pax:6,gross:12340,balance:8020,status:'Deposited'},
+  {bk:'NX24003',agent:'Tom Bradley',advisor:"Tarin O'Brien",dest:'Portugal',travel:'15 Feb 2027',travel_ts:'2027-02-15',pax:4,gross:17144,balance:6823,status:'Deposited'},
+  {bk:'NX24004',agent:'Maria Santos',advisor:"Mary Behncke",dest:'Bali',travel:'05 Aug 2026',travel_ts:'2026-08-05',pax:3,gross:8467,balance:8467,status:'Proposal'},
+  {bk:'NX24005',agent:'Tom Bradley',advisor:"Marye Jayne Wallace",dest:'New Zealand',travel:'29 Sep 2026',travel_ts:'2026-09-29',pax:2,gross:6558,balance:0,status:'Paid in Full'},
+  {bk:'NX24006',agent:'Rachel Kim',advisor:"Mary Behncke",dest:'New Zealand',travel:'16 Jan 2027',travel_ts:'2027-01-16',pax:1,gross:17964,balance:0,status:'Paid in Full'},
+  {bk:'NX24007',agent:'Tom Bradley',advisor:"Kathleen Doyle",dest:'Europe Multi',travel:'19 Jun 2027',travel_ts:'2027-06-19',pax:1,gross:14789,balance:0,status:'Paid in Full'},
+  {bk:'NX24008',agent:'Rachel Kim',advisor:"Don Carlson",dest:'Thailand',travel:'16 Jul 2026',travel_ts:'2026-07-16',pax:4,gross:10756,balance:10756,status:'Proposal'},
+  {bk:'NX24009',agent:'Maria Santos',advisor:"Marilyn Valenti",dest:'Portugal',travel:'15 Mar 2027',travel_ts:'2027-03-15',pax:1,gross:18268,balance:0,status:'Paid in Full'},
+  {bk:'NX24010',agent:'Rachel Kim',advisor:"Judy Lambert",dest:'Portugal',travel:'29 Dec 2026',travel_ts:'2026-12-29',pax:2,gross:15844,balance:0,status:'Paid in Full'},
+  {bk:'NX24011',agent:'David Okafor',advisor:"Christine Renaud",dest:'Australia',travel:'15 Aug 2026',travel_ts:'2026-08-15',pax:1,gross:10937,balance:4822,status:'Deposited'},
+  {bk:'NX24012',agent:'David Okafor',advisor:"Don Carlson",dest:'Thailand',travel:'30 Jun 2027',travel_ts:'2027-06-30',pax:5,gross:3846,balance:2158,status:'Deposited'},
+  {bk:'NX24013',agent:'Maria Santos',advisor:"Dorothy Selgrath",dest:'Europe Multi',travel:'11 Feb 2027',travel_ts:'2027-02-11',pax:6,gross:14476,balance:0,status:'Paid in Full'},
+  {bk:'NX24014',agent:'Rachel Kim',advisor:"Marye Jayne Wallace",dest:'Australia',travel:'05 Nov 2026',travel_ts:'2026-11-05',pax:4,gross:5615,balance:0,status:'Paid in Full'},
+  {bk:'NX24015',agent:'David Okafor',advisor:"Rhonda Degeal",dest:'Australia',travel:'25 Jun 2027',travel_ts:'2027-06-25',pax:1,gross:18333,balance:0,status:'Paid in Full'},
+  {bk:'NX24016',agent:'Maria Santos',advisor:"Christine Renaud",dest:'Japan',travel:'30 Jun 2027',travel_ts:'2027-06-30',pax:1,gross:5599,balance:0,status:'Paid in Full'},
+  {bk:'NX24017',agent:'David Okafor',advisor:"Dorothy Selgrath",dest:'New Zealand',travel:'03 Aug 2026',travel_ts:'2026-08-03',pax:2,gross:10839,balance:0,status:'Paid in Full'},
+  {bk:'NX24018',agent:'Tom Bradley',advisor:"John Pontius",dest:'Fiji',travel:'20 Jul 2026',travel_ts:'2026-07-20',pax:1,gross:6639,balance:3785,status:'Deposited'},
+  {bk:'NX24019',agent:'James Patel',advisor:"Sharla Shaffer",dest:'Bali',travel:'03 Oct 2026',travel_ts:'2026-10-03',pax:4,gross:17409,balance:17409,status:'Proposal'},
+  {bk:'NX24020',agent:'James Patel',advisor:"Judy Lambert",dest:'Tanzania',travel:'05 Jun 2027',travel_ts:'2027-06-05',pax:4,gross:12646,balance:10117,status:'On Request'},
+  {bk:'NX24021',agent:'David Okafor',advisor:"Judy Lambert",dest:'Tanzania',travel:'28 Jul 2026',travel_ts:'2026-07-28',pax:3,gross:13001,balance:7719,status:'Deposited'},
+  {bk:'NX24022',agent:'Tom Bradley',advisor:"Christine Renaud",dest:'UAE / Dubai',travel:'24 Jan 2027',travel_ts:'2027-01-24',pax:4,gross:7912,balance:0,status:'Paid in Full'},
+  {bk:'NX24023',agent:'Tom Bradley',advisor:"Christine Renaud",dest:'New Zealand',travel:'17 Jun 2027',travel_ts:'2027-06-17',pax:6,gross:3508,balance:3508,status:'Proposal'},
+  {bk:'NX24024',agent:'James Patel',advisor:"Marye Jayne Wallace",dest:'Bali',travel:'18 Sep 2026',travel_ts:'2026-09-18',pax:4,gross:11562,balance:0,status:'Paid in Full'},
+  {bk:'NX24025',agent:'Lisa Chen',advisor:"Gary Knox",dest:'South Korea',travel:'19 Dec 2026',travel_ts:'2026-12-19',pax:5,gross:14081,balance:14081,status:'Proposal'},
+  {bk:'NX24026',agent:'Tom Bradley',advisor:"Roberta Murphy",dest:'Europe Multi',travel:'28 Dec 2026',travel_ts:'2026-12-28',pax:3,gross:15789,balance:0,status:'Paid in Full'},
+  {bk:'NX24027',agent:'Lisa Chen',advisor:"Kathleen Doyle",dest:'Japan',travel:'01 Mar 2027',travel_ts:'2027-03-01',pax:3,gross:17934,balance:10854,status:'Deposited'},
+  {bk:'NX24028',agent:'James Patel',advisor:"Dorothy Selgrath",dest:'South Africa',travel:'12 Jun 2027',travel_ts:'2027-06-12',pax:6,gross:15567,balance:12454,status:'On Request'},
+  {bk:'NX24029',agent:'David Okafor',advisor:"Richard Tennant",dest:'Tanzania',travel:'06 Mar 2027',travel_ts:'2027-03-06',pax:6,gross:11462,balance:0,status:'Paid in Full'},
+  {bk:'NX24030',agent:'James Patel',advisor:"Mary Calabrese",dest:'New Zealand',travel:'02 Jun 2027',travel_ts:'2027-06-02',pax:3,gross:17019,balance:0,status:'Paid in Full'},
+  {bk:'NX24031',agent:'Lisa Chen',advisor:"Norma Frost",dest:'Japan',travel:'15 Aug 2026',travel_ts:'2026-08-15',pax:5,gross:5576,balance:0,status:'Paid in Full'},
+  {bk:'NX24032',agent:'Rachel Kim',advisor:"Norma Frost",dest:'Portugal',travel:'18 May 2027',travel_ts:'2027-05-18',pax:1,gross:13114,balance:0,status:'Paid in Full'},
+  {bk:'NX24033',agent:'James Patel',advisor:"Suzy Zimmermann",dest:'Thailand',travel:'06 Aug 2026',travel_ts:'2026-08-06',pax:2,gross:12809,balance:0,status:'Paid in Full'},
+  {bk:'NX24034',agent:'James Patel',advisor:"Sharla Shaffer",dest:'South Africa',travel:'06 Jul 2026',travel_ts:'2026-07-06',pax:5,gross:8820,balance:0,status:'Paid in Full'},
+  {bk:'NX24035',agent:'James Patel',advisor:"Mary Calabrese",dest:'New Zealand',travel:'20 Jul 2026',travel_ts:'2026-07-20',pax:3,gross:9375,balance:0,status:'Paid in Full'},
+  {bk:'NX24036',agent:'Maria Santos',advisor:"Gary Knox",dest:'South Africa',travel:'08 Jun 2026',travel_ts:'2026-06-08',pax:2,gross:13360,balance:7454,status:'Deposited'},
+  {bk:'NX24037',agent:'David Okafor',advisor:"Christine Renaud",dest:'New Zealand',travel:'15 Jul 2026',travel_ts:'2026-07-15',pax:1,gross:16115,balance:10369,status:'Deposited'},
+  {bk:'NX24038',agent:'Lisa Chen',advisor:"Judy Lambert",dest:'Thailand',travel:'28 Apr 2027',travel_ts:'2027-04-28',pax:6,gross:5274,balance:1653,status:'Deposited'},
+  {bk:'NX24039',agent:'James Patel',advisor:"Marye Jayne Wallace",dest:'New Zealand',travel:'10 Mar 2027',travel_ts:'2027-03-10',pax:1,gross:6058,balance:0,status:'Paid in Full'},
+  {bk:'NX24040',agent:'Rachel Kim',advisor:"Marye Jayne Wallace",dest:'Fiji',travel:'21 Dec 2026',travel_ts:'2026-12-21',pax:6,gross:15154,balance:0,status:'Paid in Full'},
+  {bk:'NX24041',agent:'Lisa Chen',advisor:"Kathleen Doyle",dest:'South Korea',travel:'18 Jun 2027',travel_ts:'2027-06-18',pax:2,gross:12071,balance:6020,status:'Deposited'},
+  {bk:'NX24042',agent:'Rachel Kim',advisor:"Dennie Zabler",dest:'South Africa',travel:'15 Jan 2027',travel_ts:'2027-01-15',pax:6,gross:12660,balance:12660,status:'Proposal'},
+  {bk:'NX24043',agent:'David Okafor',advisor:"Don Carlson",dest:'Japan',travel:'14 Sep 2026',travel_ts:'2026-09-14',pax:5,gross:16039,balance:0,status:'Paid in Full'},
+  {bk:'NX24044',agent:'James Patel',advisor:"Kathleen Doyle",dest:'Botswana',travel:'10 Nov 2026',travel_ts:'2026-11-10',pax:6,gross:13805,balance:0,status:'Paid in Full'},
+  {bk:'NX24045',agent:'Tom Bradley',advisor:"Richard Tennant",dest:'Botswana',travel:'01 May 2027',travel_ts:'2027-05-01',pax:2,gross:11443,balance:5438,status:'Deposited'},
+  {bk:'NX24046',agent:'Tom Bradley',advisor:"Richard Tennant",dest:'Portugal',travel:'15 May 2027',travel_ts:'2027-05-15',pax:4,gross:8848,balance:7078,status:'On Request'},
+  {bk:'NX24047',agent:'David Okafor',advisor:"Rhonda Degeal",dest:'Tahiti',travel:'24 Jul 2026',travel_ts:'2026-07-24',pax:1,gross:11270,balance:4325,status:'Deposited'},
+  {bk:'NX24048',agent:'Rachel Kim',advisor:"Roberta Murphy",dest:'Tanzania',travel:'04 Nov 2026',travel_ts:'2026-11-04',pax:5,gross:6035,balance:3849,status:'Deposited'},
+  {bk:'NX24049',agent:'David Okafor',advisor:"Don Carlson",dest:'Tahiti',travel:'25 May 2027',travel_ts:'2027-05-25',pax:4,gross:10120,balance:0,status:'Paid in Full'},
+  {bk:'NX24050',agent:'David Okafor',advisor:"Dorothy Selgrath",dest:'Tanzania',travel:'05 Dec 2026',travel_ts:'2026-12-05',pax:2,gross:12077,balance:0,status:'Paid in Full'},
+  {bk:'NX24051',agent:'Lisa Chen',advisor:"Christine Renaud",dest:'UAE / Dubai',travel:'15 Apr 2027',travel_ts:'2027-04-15',pax:3,gross:17410,balance:8600,status:'Deposited'},
+  {bk:'NX24052',agent:'David Okafor',advisor:"Rhonda Degeal",dest:'Australia',travel:'22 Feb 2027',travel_ts:'2027-02-22',pax:5,gross:10386,balance:8309,status:'On Request'},
+  {bk:'NX24053',agent:'James Patel',advisor:"Richard Tennant",dest:'UAE / Dubai',travel:'14 Dec 2026',travel_ts:'2026-12-14',pax:1,gross:8616,balance:8616,status:'Proposal'},
+  {bk:'NX24054',agent:'Tom Bradley',advisor:"John Pontius",dest:'Australia',travel:'29 May 2027',travel_ts:'2027-05-29',pax:4,gross:5594,balance:1919,status:'Deposited'},
+  {bk:'NX24055',agent:'Maria Santos',advisor:"Richard Tennant",dest:'Bali',travel:'05 Dec 2026',travel_ts:'2026-12-05',pax:2,gross:8827,balance:0,status:'Paid in Full'},
+  {bk:'NX24056',agent:'Maria Santos',advisor:"Dorothy Selgrath",dest:'UAE / Dubai',travel:'28 May 2027',travel_ts:'2027-05-28',pax:1,gross:10186,balance:10186,status:'Proposal'},
+  {bk:'NX24057',agent:'James Patel',advisor:"Rhonda Degeal",dest:'Australia',travel:'09 Jun 2027',travel_ts:'2027-06-09',pax:4,gross:10272,balance:3914,status:'Deposited'},
+  {bk:'NX24058',agent:'Maria Santos',advisor:"Christine Renaud",dest:'Australia',travel:'17 Jun 2026',travel_ts:'2026-06-17',pax:6,gross:10153,balance:10153,status:'Proposal'},
+  {bk:'NX24059',agent:'Maria Santos',advisor:"Tarin O'Brien",dest:'Portugal',travel:'08 Mar 2027',travel_ts:'2027-03-08',pax:3,gross:10862,balance:4315,status:'Deposited'},
+  {bk:'NX24060',agent:'Maria Santos',advisor:"Rhonda Degeal",dest:'South Africa',travel:'31 May 2027',travel_ts:'2027-05-31',pax:6,gross:12772,balance:7767,status:'Deposited'},
+  {bk:'NX24061',agent:'Tom Bradley',advisor:"Richard Tennant",dest:'Botswana',travel:'19 Mar 2027',travel_ts:'2027-03-19',pax:3,gross:16778,balance:16778,status:'Proposal'},
+  {bk:'NX24062',agent:'Maria Santos',advisor:"Sharla Shaffer",dest:'Japan',travel:'07 Mar 2027',travel_ts:'2027-03-07',pax:3,gross:12135,balance:12135,status:'Proposal'},
+  {bk:'NX24063',agent:'David Okafor',advisor:"Michelle Liliedahl",dest:'New Zealand',travel:'09 May 2027',travel_ts:'2027-05-09',pax:5,gross:14757,balance:0,status:'Paid in Full'},
+  {bk:'NX24064',agent:'Rachel Kim',advisor:"Gary Knox",dest:'New Zealand',travel:'02 Jan 2027',travel_ts:'2027-01-02',pax:3,gross:15196,balance:6599,status:'Deposited'},
+  {bk:'NX24065',agent:'Tom Bradley',advisor:"Mary Calabrese",dest:'Bali',travel:'15 Feb 2027',travel_ts:'2027-02-15',pax:5,gross:13675,balance:13675,status:'Proposal'},
+  {bk:'NX24066',agent:'Lisa Chen',advisor:"Dorothy Selgrath",dest:'Botswana',travel:'18 Oct 2026',travel_ts:'2026-10-18',pax:6,gross:15411,balance:12329,status:'On Request'},
+  {bk:'NX24067',agent:'Maria Santos',advisor:"Mary Behncke",dest:'Japan',travel:'28 Jun 2026',travel_ts:'2026-06-28',pax:5,gross:17984,balance:10427,status:'Deposited'},
+  {bk:'NX24068',agent:'Maria Santos',advisor:"Tarin O'Brien",dest:'South Africa',travel:'08 Jan 2027',travel_ts:'2027-01-08',pax:6,gross:3611,balance:0,status:'Paid in Full'},
+  {bk:'NX24069',agent:'Rachel Kim',advisor:"Dorothy Selgrath",dest:'South Africa',travel:'30 Sep 2026',travel_ts:'2026-09-30',pax:2,gross:10180,balance:0,status:'Paid in Full'},
+  {bk:'NX24070',agent:'James Patel',advisor:"Kathleen Doyle",dest:'South Korea',travel:'04 Aug 2026',travel_ts:'2026-08-04',pax:5,gross:7058,balance:4402,status:'Deposited'},
+  {bk:'NX24071',agent:'David Okafor',advisor:"Roberta Murphy",dest:'Fiji',travel:'27 Dec 2026',travel_ts:'2026-12-27',pax:2,gross:6160,balance:0,status:'Paid in Full'},
+  {bk:'NX24072',agent:'Tom Bradley',advisor:"Christine Renaud",dest:'Botswana',travel:'01 Jul 2026',travel_ts:'2026-07-01',pax:4,gross:3787,balance:3787,status:'Proposal'},
+];
+
+var rdCurrentSort = 'travel';
+var resViewMode = 'manager';
+
+function setResView(mode, btn){
+  resViewMode = mode;
+  document.querySelectorAll('.vt-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  document.getElementById('res-manager-view').style.display = mode==='manager' ? '' : 'none';
+  document.getElementById('res-agent-view').style.display = mode==='agent' ? '' : 'none';
+  if(mode==='agent') renderAgentView();
+}
+
+function rdSortBy(col){
+  rdCurrentSort = col;
+  renderResTable();
+}
+
+function statusColor(s){
+  if(s==='Proposal') return 'b-am';
+  if(s==='Deposited') return 'b-bl';
+  if(s==='Paid in Full') return 'b-gr';
+  if(s==='Cancelled') return 'b-re';
+  return 'b-gy';
+}
+
+function daysTo(ts){
+  var d = new Date(ts) - new Date('2026-07-06');
+  return Math.round(d / 86400000);
+}
+
+function daysLabel(n){
+  if(n < 0) return '<span style="color:var(--txd);font-size:11px">Departed</span>';
+  if(n === 0) return '<span class="badge b-re">Today</span>';
+  if(n <= 7) return '<span class="badge b-re">'+n+'d</span>';
+  if(n <= 30) return '<span class="badge b-am">'+n+'d</span>';
+  return '<span style="color:var(--txd);font-size:11.5px">'+n+'d</span>';
+}
+
+function renderResKPIs(){
+  var total = resBookings.length;
+  var proposals = resBookings.filter(function(b){ return b.status==='Proposal'; }).length;
+  var deposited = resBookings.filter(function(b){ return b.status==='Deposited'; }).length;
+  var paid = resBookings.filter(function(b){ return b.status==='Paid in Full'; }).length;
+  var totalBal = resBookings.reduce(function(s,b){ return s+b.balance; }, 0);
+  var travelMonth = resBookings.filter(function(b){
+    var d=daysTo(b.travel_ts); return d>=0&&d<=30;
+  }).length;
+
+  var el; 
+  el=document.getElementById('rd-total'); if(el) el.textContent=total;
+  el=document.getElementById('rd-proposals'); if(el) el.textContent=proposals;
+  el=document.getElementById('rd-deposited'); if(el) el.textContent=deposited;
+  el=document.getElementById('rd-paid'); if(el) el.textContent=paid;
+  el=document.getElementById('rd-balance'); if(el) el.textContent='$'+Math.round(totalBal/1000)+'K';
+  el=document.getElementById('rd-travel-month'); if(el) el.textContent=travelMonth;
+
+  // Status bars
+  var bar = document.getElementById('rd-status-bars');
+  if(!bar) return;
+  var items = [
+    {lbl:'Proposal',val:proposals,col:'var(--amber)'},
+    {lbl:'Deposited',val:deposited,col:'var(--blue)'},
+    {lbl:'Paid in Full',val:paid,col:'var(--green)'},
+    {lbl:'On Request',val:resBookings.filter(function(b){return b.status==='On Request';}).length,col:'var(--purple)'},
+    {lbl:'Cancelled',val:resBookings.filter(function(b){return b.status==='Cancelled';}).length,col:'var(--red)'},
+  ];
+  bar.innerHTML = items.map(function(it){
+    var pct = Math.round(it.val/total*100);
+    return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+      +'<div style="width:90px;font-size:11.5px;font-weight:600;color:var(--txd);flex-shrink:0">'+it.lbl+'</div>'
+      +'<div style="flex:1;background:var(--s2);border-radius:4px;height:18px;overflow:hidden">'
+      +'<div style="width:'+pct+'%;background:'+it.col+';height:100%;border-radius:4px;transition:width .4s"></div></div>'
+      +'<div style="width:32px;text-align:right;font-size:12px;font-weight:700;color:var(--tx)">'+it.val+'</div>'
+      +'<div style="width:36px;text-align:right;font-size:11px;color:var(--txm)">'+pct+'%</div>'
+      +'</div>';
+  }).join('');
+
+  // Populate filter dropdowns
+  var agentSel = document.getElementById('rd-filter-agent');
+  var destSel = document.getElementById('rd-filter-dest');
+  var agentSelA = document.getElementById('ra-agent-select');
+  if(agentSel && agentSel.options.length<=1){
+    var agents = [...new Set(resBookings.map(function(b){return b.agent;}))].sort();
+    agents.forEach(function(a){
+      agentSel.add(new Option(a,a));
+      if(agentSelA) agentSelA.add(new Option(a,a));
+    });
+  }
+  if(destSel && destSel.options.length<=1){
+    var dests = [...new Set(resBookings.map(function(b){return b.dest;}))].sort();
+    dests.forEach(function(d){ destSel.add(new Option(d,d)); });
+  }
+}
+
+function renderResTable(){
+  var srch = (document.getElementById('rd-search')||{}).value||'';
+  srch = srch.toLowerCase();
+  var fSt = (document.getElementById('rd-filter-status')||{}).value||'';
+  var fAg = (document.getElementById('rd-filter-agent')||{}).value||'';
+  var fDe = (document.getElementById('rd-filter-dest')||{}).value||'';
+  var srt = (document.getElementById('rd-sort')||{}).value||rdCurrentSort;
+
+  var list = resBookings.filter(function(b){
+    if(srch && (b.bk+b.advisor+b.dest+b.agent).toLowerCase().indexOf(srch)<0) return false;
+    if(fSt && b.status!==fSt) return false;
+    if(fAg && b.agent!==fAg) return false;
+    if(fDe && b.dest!==fDe) return false;
+    return true;
+  });
+
+  list.sort(function(a,b){
+    if(srt==='travel') return a.travel_ts.localeCompare(b.travel_ts);
+    if(srt==='balance') return b.balance-a.balance;
+    if(srt==='booking') return a.bk.localeCompare(b.bk);
+    if(srt==='agent') return a.agent.localeCompare(b.agent);
+    if(srt==='status') return a.status.localeCompare(b.status);
+    if(srt==='dest') return a.dest.localeCompare(b.dest);
+    return 0;
+  });
+
+  var cl = document.getElementById('rd-count-line');
+  if(cl) cl.textContent = 'Showing '+list.length+' of '+resBookings.length+' files';
+
+  var el = document.getElementById('rd-tbody');
+  if(!el) return;
+  el.innerHTML = list.map(function(b,i){
+    var days = daysTo(b.travel_ts);
+    var rowBg = i%2===0?'':'background:var(--s2)';
+    return '<tr style="'+rowBg+'">'
+      +'<td><strong style="color:var(--tag)">'+b.bk+'</strong></td>'
+      +'<td style="font-size:11.5px">'+b.agent+'</td>'
+      +'<td style="font-size:11.5px;color:var(--txd)">'+b.advisor+'</td>'
+      +'<td><strong>'+b.dest+'</strong></td>'
+      +'<td style="font-size:11.5px">'+b.travel+'</td>'
+      +'<td style="text-align:center">'+b.pax+'</td>'
+      +'<td style="font-weight:600">$'+b.gross.toLocaleString()+'</td>'
+      +'<td style="font-weight:700;color:'+(b.balance>0?'var(--red)':'var(--green)')+'">'+
+        (b.balance>0?'$'+b.balance.toLocaleString():'Cleared')+'</td>'
+      +'<td>'+ba(statusColor(b.status),b.status)+'</td>'
+      +'<td style="text-align:center">'+daysLabel(days)+'</td>'
+      +'</tr>';
+  }).join('');
+
+  renderAgentSummary();
+  renderDestSummary();
+  renderUpcoming();
+}
+
+function renderAgentSummary(){
+  var el = document.getElementById('rd-agent-summary');
+  if(!el) return;
+  var agents = {};
+  resBookings.forEach(function(b){
+    if(!agents[b.agent]) agents[b.agent]={files:0,proposals:0,deposited:0,paid:0,value:0,balance:0};
+    var a = agents[b.agent];
+    a.files++;
+    if(b.status==='Proposal') a.proposals++;
+    else if(b.status==='Deposited') a.deposited++;
+    else if(b.status==='Paid in Full') a.paid++;
+    a.value += b.gross;
+    a.balance += b.balance;
+  });
+  el.innerHTML = Object.entries(agents).sort(function(a,b){ return b[1].value-a[1].value; }).map(function(e,i){
+    var a=e[1];
+    return '<tr style="'+(i%2===0?'':'background:var(--s2)')+'">'
+      +'<td><strong>'+e[0]+'</strong></td>'
+      +'<td style="text-align:center">'+a.files+'</td>'
+      +'<td style="text-align:center;color:var(--amber);font-weight:600">'+a.proposals+'</td>'
+      +'<td style="text-align:center;color:var(--blue);font-weight:600">'+a.deposited+'</td>'
+      +'<td style="text-align:center;color:var(--green);font-weight:600">'+a.paid+'</td>'
+      +'<td style="font-weight:600">$'+a.value.toLocaleString()+'</td>'
+      +'<td style="font-weight:700;color:var(--red)">$'+a.balance.toLocaleString()+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderDestSummary(){
+  var el = document.getElementById('rd-dest-summary');
+  if(!el) return;
+  var dests = {};
+  resBookings.forEach(function(b){
+    if(!dests[b.dest]) dests[b.dest]={files:0,value:0,balance:0,pax:0};
+    dests[b.dest].files++;
+    dests[b.dest].value+=b.gross;
+    dests[b.dest].balance+=b.balance;
+    dests[b.dest].pax+=b.pax;
+  });
+  el.innerHTML = Object.entries(dests).sort(function(a,b){return b[1].files-a[1].files;}).slice(0,8).map(function(e,i){
+    var d=e[1];
+    return '<tr style="'+(i%2===0?'':'background:var(--s2)')+'">'
+      +'<td><strong>'+e[0]+'</strong></td>'
+      +'<td style="text-align:center;font-weight:700">'+d.files+'</td>'
+      +'<td>$'+d.value.toLocaleString()+'</td>'
+      +'<td style="color:var(--red);font-weight:600">$'+d.balance.toLocaleString()+'</td>'
+      +'<td style="text-align:center">'+Math.round(d.pax/d.files)+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderUpcoming(){
+  var el = document.getElementById('rd-upcoming');
+  if(!el) return;
+  var list = resBookings.filter(function(b){
+    var d=daysTo(b.travel_ts); return d>=0&&d<=30;
+  }).sort(function(a,b){ return a.travel_ts.localeCompare(b.travel_ts); });
+  el.innerHTML = list.map(function(b,i){
+    return '<tr style="'+(i%2===0?'':'background:var(--s2)')+'">'
+      +'<td><strong style="color:var(--tag)">'+b.bk+'</strong></td>'
+      +'<td>'+b.dest+'</td>'
+      +'<td style="font-size:11.5px">'+b.travel+'</td>'
+      +'<td>'+ba(statusColor(b.status),b.status)+'</td>'
+      +'<td style="font-weight:700;color:'+(b.balance>0?'var(--red)':'var(--green)')+'">'+
+        (b.balance>0?'$'+b.balance.toLocaleString():'&#10003; Cleared')+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderAgentView(){
+  var sel = document.getElementById('ra-agent-select');
+  var agent = sel ? sel.value : '';
+  var name = document.getElementById('ra-agent-name');
+  if(name) name.textContent = agent || 'All Agents';
+
+  var list = agent ? resBookings.filter(function(b){ return b.agent===agent; }) : resBookings;
+
+  var kpiEl = document.getElementById('ra-agent-kpis');
+  if(kpiEl){
+    var paid=list.filter(function(b){return b.status==='Paid in Full';}).length;
+    var dep=list.filter(function(b){return b.status==='Deposited';}).length;
+    var prop=list.filter(function(b){return b.status==='Proposal';}).length;
+    var totBal=list.reduce(function(s,b){return s+b.balance;},0);
+    kpiEl.innerHTML='<div class="sc gr"><div class="sl">Paid in Full</div><div class="sv">'+paid+'</div></div>'
+      +'<div class="sc bl"><div class="sl">Deposited</div><div class="sv">'+dep+'</div></div>'
+      +'<div class="sc or"><div class="sl">Proposals</div><div class="sv">'+prop+'</div></div>'
+      +'<div class="sc re"><div class="sl">Balance Owing</div><div class="sv" style="font-size:16px">$'+Math.round(totBal/1000)+'K</div></div>';
+  }
+
+  var el = document.getElementById('ra-tbody');
+  if(!el) return;
+  el.innerHTML = list.sort(function(a,b){return a.travel_ts.localeCompare(b.travel_ts);}).map(function(b,i){
+    var days = daysTo(b.travel_ts);
+    return '<tr style="'+(i%2===0?'':'background:var(--s2)')+'">'
+      +'<td><strong style="color:var(--tag)">'+b.bk+'</strong></td>'
+      +'<td style="font-size:11.5px;color:var(--txd)">'+b.advisor+'</td>'
+      +'<td><strong>'+b.dest+'</strong></td>'
+      +'<td style="font-size:11.5px">'+b.travel+'</td>'
+      +'<td style="text-align:center">'+b.pax+'</td>'
+      +'<td style="font-weight:600">$'+b.gross.toLocaleString()+'</td>'
+      +'<td style="font-weight:700;color:'+(b.balance>0?'var(--red)':'var(--green)')+'">'+
+        (b.balance>0?'$'+b.balance.toLocaleString():'&#10003; Cleared')+'</td>'
+      +'<td>'+ba(statusColor(b.status),b.status)+'</td>'
+      +'<td style="text-align:center">'+daysLabel(days)+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderResDashboard(){
+  renderResKPIs();
+  renderResTable();
 }
 
 window.onload = init;
