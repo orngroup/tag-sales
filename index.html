@@ -419,6 +419,7 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('inhouse',this)"><span class="ic">&#127970;</span>In-House Sales</a>
     <div class="nav-s">Reservations</div>
     <a href="#" onclick="showPanel('resdash',this)"><span class="ic">&#128204;</span>Res Dashboard</a>
+    <a href="#" onclick="showPanel('resinbox',this)"><span class="ic">&#128234;</span>Inbox &amp; Reminders</a>
     <a href="#" onclick="showPanel('nexusplan',this)"><span class="ic">&#128279;</span>Nexus Integration</a>
     <div class="nav-s">Zoho</div>
     <a href="#" onclick="showPanel('why',this)"><span class="ic">&#11088;</span>Why Zoho</a>
@@ -1901,6 +1902,8 @@ textarea{resize:vertical;min-height:65px}
         <div class="sc nv"><div class="sl">Paid in Full</div><div class="sv" id="rd-paid">--</div><div class="ss">Fully paid</div></div>
         <div class="sc"><div class="sl">Balance Owing</div><div class="sv" style="color:var(--red)" id="rd-balance">--</div><div class="ss">Across all files</div></div>
         <div class="sc"><div class="sl">Travel This Month</div><div class="sv" style="color:var(--purple)" id="rd-travel-month">--</div><div class="ss">Departures due</div></div>
+        <div class="sc gr"><div class="sl">YTD Total Sales</div><div class="sv" id="rd-ytd-sales">--</div><div class="ss">Gross value all files</div></div>
+        <div class="sc nv"><div class="sl">YTD Departed</div><div class="sv" id="rd-ytd-departed">--</div><div class="ss">Files with travel date passed</div></div>
       </div>
 
       <!-- Status summary bars -->
@@ -1995,7 +1998,17 @@ textarea{resize:vertical;min-height:65px}
       <div class="sg" id="ra-agent-kpis"></div>
       <div class="tw" style="margin-top:12px">
         <table>
-          <thead><tr><th>Booking #</th><th>Travel Advisor</th><th>Destination</th><th>Travel Date</th><th>Pax</th><th>Gross Value</th><th>Balance Owing</th><th>Status</th><th>Days to Depart</th></tr></thead>
+          <thead><tr>
+            <th onclick="raSort('bk')" style="cursor:pointer">Booking # &#8597;</th>
+            <th>Travel Advisor</th>
+            <th onclick="raSort('dest')" style="cursor:pointer">Destination &#8597;</th>
+            <th onclick="raSort('travel')" style="cursor:pointer">Travel Date &#8597;</th>
+            <th>Pax</th>
+            <th onclick="raSort('gross')" style="cursor:pointer">Gross Value &#8597;</th>
+            <th onclick="raSort('balance')" style="cursor:pointer">Balance Owing &#8597;</th>
+            <th onclick="raSort('status')" style="cursor:pointer">Status &#8597;</th>
+            <th onclick="raSort('days')" style="cursor:pointer">Days to Depart &#8597;</th>
+          </tr></thead>
           <tbody id="ra-tbody"></tbody>
         </table>
       </div>
@@ -2103,6 +2116,90 @@ textarea{resize:vertical;min-height:65px}
 
       </div>
     </div>
+
+  </div>
+</div>
+
+<!-- ===== RES INBOX & REMINDERS ===== -->
+<div id="panel-resinbox" class="panel">
+  <div class="topbar">
+    <h1>Inbox &amp; Reminders &mdash; <span>Messages &amp; Self-Reminders</span></h1>
+    <div class="tact">
+      <button class="btn btn-p" onclick="showNewMessage()" style="font-size:11.5px;padding:6px 14px">&#43; New Reminder</button>
+      <button class="btn btn-g" onclick="showNewManagerMsg()" style="font-size:11.5px;padding:6px 14px">&#128172; Send to Agent</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-or"><strong>How this works:</strong> Res agents can set personal reminders against any booking — payment due dates, follow-up calls, document deadlines. Managers can send messages directly to individual agents or the whole team. All messages appear here sorted by date. Once Nexus is connected, payment due date reminders will auto-generate.</div>
+
+    <!-- Compose reminder modal (inline) -->
+    <div id="inbox-compose" style="display:none;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:18px">
+      <div class="stitle" style="margin-bottom:12px" id="inbox-compose-title">New Self-Reminder</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">BOOKING # (optional)</div>
+          <input type="text" id="ic-booking" placeholder="e.g. NX24001" style="width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+        </div>
+        <div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">REMIND ME ON</div>
+          <input type="date" id="ic-date" style="width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+        </div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">REMINDER MESSAGE</div>
+        <textarea id="ic-message" rows="3" placeholder="e.g. Final payment due for NX24012 — call client to confirm..." style="width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px;resize:vertical"></textarea>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" onclick="saveReminder()">Save Reminder</button>
+        <button class="btn btn-g" onclick="document.getElementById('inbox-compose').style.display='none'">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Manager message modal -->
+    <div id="inbox-manager-compose" style="display:none;background:var(--tag-lt,#fff3ec);border:1px solid var(--tag-bd,#f5d4bc);border-radius:10px;padding:20px;margin-bottom:18px">
+      <div class="stitle" style="margin-bottom:12px">Send Message to Agent</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">SEND TO</div>
+          <select id="im-agent" style="width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+            <option value="all">All Res Agents</option>
+            <option>Maria Santos</option>
+            <option>Tom Bradley</option>
+            <option>Lisa Chen</option>
+            <option>David Okafor</option>
+            <option>Rachel Kim</option>
+            <option>James Patel</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">PRIORITY</div>
+          <select id="im-priority" style="width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+            <option value="normal">Normal</option>
+            <option value="urgent">Urgent</option>
+            <option value="info">Info only</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">MESSAGE</div>
+        <textarea id="im-message" rows="3" placeholder="e.g. Please ensure all outstanding balances for July departures are chased by EOD today..." style="width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px;resize:vertical"></textarea>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" onclick="saveManagerMsg()">Send Message</button>
+        <button class="btn btn-g" onclick="document.getElementById('inbox-manager-compose').style.display='none'">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="vt-btn active" id="inbox-tab-all" onclick="filterInbox('all',this)">All</button>
+      <button class="vt-btn" id="inbox-tab-reminder" onclick="filterInbox('reminder',this)">&#9200; My Reminders</button>
+      <button class="vt-btn" id="inbox-tab-manager" onclick="filterInbox('manager',this)">&#128172; From Manager</button>
+      <button class="vt-btn" id="inbox-tab-urgent" onclick="filterInbox('urgent',this)">&#128680; Urgent</button>
+    </div>
+
+    <div id="inbox-list" style="display:flex;flex-direction:column;gap:10px"></div>
 
   </div>
 </div>
@@ -2370,6 +2467,7 @@ function init(){
   renderInHouse();
   renderExtraAgentPanels();
   renderResDashboard();
+  renderInboxPanel();
 }
 
 function selRating(btn){
@@ -3739,6 +3837,10 @@ function renderResKPIs(){
   el=document.getElementById('rd-paid'); if(el) el.textContent=paid;
   el=document.getElementById('rd-balance'); if(el) el.textContent='$'+Math.round(totalBal/1000)+'K';
   el=document.getElementById('rd-travel-month'); if(el) el.textContent=travelMonth;
+  var ytdSalesTotal=resBookings.reduce(function(s,b){return s+b.gross;},0);
+  var ytdDeptTotal=resBookings.filter(function(b){return daysTo(b.travel_ts)<0;}).length;
+  el=document.getElementById('rd-ytd-sales'); if(el) el.textContent='$'+(ytdSalesTotal/1000).toFixed(0)+'K';
+  el=document.getElementById('rd-ytd-departed'); if(el) el.textContent=ytdDeptTotal;
 
   // Status bars
   var bar = document.getElementById('rd-status-bars');
@@ -3901,6 +4003,15 @@ function renderUpcoming(){
   }).join('');
 }
 
+var raCurrentSort = 'travel';
+var raCurrentDir = 1;
+
+function raSort(col){
+  if(raCurrentSort === col){ raCurrentDir *= -1; }
+  else { raCurrentSort = col; raCurrentDir = 1; }
+  renderAgentView();
+}
+
 function renderAgentView(){
   var sel = document.getElementById('ra-agent-select');
   var agent = sel ? sel.value : '';
@@ -3915,15 +4026,32 @@ function renderAgentView(){
     var dep=list.filter(function(b){return b.status==='Deposited';}).length;
     var prop=list.filter(function(b){return b.status==='Proposal';}).length;
     var totBal=list.reduce(function(s,b){return s+b.balance;},0);
+    var ytdSales=list.reduce(function(s,b){return s+b.gross;},0);
+    var ytdDeparted=list.filter(function(b){return daysTo(b.travel_ts)<0;}).length;
     kpiEl.innerHTML='<div class="sc gr"><div class="sl">Paid in Full</div><div class="sv">'+paid+'</div></div>'
       +'<div class="sc bl"><div class="sl">Deposited</div><div class="sv">'+dep+'</div></div>'
       +'<div class="sc or"><div class="sl">Proposals</div><div class="sv">'+prop+'</div></div>'
-      +'<div class="sc re"><div class="sl">Balance Owing</div><div class="sv" style="font-size:16px">$'+Math.round(totBal/1000)+'K</div></div>';
+      +'<div class="sc re"><div class="sl">Balance Owing</div><div class="sv" style="font-size:16px">$'+Math.round(totBal/1000)+'K</div></div>'
+      +'<div class="sc nv"><div class="sl">YTD Sales</div><div class="sv" style="color:var(--green)">'
+        +'$'+Math.round(ytdSales/1000)+'K</div><div class="ss">Gross value all your files</div></div>'
+      +'<div class="sc"><div class="sl">YTD Departed</div><div class="sv" style="color:var(--purple)">'+ytdDeparted+'</div>'
+        +'<div class="ss">Files with travel date passed</div></div>';
   }
 
   var el = document.getElementById('ra-tbody');
   if(!el) return;
-  el.innerHTML = list.sort(function(a,b){return a.travel_ts.localeCompare(b.travel_ts);}).map(function(b,i){
+  list.sort(function(a,b){
+    var dir = raCurrentDir;
+    if(raCurrentSort==='travel') return a.travel_ts.localeCompare(b.travel_ts)*dir;
+    if(raCurrentSort==='balance') return (a.balance-b.balance)*dir;
+    if(raCurrentSort==='gross') return (a.gross-b.gross)*dir;
+    if(raCurrentSort==='status') return a.status.localeCompare(b.status)*dir;
+    if(raCurrentSort==='bk') return a.bk.localeCompare(b.bk)*dir;
+    if(raCurrentSort==='dest') return a.dest.localeCompare(b.dest)*dir;
+    if(raCurrentSort==='days') return (daysTo(a.travel_ts)-daysTo(b.travel_ts))*dir;
+    return 0;
+  });
+  el.innerHTML = list.map(function(b,i){
     var days = daysTo(b.travel_ts);
     return '<tr style="'+(i%2===0?'':'background:var(--s2)')+'">'
       +'<td><strong style="color:var(--tag)">'+b.bk+'</strong></td>'
@@ -3943,6 +4071,148 @@ function renderAgentView(){
 function renderResDashboard(){
   renderResKPIs();
   renderResTable();
+}
+
+// ── INBOX & REMINDERS ─────────────────────────────────────
+var inboxMessages = [
+  {id:1, type:'manager', from:'Jackie Fontanez', to:'All Agents', priority:'urgent',
+   message:'Please chase all outstanding balances for files departing in July. Payment must be cleared before travel date. Check your dashboard for any balance owing showing red.',
+   date:'2026-07-10', booking:'', read:false},
+  {id:2, type:'reminder', from:'Maria Santos', to:'Maria Santos', priority:'normal',
+   message:'Call client re final payment for NX24008 — Australia 2 pax departing 18 Aug. Balance $3,200 still owing.',
+   date:'2026-07-14', booking:'NX24008', read:false},
+  {id:3, type:'manager', from:'Jackie Fontanez', to:'Lisa Chen', priority:'normal',
+   message:'Well done on getting NX24015 to Paid in Full — great follow-through. Keep it up.',
+   date:'2026-07-09', booking:'NX24015', read:true},
+  {id:4, type:'reminder', from:'Tom Bradley', to:'Tom Bradley', priority:'normal',
+   message:'Follow up with advisor re Japan quote — they were interested but went quiet after roadshow. Try calling rather than email.',
+   date:'2026-07-15', booking:'', read:false},
+  {id:5, type:'manager', from:'Jackie Fontanez', to:'All Agents', priority:'info',
+   message:'Reminder: New Fiji product launched this week. Pricing updated in Nexus. Great opportunity to re-pitch any clients who enquired in May.',
+   date:'2026-07-08', booking:'', read:true},
+  {id:6, type:'reminder', from:'David Okafor', to:'David Okafor', priority:'urgent',
+   message:'URGENT: NX24031 Botswana deposit due today — client said they would pay by 5pm. Chase now if not received.',
+   date:'2026-07-11', booking:'NX24031', read:false},
+  {id:7, type:'manager', from:'Kerryn Collins', from_role:'COO USA', to:'All Agents', priority:'info',
+   message:'Great work everyone on a strong June. The res dashboard is now live — Jackie will walk you through it at the team meeting Monday.',
+   date:'2026-07-07', booking:'', read:true},
+];
+
+var inboxFilter = 'all';
+
+function filterInbox(filter, btn){
+  inboxFilter = filter;
+  document.querySelectorAll('[id^=inbox-tab-]').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderInbox();
+}
+
+function showNewMessage(){
+  document.getElementById('inbox-manager-compose').style.display='none';
+  var el = document.getElementById('inbox-compose');
+  el.style.display = el.style.display==='none' ? '' : 'none';
+  document.getElementById('inbox-compose-title').textContent = 'New Self-Reminder';
+  // Set default date to today
+  document.getElementById('ic-date').value = '2026-07-14';
+}
+
+function showNewManagerMsg(){
+  document.getElementById('inbox-compose').style.display='none';
+  var el = document.getElementById('inbox-manager-compose');
+  el.style.display = el.style.display==='none' ? '' : 'none';
+}
+
+function saveReminder(){
+  var bk = document.getElementById('ic-booking').value.trim();
+  var dt = document.getElementById('ic-date').value;
+  var msg = document.getElementById('ic-message').value.trim();
+  if(!msg){ alert('Please enter a reminder message.'); return; }
+  inboxMessages.unshift({
+    id: inboxMessages.length+1,
+    type:'reminder', from:'You', to:'You', priority:'normal',
+    message: msg, date: dt||'2026-07-14', booking: bk, read:false
+  });
+  document.getElementById('inbox-compose').style.display='none';
+  document.getElementById('ic-booking').value='';
+  document.getElementById('ic-date').value='';
+  document.getElementById('ic-message').value='';
+  renderInbox();
+}
+
+function saveManagerMsg(){
+  var agent = document.getElementById('im-agent').value;
+  var pri = document.getElementById('im-priority').value;
+  var msg = document.getElementById('im-message').value.trim();
+  if(!msg){ alert('Please enter a message.'); return; }
+  inboxMessages.unshift({
+    id: inboxMessages.length+1,
+    type:'manager', from:'Jackie Fontanez', to: agent==='all'?'All Agents':agent,
+    priority: pri, message: msg, date:'2026-07-14', booking:'', read:false
+  });
+  document.getElementById('inbox-manager-compose').style.display='none';
+  document.getElementById('im-message').value='';
+  renderInbox();
+}
+
+function markRead(id){
+  var m = inboxMessages.find(function(m){ return m.id===id; });
+  if(m) m.read = !m.read;
+  renderInbox();
+}
+
+function deleteMsg(id){
+  inboxMessages = inboxMessages.filter(function(m){ return m.id!==id; });
+  renderInbox();
+}
+
+function renderInbox(){
+  var list = inboxMessages.filter(function(m){
+    if(inboxFilter==='reminder') return m.type==='reminder';
+    if(inboxFilter==='manager') return m.type==='manager';
+    if(inboxFilter==='urgent') return m.priority==='urgent';
+    return true;
+  });
+
+  var el = document.getElementById('inbox-list');
+  if(!el) return;
+
+  if(!list.length){
+    el.innerHTML='<div style="text-align:center;padding:48px;color:var(--txm);font-size:13px">No messages in this view</div>';
+    return;
+  }
+
+  el.innerHTML = list.map(function(m){
+    var isReminder = m.type==='reminder';
+    var borderColor = m.priority==='urgent'?'var(--red)':isReminder?'var(--blue)':'var(--tag)';
+    var icon = m.priority==='urgent'?'&#128680;':isReminder?'&#9200;':'&#128172;';
+    var typeLbl = m.priority==='urgent'?ba('b-re','Urgent'):isReminder?ba('b-bl','Reminder'):ba('b-or','Manager');
+    var readStyle = m.read?'opacity:.65':'';
+    var bkLink = m.booking?('<span style="margin-left:8px;font-size:11px;background:var(--tag-lt,#fff3ec);color:var(--tag);padding:2px 8px;border-radius:99px;font-weight:700">'+m.booking+'</span>'):'';
+
+    return '<div style="background:var(--white);border:1px solid var(--bd);border-left:4px solid '+borderColor+';border-radius:8px;padding:14px 16px;'+readStyle+'">'
+      +'<div style="display:flex;align-items:flex-start;gap:12px">'
+      +'<div style="font-size:22px;flex-shrink:0;margin-top:2px">'+icon+'</div>'
+      +'<div style="flex:1">'
+      +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">'
+      +typeLbl
+      +'<span style="font-size:11px;color:var(--txm)">'+m.date+'</span>'
+      +(m.to!=='You'?'<span style="font-size:11px;color:var(--txm)">To: <strong>'+m.to+'</strong></span>':'')
+      +(m.from&&m.from!=='You'?'<span style="font-size:11px;color:var(--txm)">From: <strong>'+m.from+'</strong></span>':'')
+      +bkLink
+      +(m.read?'<span style="font-size:10px;color:var(--txd)">&#10003; Read</span>':'<span style="font-size:10px;font-weight:700;color:var(--blue)">&#9679; Unread</span>')
+      +'</div>'
+      +'<div style="font-size:12.5px;color:var(--tx);line-height:1.6">'+m.message+'</div>'
+      +'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">'
+      +'<button onclick="markRead('+m.id+')" class="btn btn-g btn-sm" style="font-size:10px;padding:4px 10px">'+(m.read?'Mark Unread':'Mark Read')+'</button>'
+      +'<button onclick="deleteMsg('+m.id+')" class="btn btn-sm" style="font-size:10px;padding:4px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:5px;cursor:pointer;color:var(--red)">Delete</button>'
+      +'</div>'
+      +'</div></div>';
+  }).join('');
+}
+
+function renderInboxPanel(){
+  renderInbox();
 }
 
 window.onload = init;
