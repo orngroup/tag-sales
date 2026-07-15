@@ -421,6 +421,9 @@ textarea{resize:vertical;min-height:65px}
     <a href="#" onclick="showPanel('resdash',this)"><span class="ic">&#128204;</span>Res Dashboard</a>
     <a href="#" onclick="showPanel('resinbox',this)"><span class="ic">&#128234;</span>Inbox &amp; Reminders</a>
     <a href="#" onclick="showPanel('nexusplan',this)"><span class="ic">&#128279;</span>Nexus Integration</a>
+    <a href="#" onclick="showPanel('kpigoals',this)"><span class="ic">&#127919;</span>KPI Goals</a>
+    <a href="#" onclick="showPanel('resreports',this)"><span class="ic">&#128202;</span>Reports</a>
+    <a href="#" onclick="showPanel('softrip',this)"><span class="ic">&#128190;</span>Softrip Stats</a>
     <div class="nav-s">Zoho</div>
     <a href="#" onclick="showPanel('why',this)"><span class="ic">&#11088;</span>Why Zoho</a>
     <a href="#" onclick="showPanel('zohomarketing',this)"><span class="ic">&#128231;</span>Zoho Marketing</a>
@@ -1900,10 +1903,10 @@ textarea{resize:vertical;min-height:65px}
         <div class="sc bl"><div class="sc-inner"><div class="sl">Proposals</div><div class="sv" id="rd-proposals" style="color:var(--amber)">--</div><div class="ss">Awaiting deposit</div></div></div>
         <div class="sc gr"><div class="sl">Deposited</div><div class="sv" id="rd-deposited">--</div><div class="ss">Deposit received</div></div>
         <div class="sc nv"><div class="sl">Paid in Full</div><div class="sv" id="rd-paid">--</div><div class="ss">Fully paid</div></div>
-        <div class="sc"><div class="sl">Balance Owing</div><div class="sv" style="color:var(--red)" id="rd-balance">--</div><div class="ss">Across all files</div></div>
+        <div class="sc or" onclick="showPanel('kpigoals')" style="cursor:pointer" title="Click for weekly &amp; monthly goal breakdown"><div class="sl">KPI Left to Achieve</div><div class="sv" id="rd-kpi-left">--</div><div class="ss" id="rd-kpi-left-sub">Click for weekly / monthly goals</div></div>
         <div class="sc"><div class="sl">Travel This Month</div><div class="sv" style="color:var(--purple)" id="rd-travel-month">--</div><div class="ss">Departures due</div></div>
         <div class="sc gr"><div class="sl">YTD Total Sales</div><div class="sv" id="rd-ytd-sales">--</div><div class="ss">Gross value all files</div></div>
-        <div class="sc nv"><div class="sl">YTD Departed</div><div class="sv" id="rd-ytd-departed">--</div><div class="ss">Files with travel date passed</div></div>
+        <div class="sc nv"><div class="sl">Departed Files Value</div><div class="sv" id="rd-ytd-departed-val">--</div><div class="ss" id="rd-ytd-departed-sub">Files with travel date passed</div></div>
       </div>
 
       <!-- Status summary bars -->
@@ -1914,7 +1917,7 @@ textarea{resize:vertical;min-height:65px}
 
       <!-- Filters -->
       <div class="fb" style="flex-wrap:wrap">
-        <input type="text" id="rd-search" placeholder="Search booking #, advisor, destination..." oninput="renderResTable()" style="min-width:240px">
+        <input type="text" id="rd-search" placeholder="Search booking #, quote #, IATA, departure date, advisor..." oninput="renderResTable()" style="min-width:300px">
         <select id="rd-filter-status" onchange="renderResTable()">
           <option value="">All Statuses</option>
           <option value="Proposal">Proposal</option>
@@ -1946,9 +1949,9 @@ textarea{resize:vertical;min-height:65px}
         <table id="rd-table">
           <thead>
             <tr>
-              <th onclick="rdSortBy('booking')" style="cursor:pointer">Booking # &#8597;</th>
+              <th onclick="rdSortBy('booking')" style="cursor:pointer">Booking / Quote # &#8597;</th>
               <th onclick="rdSortBy('agent')" style="cursor:pointer">Res Agent &#8597;</th>
-              <th>Travel Advisor</th>
+              <th>Travel Advisor / IATA</th>
               <th onclick="rdSortBy('dest')" style="cursor:pointer">Destination &#8597;</th>
               <th onclick="rdSortBy('travel')" style="cursor:pointer">Travel Date &#8597;</th>
               <th>Pax</th>
@@ -2191,8 +2194,9 @@ textarea{resize:vertical;min-height:65px}
       </div>
     </div>
 
-    <!-- Filter tabs -->
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+    <!-- Search + Filter tabs -->
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+      <input type="text" id="inbox-search" placeholder="Search booking #, quote #, IATA, date, message..." oninput="renderInbox()" style="min-width:300px;padding:8px 12px;border:1px solid var(--bd);border-radius:7px;font-size:12px;font-family:inherit">
       <button class="vt-btn active" id="inbox-tab-all" onclick="filterInbox('all',this)">All</button>
       <button class="vt-btn" id="inbox-tab-reminder" onclick="filterInbox('reminder',this)">&#9200; My Reminders</button>
       <button class="vt-btn" id="inbox-tab-manager" onclick="filterInbox('manager',this)">&#128172; From Manager</button>
@@ -2203,6 +2207,120 @@ textarea{resize:vertical;min-height:65px}
 
   </div>
 </div>
+
+<!-- ===== KPI GOALS ===== -->
+<div id="panel-kpigoals" class="panel">
+  <div class="topbar">
+    <h1>KPI Goals &mdash; <span>Target Tracking &amp; Pace</span></h1>
+    <div class="tact">
+      <div class="view-toggle">
+        <button class="vt-btn active" id="kg-btn-weekly" onclick="setKgView('weekly',this)">&#128197; Weekly Goal</button>
+        <button class="vt-btn" id="kg-btn-monthly" onclick="setKgView('monthly',this)">&#128198; Monthly Goal</button>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-nv"><strong>How this works:</strong> Set the annual sales KPI below. The portal tracks what has been sold YTD (from the Res Dashboard) and shows what is still left to achieve &mdash; broken down into the weekly or monthly pace needed for the rest of the year. Per-agent targets are an equal share of the team KPI and can be refined once Nexus data is live. Softrip sales are shown separately on the Softrip Stats tab.</div>
+
+    <div class="card" style="margin-bottom:18px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
+      <div>
+        <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">ANNUAL TEAM KPI (USD)</div>
+        <input type="number" id="kg-target" value="1500000" step="50000" style="padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:13px;font-weight:700;width:170px">
+      </div>
+      <button class="btn btn-p" onclick="applyKgTarget()">Apply Target</button>
+      <div style="font-size:11px;color:var(--txm);margin-left:auto" id="kg-timeleft"></div>
+    </div>
+
+    <div class="sg">
+      <div class="sc nv"><div class="sl">Annual KPI Target</div><div class="sv" id="kg-c-target">--</div><div class="ss">Full year goal</div></div>
+      <div class="sc gr"><div class="sl">Sold YTD</div><div class="sv" id="kg-c-sold">--</div><div class="ss">Gross value all files</div></div>
+      <div class="sc or"><div class="sl">KPI Left to Achieve</div><div class="sv" id="kg-c-left">--</div><div class="ss">Remaining to hit target</div></div>
+      <div class="sc bl"><div class="sl">% Achieved</div><div class="sv" id="kg-c-pct">--</div><div class="ss"><div class="pb mt8"><div class="pf" id="kg-c-bar" style="width:0%"></div></div></div></div>
+      <div class="sc"><div class="sl" id="kg-c-pace-lbl">Weekly Goal Needed</div><div class="sv" style="color:var(--purple)" id="kg-c-pace">--</div><div class="ss" id="kg-c-pace-sub">To hit target by year end</div></div>
+    </div>
+
+    <div class="stitle">KPI by Res Agent</div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Res Agent</th><th>Annual Target</th><th>Sold YTD</th><th>KPI Left</th><th>Progress</th><th id="kg-th-pace">Weekly Goal Needed</th></tr></thead>
+        <tbody id="kg-tbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== REPORTS ===== -->
+<div id="panel-resreports" class="panel">
+  <div class="topbar">
+    <h1>Reports &mdash; <span>Export &amp; Print</span></h1>
+    <div class="tact"><span style="font-size:11px;color:var(--txm)">CSV opens in Excel &middot; Print produces a PDF-ready page</span></div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-or"><strong>How this works:</strong> Every report below can be downloaded as a CSV (opens straight into Excel) or printed to PDF using the Print button. The Departures report respects the date range filter. Once Nexus is live these reports run on live booking data; for now they run on the sample dataset.</div>
+
+    <div class="card" style="margin-bottom:18px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
+      <div>
+        <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">TRAVEL DATE FROM</div>
+        <input type="date" id="rp-from" style="padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+      </div>
+      <div>
+        <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">TRAVEL DATE TO</div>
+        <input type="date" id="rp-to" style="padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+      </div>
+      <div>
+        <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">STATUS</div>
+        <select id="rp-status" style="padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12.5px">
+          <option value="">All Statuses</option>
+          <option>Proposal</option><option>Deposited</option><option>Paid in Full</option><option>On Request</option><option>Cancelled</option>
+        </select>
+      </div>
+      <div style="font-size:11px;color:var(--txm)">Applies to the Bookings &amp; Departures reports</div>
+    </div>
+
+    <div class="sg" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))" id="rp-cards"></div>
+
+  </div>
+</div>
+
+<!-- ===== SOFTRIP STATS ===== -->
+<div id="panel-softrip" class="panel">
+  <div class="topbar">
+    <h1>Softrip Stats &mdash; <span>Gary's Weekly Deck</span></h1>
+    <div class="tact">
+      <label class="btn btn-g" style="cursor:pointer;font-size:11.5px;padding:6px 14px">&#128228; Import Weekly CSV<input type="file" accept=".csv" style="display:none" onchange="importSoftripCSV(this)"></label>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="ibox ibox-nv"><strong>How this works:</strong> Softrip still carries live business that Gary reports on in his weekly deck &mdash; roughly $4M in sales YTD. Until that migrates into Nexus, Gary shares his weekly quotes &amp; bookings figures and they are added here so total business (Nexus + Softrip) is visible in one place. Use the Import Weekly CSV button (columns: Week, Quotes, Bookings, Sales) or update the table manually each week.</div>
+
+    <div class="sg">
+      <div class="sc or"><div class="sl">Softrip YTD Sales</div><div class="sv" id="st-sales">--</div><div class="ss">Per Gary's weekly deck</div></div>
+      <div class="sc bl"><div class="sl">YTD Quotes</div><div class="sv" id="st-quotes">--</div><div class="ss">Quotes issued</div></div>
+      <div class="sc gr"><div class="sl">YTD Bookings</div><div class="sv" id="st-bookings">--</div><div class="ss">Confirmed bookings</div></div>
+      <div class="sc nv"><div class="sl">Quote &rarr; Booking</div><div class="sv" id="st-conv">--</div><div class="ss">Conversion rate</div></div>
+      <div class="sc" style="border-top:3px solid var(--purple)"><div class="sl">Combined Business</div><div class="sv" style="color:var(--purple)" id="st-combined">--</div><div class="ss">Nexus + Softrip YTD sales</div></div>
+    </div>
+
+    <div class="stitle">Weekly Figures</div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Week Ending</th><th>Quotes</th><th>Bookings</th><th>Sales</th><th>Conversion</th></tr></thead>
+        <tbody id="st-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:16px;border-left:4px solid var(--amber)">
+      <div style="font-weight:700;font-size:13px;margin-bottom:4px">Process &mdash; weekly update</div>
+      <div style="font-size:12.5px;color:var(--txd);line-height:1.7">Gary shares the Softrip quotes &amp; bookings extract from his weekly deck (Fridays). The figures are imported here so the KPI Goals and Reports tabs reflect the full business picture. Longer term, once bookings consolidate into Nexus, this tab retires automatically.</div>
+    </div>
+
+  </div>
+</div>
+
 </div><!-- /main -->
 
 <!-- MODALS -->
@@ -2468,6 +2586,9 @@ function init(){
   renderExtraAgentPanels();
   renderResDashboard();
   renderInboxPanel();
+  renderKpiGoals();
+  renderSoftrip();
+  renderReportCards();
 }
 
 function selRating(btn){
@@ -3838,9 +3959,14 @@ function renderResKPIs(){
   el=document.getElementById('rd-balance'); if(el) el.textContent='$'+Math.round(totalBal/1000)+'K';
   el=document.getElementById('rd-travel-month'); if(el) el.textContent=travelMonth;
   var ytdSalesTotal=resBookings.reduce(function(s,b){return s+b.gross;},0);
-  var ytdDeptTotal=resBookings.filter(function(b){return daysTo(b.travel_ts)<0;}).length;
+  var departedFiles=resBookings.filter(function(b){return daysTo(b.travel_ts)<0;});
+  var departedValue=departedFiles.reduce(function(s,b){return s+b.gross;},0);
   el=document.getElementById('rd-ytd-sales'); if(el) el.textContent='$'+(ytdSalesTotal/1000).toFixed(0)+'K';
-  el=document.getElementById('rd-ytd-departed'); if(el) el.textContent=ytdDeptTotal;
+  el=document.getElementById('rd-ytd-departed-val'); if(el) el.textContent='$'+(departedValue/1000).toFixed(0)+'K';
+  el=document.getElementById('rd-ytd-departed-sub'); if(el) el.textContent=departedFiles.length+' files departed YTD';
+  var kpiLeftVal=Math.max(0, kpiAnnualTarget-ytdSalesTotal);
+  el=document.getElementById('rd-kpi-left'); if(el) el.textContent=kgMoneyK(kpiLeftVal);
+  el=document.getElementById('rd-kpi-left-sub'); if(el) el.textContent='of '+kgMoneyK(kpiAnnualTarget)+' target - click for goals';
 
   // Status bars
   var bar = document.getElementById('rd-status-bars');
@@ -3889,7 +4015,10 @@ function renderResTable(){
   var srt = (document.getElementById('rd-sort')||{}).value||rdCurrentSort;
 
   var list = resBookings.filter(function(b){
-    if(srch && (b.bk+b.advisor+b.dest+b.agent).toLowerCase().indexOf(srch)<0) return false;
+    if(srch){
+      var hay = (b.bk+' '+(b.quote||'')+' '+(b.iata||'')+' '+b.advisor+' '+b.dest+' '+b.agent+' '+b.travel+' '+b.travel_ts).toLowerCase();
+      if(hay.indexOf(srch)<0) return false;
+    }
     if(fSt && b.status!==fSt) return false;
     if(fAg && b.agent!==fAg) return false;
     if(fDe && b.dest!==fDe) return false;
@@ -3915,9 +4044,9 @@ function renderResTable(){
     var days = daysTo(b.travel_ts);
     var rowBg = i%2===0?'':'background:var(--s2)';
     return '<tr style="'+rowBg+'">'
-      +'<td><strong style="color:var(--tag)">'+b.bk+'</strong></td>'
+      +'<td><strong style="color:var(--tag)">'+b.bk+'</strong><div style="font-size:10px;color:var(--txm)">'+b.quote+'</div></td>'
       +'<td style="font-size:11.5px">'+b.agent+'</td>'
-      +'<td style="font-size:11.5px;color:var(--txd)">'+b.advisor+'</td>'
+      +'<td style="font-size:11.5px;color:var(--txd)">'+b.advisor+'<div style="font-size:10px;color:var(--txm)">IATA '+b.iata+'</div></td>'
       +'<td><strong>'+b.dest+'</strong></td>'
       +'<td style="font-size:11.5px">'+b.travel+'</td>'
       +'<td style="text-align:center">'+b.pax+'</td>'
@@ -4166,10 +4295,19 @@ function deleteMsg(id){
 }
 
 function renderInbox(){
+  var isrch = ((document.getElementById('inbox-search')||{}).value||'').toLowerCase();
   var list = inboxMessages.filter(function(m){
-    if(inboxFilter==='reminder') return m.type==='reminder';
-    if(inboxFilter==='manager') return m.type==='manager';
-    if(inboxFilter==='urgent') return m.priority==='urgent';
+    if(inboxFilter==='reminder' && m.type!=='reminder') return false;
+    if(inboxFilter==='manager' && m.type!=='manager') return false;
+    if(inboxFilter==='urgent' && m.priority!=='urgent') return false;
+    if(isrch){
+      var hay = (m.booking||'')+' '+(m.message||'')+' '+(m.from||'')+' '+(m.to||'')+' '+(m.date||'');
+      if(m.booking){
+        var lk = resBookings.find(function(b){ return b.bk===m.booking; });
+        if(lk) hay += ' '+(lk.quote||'')+' '+(lk.iata||'')+' '+lk.travel+' '+lk.travel_ts;
+      }
+      if(hay.toLowerCase().indexOf(isrch)<0) return false;
+    }
     return true;
   });
 
@@ -4213,6 +4351,300 @@ function renderInbox(){
 
 function renderInboxPanel(){
   renderInbox();
+}
+
+
+// ══════════════ QUOTE # & IATA (auto-assigned until Nexus supplies real ones) ══════════════
+var iataByAdvisor = {};
+(function(){
+  var seed = 33210017;
+  resBookings.forEach(function(b,i){
+    b.quote = 'Q-' + (58200 + i*3 + (i%4));
+    if(!iataByAdvisor[b.advisor]){ iataByAdvisor[b.advisor] = String(seed + Object.keys(iataByAdvisor).length * 1873); }
+    b.iata = iataByAdvisor[b.advisor];
+  });
+})();
+
+// ══════════════ KPI GOALS ══════════════
+var kpiAnnualTarget = 1500000;
+var kgView = 'weekly';
+var KG_TODAY = new Date('2026-07-06');
+var KG_YEAR_END = new Date('2026-12-31');
+
+function kgWeeksLeft(){ return Math.max(1, (KG_YEAR_END - KG_TODAY) / (7*86400000)); }
+function kgMonthsLeft(){ return Math.max(1, (KG_YEAR_END - KG_TODAY) / (30.44*86400000)); }
+function kgMoney(n){ return '$' + Math.round(n).toLocaleString(); }
+function kgMoneyK(n){ return n >= 1000000 ? '$' + (n/1000000).toFixed(2) + 'M' : '$' + Math.round(n/1000) + 'K'; }
+
+function setKgView(mode, btn){
+  kgView = mode;
+  var bw = document.getElementById('kg-btn-weekly');
+  var bm = document.getElementById('kg-btn-monthly');
+  if(bw) bw.classList.toggle('active', mode==='weekly');
+  if(bm) bm.classList.toggle('active', mode==='monthly');
+  renderKpiGoals();
+}
+
+function applyKgTarget(){
+  var v = parseFloat((document.getElementById('kg-target')||{}).value);
+  if(!isNaN(v) && v > 0) kpiAnnualTarget = v;
+  renderKpiGoals();
+  renderResKPIs();
+}
+
+function renderKpiGoals(){
+  var sold = resBookings.reduce(function(s,b){ return s + b.gross; }, 0);
+  var left = Math.max(0, kpiAnnualTarget - sold);
+  var pct = Math.min(100, Math.round(sold / kpiAnnualTarget * 100));
+  var divisor = kgView==='weekly' ? kgWeeksLeft() : kgMonthsLeft();
+  var paceLbl = kgView==='weekly' ? 'Weekly Goal Needed' : 'Monthly Goal Needed';
+
+  var el;
+  el=document.getElementById('kg-c-target'); if(el) el.textContent = kgMoneyK(kpiAnnualTarget);
+  el=document.getElementById('kg-c-sold'); if(el) el.textContent = kgMoneyK(sold);
+  el=document.getElementById('kg-c-left'); if(el) el.textContent = kgMoneyK(left);
+  el=document.getElementById('kg-c-pct'); if(el) el.textContent = pct + '%';
+  el=document.getElementById('kg-c-bar'); if(el) el.style.width = pct + '%';
+  el=document.getElementById('kg-c-pace'); if(el) el.textContent = kgMoneyK(left / divisor);
+  el=document.getElementById('kg-c-pace-lbl'); if(el) el.textContent = paceLbl;
+  el=document.getElementById('kg-c-pace-sub'); if(el) el.textContent = kgView==='weekly'
+    ? Math.round(kgWeeksLeft()) + ' weeks left this year' : (Math.round(kgMonthsLeft()*10)/10) + ' months left this year';
+  el=document.getElementById('kg-timeleft'); if(el) el.textContent = 'Tracking to 31 Dec 2026 · ' + Math.round(kgWeeksLeft()) + ' weeks / ' + (Math.round(kgMonthsLeft()*10)/10) + ' months remaining';
+  el=document.getElementById('kg-th-pace'); if(el) el.textContent = paceLbl;
+
+  var agents = {};
+  resBookings.forEach(function(b){
+    if(!agents[b.agent]) agents[b.agent] = 0;
+    agents[b.agent] += b.gross;
+  });
+  var names = Object.keys(agents).sort();
+  var perTarget = kpiAnnualTarget / Math.max(1, names.length);
+
+  var tb = document.getElementById('kg-tbody');
+  if(!tb) return;
+  tb.innerHTML = names.map(function(n,i){
+    var s = agents[n];
+    var l = Math.max(0, perTarget - s);
+    var p = Math.min(100, Math.round(s / perTarget * 100));
+    var barCol = p >= 66 ? 'var(--green)' : p >= 33 ? 'var(--amber)' : 'var(--red)';
+    return '<tr style="'+(i%2===0?'':'background:var(--s2)')+'">'
+      +'<td><strong>'+n+'</strong></td>'
+      +'<td>'+kgMoney(perTarget)+'</td>'
+      +'<td style="font-weight:600;color:var(--green)">'+kgMoney(s)+'</td>'
+      +'<td style="font-weight:700;color:'+(l>0?'var(--tag)':'var(--green)')+'">'+(l>0?kgMoney(l):'&#10003; Achieved')+'</td>'
+      +'<td style="min-width:130px"><div style="display:flex;align-items:center;gap:8px"><div class="pb" style="flex:1"><div class="pf" style="width:'+p+'%;background:'+barCol+'"></div></div><span style="font-size:11px;font-weight:700">'+p+'%</span></div></td>'
+      +'<td style="font-weight:600;color:var(--purple)">'+(l>0?kgMoney(l/divisor):'&mdash;')+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+// ══════════════ SOFTRIP ══════════════
+var softripPrior = {quotes: 1052, bookings: 314, sales: 3391400};
+var softripWeeks = [
+  {week:'12 Jun 2026', quotes:34, bookings:10, sales:104800},
+  {week:'19 Jun 2026', quotes:29, bookings:9,  sales:96200},
+  {week:'26 Jun 2026', quotes:38, bookings:12, sales:131500},
+  {week:'03 Jul 2026', quotes:31, bookings:11, sales:118900},
+  {week:'10 Jul 2026', quotes:36, bookings:13, sales:141700},
+];
+
+function softripTotals(){
+  var t = {quotes: softripPrior.quotes, bookings: softripPrior.bookings, sales: softripPrior.sales};
+  softripWeeks.forEach(function(w){ t.quotes += w.quotes; t.bookings += w.bookings; t.sales += w.sales; });
+  return t;
+}
+
+function renderSoftrip(){
+  var t = softripTotals();
+  var nexusSales = resBookings.reduce(function(s,b){ return s + b.gross; }, 0);
+  var el;
+  el=document.getElementById('st-sales'); if(el) el.textContent = kgMoneyK(t.sales);
+  el=document.getElementById('st-quotes'); if(el) el.textContent = t.quotes.toLocaleString();
+  el=document.getElementById('st-bookings'); if(el) el.textContent = t.bookings.toLocaleString();
+  el=document.getElementById('st-conv'); if(el) el.textContent = Math.round(t.bookings / t.quotes * 100) + '%';
+  el=document.getElementById('st-combined'); if(el) el.textContent = kgMoneyK(t.sales + nexusSales);
+
+  var tb = document.getElementById('st-tbody');
+  if(!tb) return;
+  var rows = '<tr><td style="color:var(--txm)"><em>Prior weeks (Jan&ndash;May aggregate)</em></td>'
+    +'<td>'+softripPrior.quotes.toLocaleString()+'</td><td>'+softripPrior.bookings.toLocaleString()+'</td>'
+    +'<td style="font-weight:600">'+kgMoney(softripPrior.sales)+'</td>'
+    +'<td>'+Math.round(softripPrior.bookings/softripPrior.quotes*100)+'%</td></tr>';
+  rows += softripWeeks.map(function(w,i){
+    return '<tr style="'+(i%2===0?'background:var(--s2)':'')+'">'
+      +'<td><strong>'+w.week+'</strong></td>'
+      +'<td>'+w.quotes+'</td><td>'+w.bookings+'</td>'
+      +'<td style="font-weight:600">'+kgMoney(w.sales)+'</td>'
+      +'<td>'+Math.round(w.bookings/w.quotes*100)+'%</td></tr>';
+  }).join('');
+  var tt = softripTotals();
+  rows += '<tr style="background:var(--tag-lt);font-weight:700"><td>YTD TOTAL</td><td>'+tt.quotes.toLocaleString()+'</td><td>'+tt.bookings.toLocaleString()+'</td><td>'+kgMoney(tt.sales)+'</td><td>'+Math.round(tt.bookings/tt.quotes*100)+'%</td></tr>';
+  tb.innerHTML = rows;
+}
+
+function importSoftripCSV(input){
+  var file = input.files && input.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var lines = String(e.target.result).split(/\r?\n/).filter(function(l){ return l.trim(); });
+    var added = 0;
+    lines.forEach(function(line, idx){
+      var cells = line.split(',').map(function(c){ return c.replace(/^"|"$/g,'').trim(); });
+      if(idx===0 && isNaN(parseFloat(cells[1]))) return; // header row
+      if(cells.length < 4) return;
+      var q = parseInt(cells[1]), b = parseInt(cells[2]), s = parseFloat(String(cells[3]).replace(/[$,]/g,''));
+      if(isNaN(q)||isNaN(b)||isNaN(s)) return;
+      softripWeeks.push({week: cells[0], quotes: q, bookings: b, sales: s});
+      added++;
+    });
+    input.value = '';
+    if(added){ renderSoftrip(); alert(added + ' week(s) imported from Gary\'s CSV.'); }
+    else { alert('No valid rows found. Expected columns: Week, Quotes, Bookings, Sales'); }
+  };
+  reader.readAsText(file);
+}
+
+// ══════════════ REPORTS ══════════════
+function dlCSV(filename, rows){
+  var csv = rows.map(function(r){
+    return r.map(function(c){ c = String(c==null?'':c); return '"' + c.replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\r\n');
+  var blob = new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function printReport(title, headers, rows){
+  var w = window.open('', '_blank');
+  if(!w){ alert('Please allow pop-ups to print reports.'); return; }
+  var html = '<html><head><title>'+title+'</title><style>'
+    +'body{font-family:Arial,sans-serif;padding:28px;color:#1a1d2e}'
+    +'h1{font-size:18px;color:#C9682F;margin-bottom:2px}'
+    +'.sub{font-size:11px;color:#777;margin-bottom:16px}'
+    +'table{border-collapse:collapse;width:100%;font-size:11px}'
+    +'th,td{border:1px solid #ccc;padding:6px 8px;text-align:left}'
+    +'th{background:#f4f5f8;text-transform:uppercase;font-size:9.5px;letter-spacing:.5px}'
+    +'tr:nth-child(even) td{background:#fafbfc}'
+    +'</style></head><body><h1>TAG Sales Portal &mdash; '+title+'</h1>'
+    +'<div class="sub">Generated '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' &middot; Travel Answers Group &middot; Confidential</div>'
+    +'<table><thead><tr>'+headers.map(function(h){return '<th>'+h+'</th>';}).join('')+'</tr></thead>'
+    +'<tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>'
+    +'</body></html>';
+  w.document.write(html); w.document.close(); w.focus();
+  setTimeout(function(){ w.print(); }, 300);
+}
+
+function rpFilteredBookings(){
+  var from = (document.getElementById('rp-from')||{}).value || '';
+  var to = (document.getElementById('rp-to')||{}).value || '';
+  var st = (document.getElementById('rp-status')||{}).value || '';
+  return resBookings.filter(function(b){
+    if(from && b.travel_ts < from) return false;
+    if(to && b.travel_ts > to) return false;
+    if(st && b.status !== st) return false;
+    return true;
+  });
+}
+
+var RP_BOOKING_HEADERS = ['Booking #','Quote #','IATA','Res Agent','Travel Advisor','Destination','Travel Date','Pax','Gross Value','Balance Owing','Status','Days to Depart'];
+function rpBookingRow(b){
+  return [b.bk, b.quote, b.iata, b.agent, b.advisor, b.dest, b.travel, b.pax, b.gross, b.balance, b.status, daysTo(b.travel_ts)];
+}
+
+function rpReport(type, mode){
+  var headers, rows, title;
+  if(type === 'bookings'){
+    title = 'Full Bookings Report';
+    headers = RP_BOOKING_HEADERS;
+    rows = rpFilteredBookings().sort(function(a,b){return a.travel_ts.localeCompare(b.travel_ts);}).map(rpBookingRow);
+  } else if(type === 'departures'){
+    title = 'Departures Report';
+    headers = RP_BOOKING_HEADERS;
+    rows = rpFilteredBookings().filter(function(b){return daysTo(b.travel_ts) >= 0;})
+      .sort(function(a,b){return a.travel_ts.localeCompare(b.travel_ts);}).map(rpBookingRow);
+  } else if(type === 'balance'){
+    title = 'Balance Owing Report';
+    headers = ['Booking #','Quote #','Res Agent','Travel Advisor','Destination','Travel Date','Status','Gross Value','Balance Owing','Days to Depart'];
+    rows = resBookings.filter(function(b){return b.balance > 0;})
+      .sort(function(a,b){return a.travel_ts.localeCompare(b.travel_ts);})
+      .map(function(b){return [b.bk,b.quote,b.agent,b.advisor,b.dest,b.travel,b.status,b.gross,b.balance,daysTo(b.travel_ts)];});
+  } else if(type === 'departed'){
+    title = 'Departed Files Report';
+    headers = ['Booking #','Quote #','Res Agent','Travel Advisor','Destination','Travel Date','Pax','Gross Value','Status'];
+    var dep = resBookings.filter(function(b){return daysTo(b.travel_ts) < 0;})
+      .sort(function(a,b){return a.travel_ts.localeCompare(b.travel_ts);});
+    rows = dep.map(function(b){return [b.bk,b.quote,b.agent,b.advisor,b.dest,b.travel,b.pax,b.gross,b.status];});
+    var tot = dep.reduce(function(s,b){return s+b.gross;},0);
+    rows.push(['TOTAL','','','','','',dep.reduce(function(s,b){return s+b.pax;},0),tot,dep.length+' files']);
+  } else if(type === 'agents'){
+    title = 'Res Agent Performance Report';
+    headers = ['Res Agent','Files','Proposals','Deposited','Paid in Full','Total Value','Balance Owing'];
+    var agents = {};
+    resBookings.forEach(function(b){
+      if(!agents[b.agent]) agents[b.agent]={files:0,proposals:0,deposited:0,paid:0,value:0,balance:0};
+      var a=agents[b.agent]; a.files++;
+      if(b.status==='Proposal')a.proposals++; else if(b.status==='Deposited')a.deposited++; else if(b.status==='Paid in Full')a.paid++;
+      a.value+=b.gross; a.balance+=b.balance;
+    });
+    rows = Object.entries(agents).sort(function(a,b){return b[1].value-a[1].value;})
+      .map(function(e){var a=e[1];return [e[0],a.files,a.proposals,a.deposited,a.paid,a.value,a.balance];});
+  } else if(type === 'kpi'){
+    title = 'KPI Summary Report';
+    var sold = resBookings.reduce(function(s,b){return s+b.gross;},0);
+    var left = Math.max(0, kpiAnnualTarget - sold);
+    headers = ['Metric','Value'];
+    rows = [
+      ['Annual KPI Target', kpiAnnualTarget],
+      ['Sold YTD (Nexus)', sold],
+      ['KPI Left to Achieve', left],
+      ['% Achieved', Math.round(sold/kpiAnnualTarget*100)+'%'],
+      ['Weekly Goal Needed', Math.round(left/kgWeeksLeft())],
+      ['Monthly Goal Needed', Math.round(left/kgMonthsLeft())],
+      ['Softrip YTD Sales', softripTotals().sales],
+      ['Combined Business YTD', sold + softripTotals().sales],
+    ];
+  } else if(type === 'softrip'){
+    title = 'Softrip Weekly Summary';
+    headers = ['Week Ending','Quotes','Bookings','Sales','Conversion'];
+    rows = [['Prior weeks (aggregate)', softripPrior.quotes, softripPrior.bookings, softripPrior.sales, Math.round(softripPrior.bookings/softripPrior.quotes*100)+'%']];
+    softripWeeks.forEach(function(w){ rows.push([w.week, w.quotes, w.bookings, w.sales, Math.round(w.bookings/w.quotes*100)+'%']); });
+    var t = softripTotals();
+    rows.push(['YTD TOTAL', t.quotes, t.bookings, t.sales, Math.round(t.bookings/t.quotes*100)+'%']);
+  } else { return; }
+
+  if(mode === 'csv'){
+    dlCSV('TAG_' + title.replace(/ /g,'_') + '_' + new Date().toISOString().slice(0,10) + '.csv', [headers].concat(rows));
+  } else {
+    printReport(title, headers, rows.map(function(r){ return r.map(function(c){
+      return (typeof c === 'number' && c > 999) ? '$' + c.toLocaleString() : c;
+    });}));
+  }
+}
+
+function renderReportCards(){
+  var el = document.getElementById('rp-cards');
+  if(!el) return;
+  var reports = [
+    {id:'bookings', icon:'&#128203;', name:'Full Bookings Report', desc:'Every file with booking #, quote #, IATA, values, balances and status. Respects the date range and status filter above.'},
+    {id:'departures', icon:'&#9992;', name:'Departures Report', desc:'Upcoming departures sorted by travel date. Use the date range above to run e.g. all August departures.'},
+    {id:'balance', icon:'&#128176;', name:'Balance Owing Report', desc:'All files with money outstanding, sorted by travel date so the most urgent chases are at the top.'},
+    {id:'departed', icon:'&#127937;', name:'Departed Files Report', desc:'All files that have already travelled, with the total departed value at the bottom.'},
+    {id:'agents', icon:'&#128101;', name:'Res Agent Performance', desc:'Files, pipeline mix, total value and balance owing per res agent.'},
+    {id:'kpi', icon:'&#127919;', name:'KPI Summary', desc:'Target vs sold YTD, KPI left, weekly & monthly pace needed, plus Softrip and combined business totals.'},
+    {id:'softrip', icon:'&#128190;', name:'Softrip Weekly Summary', desc:'Gary\'s weekly quotes, bookings and sales figures with YTD totals.'},
+  ];
+  el.innerHTML = reports.map(function(r){
+    return '<div class="sc" style="display:flex;flex-direction:column;gap:8px">'
+      +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">'+r.icon+'</span><strong style="font-size:13px">'+r.name+'</strong></div>'
+      +'<div style="font-size:11.5px;color:var(--txd);line-height:1.55;flex:1">'+r.desc+'</div>'
+      +'<div style="display:flex;gap:7px">'
+      +'<button class="btn btn-p btn-sm" onclick="rpReport(\''+r.id+'\',\'csv\')">&#11015; CSV</button>'
+      +'<button class="btn btn-g btn-sm" onclick="rpReport(\''+r.id+'\',\'print\')">&#128424; Print / PDF</button>'
+      +'</div></div>';
+  }).join('');
 }
 
 window.onload = init;
