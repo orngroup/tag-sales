@@ -1905,7 +1905,7 @@ textarea{resize:vertical;min-height:65px}
         <div class="sc nv"><div class="sl">Paid in Full</div><div class="sv" id="rd-paid">--</div><div class="ss">Fully paid</div></div>
         <div class="sc or" onclick="showPanel('kpigoals')" style="cursor:pointer" title="Click for weekly &amp; monthly goal breakdown"><div class="sl">KPI Left to Achieve</div><div class="sv" id="rd-kpi-left">--</div><div class="ss" id="rd-kpi-left-sub">Click for weekly / monthly goals</div></div>
         <div class="sc"><div class="sl">Travel This Month</div><div class="sv" style="color:var(--purple)" id="rd-travel-month">--</div><div class="ss">Departures due</div></div>
-        <div class="sc gr"><div class="sl">YTD Total Sales</div><div class="sv" id="rd-ytd-sales">--</div><div class="ss">Gross value all files</div></div>
+        <div class="sc gr"><div class="sl">YTD Total Sales</div><div class="sv" id="rd-ytd-sales">--</div><div class="ss" id="rd-ytd-sales-sub">Gross value all files</div></div>
         <div class="sc nv"><div class="sl">Departed Files Value</div><div class="sv" id="rd-ytd-departed-val">--</div><div class="ss" id="rd-ytd-departed-sub">Files with travel date passed</div></div>
       </div>
 
@@ -1999,6 +1999,13 @@ textarea{resize:vertical;min-height:65px}
         </select>
       </div>
       <div class="sg" id="ra-agent-kpis"></div>
+      <div class="stitle" id="ra-kpi-title" style="margin-top:14px">My KPI</div>
+      <div class="sg" id="ra-kpi-cards"></div>
+      <div style="display:flex;gap:8px;margin-top:2px;align-items:center">
+        <button class="btn btn-p btn-sm" onclick="raExport('csv')">&#11015; Download My Files (CSV)</button>
+        <button class="btn btn-g btn-sm" onclick="raExport('print')">&#128424; Print / PDF</button>
+        <span style="font-size:11px;color:var(--txm)">Full reporting suite sits under the Reports tab (manager view)</span>
+      </div>
       <div class="tw" style="margin-top:12px">
         <table>
           <thead><tr>
@@ -2221,14 +2228,15 @@ textarea{resize:vertical;min-height:65px}
   </div>
   <div class="content">
 
-    <div class="ibox ibox-nv"><strong>How this works:</strong> Set the annual sales KPI below. The portal tracks what has been sold YTD (from the Res Dashboard) and shows what is still left to achieve &mdash; broken down into the weekly or monthly pace needed for the rest of the year. Per-agent targets are an equal share of the team KPI and can be refined once Nexus data is live. Softrip sales are shown separately on the Softrip Stats tab.</div>
+    <div class="ibox ibox-nv"><strong>How this works:</strong> Set the annual sales KPI below. The portal tracks what has been sold YTD (from the Res Dashboard) and shows what is still left to achieve &mdash; broken down into the weekly or monthly pace needed for the rest of the year. This tab is the <strong>manager's page</strong> &mdash; res agents see their own KPI number and YTD stats directly in the Agent View on the Res Dashboard, without the team breakdown. Per-agent targets are an equal share of the team KPI and can be refined once Nexus data is live. Softrip sales can be included in the team figures via the toggle below, but are not yet attributable per agent (Gary's weekly numbers are an aggregate).</div>
 
     <div class="card" style="margin-bottom:18px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
       <div>
         <div style="font-size:10.5px;font-weight:700;color:var(--txm);margin-bottom:4px">ANNUAL TEAM KPI (USD)</div>
-        <input type="number" id="kg-target" value="1500000" step="50000" style="padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:13px;font-weight:700;width:170px">
+        <input type="number" id="kg-target" value="35000000" step="250000" style="padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:13px;font-weight:700;width:170px">
       </div>
       <button class="btn btn-p" onclick="applyKgTarget()">Apply Target</button>
+      <label style="display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--txd);cursor:pointer"><input type="checkbox" id="kg-inc-softrip" checked onchange="renderKpiGoals();renderResKPIs()"> Include Softrip sales in team figures</label>
       <div style="font-size:11px;color:var(--txm);margin-left:auto" id="kg-timeleft"></div>
     </div>
 
@@ -2240,13 +2248,14 @@ textarea{resize:vertical;min-height:65px}
       <div class="sc"><div class="sl" id="kg-c-pace-lbl">Weekly Goal Needed</div><div class="sv" style="color:var(--purple)" id="kg-c-pace">--</div><div class="ss" id="kg-c-pace-sub">To hit target by year end</div></div>
     </div>
 
-    <div class="stitle">KPI by Res Agent</div>
+    <div class="stitle">KPI by Res Agent <span style="font-weight:500;color:var(--txm);font-size:11px">&mdash; manager view only</span></div>
     <div class="tw">
       <table>
         <thead><tr><th>Res Agent</th><th>Annual Target</th><th>Sold YTD</th><th>KPI Left</th><th>Progress</th><th id="kg-th-pace">Weekly Goal Needed</th></tr></thead>
         <tbody id="kg-tbody"></tbody>
       </table>
     </div>
+    <div style="font-size:11px;color:var(--txm);margin-top:8px">Per-agent figures are Nexus files only &mdash; Softrip sales are not yet attributable to individual res agents.</div>
 
   </div>
 </div>
@@ -3964,9 +3973,13 @@ function renderResKPIs(){
   el=document.getElementById('rd-ytd-sales'); if(el) el.textContent='$'+(ytdSalesTotal/1000).toFixed(0)+'K';
   el=document.getElementById('rd-ytd-departed-val'); if(el) el.textContent='$'+(departedValue/1000).toFixed(0)+'K';
   el=document.getElementById('rd-ytd-departed-sub'); if(el) el.textContent=departedFiles.length+' files departed YTD';
-  var kpiLeftVal=Math.max(0, kpiAnnualTarget-ytdSalesTotal);
+  var teamSold=ytdSalesTotal + (kgIncludeSoftrip()? softripTotals().sales : 0);
+  var kpiLeftVal=Math.max(0, kpiAnnualTarget-teamSold);
   el=document.getElementById('rd-kpi-left'); if(el) el.textContent=kgMoneyK(kpiLeftVal);
-  el=document.getElementById('rd-kpi-left-sub'); if(el) el.textContent='of '+kgMoneyK(kpiAnnualTarget)+' target - click for goals';
+  el=document.getElementById('rd-kpi-left-sub'); if(el) el.textContent='of '+kgMoneyK(kpiAnnualTarget)+' target'+(kgIncludeSoftrip()?' (incl. Softrip)':'')+' - click for goals';
+  el=document.getElementById('rd-ytd-sales-sub'); if(el) el.innerHTML=kgIncludeSoftrip()
+    ? 'Nexus files &middot; + '+kgMoneyK(softripTotals().sales)+' Softrip = '+kgMoneyK(teamSold)+' combined'
+    : 'Gross value all files';
 
   // Status bars
   var bar = document.getElementById('rd-status-bars');
@@ -4156,15 +4169,34 @@ function renderAgentView(){
     var prop=list.filter(function(b){return b.status==='Proposal';}).length;
     var totBal=list.reduce(function(s,b){return s+b.balance;},0);
     var ytdSales=list.reduce(function(s,b){return s+b.gross;},0);
-    var ytdDeparted=list.filter(function(b){return daysTo(b.travel_ts)<0;}).length;
+    var departedList=list.filter(function(b){return daysTo(b.travel_ts)<0;});
+    var departedVal=departedList.reduce(function(s,b){return s+b.gross;},0);
     kpiEl.innerHTML='<div class="sc gr"><div class="sl">Paid in Full</div><div class="sv">'+paid+'</div></div>'
       +'<div class="sc bl"><div class="sl">Deposited</div><div class="sv">'+dep+'</div></div>'
       +'<div class="sc or"><div class="sl">Proposals</div><div class="sv">'+prop+'</div></div>'
       +'<div class="sc re"><div class="sl">Balance Owing</div><div class="sv" style="font-size:16px">$'+Math.round(totBal/1000)+'K</div></div>'
       +'<div class="sc nv"><div class="sl">YTD Sales</div><div class="sv" style="color:var(--green)">'
         +'$'+Math.round(ytdSales/1000)+'K</div><div class="ss">Gross value all your files</div></div>'
-      +'<div class="sc"><div class="sl">YTD Departed</div><div class="sv" style="color:var(--purple)">'+ytdDeparted+'</div>'
-        +'<div class="ss">Files with travel date passed</div></div>';
+      +'<div class="sc"><div class="sl">Departed Files Value</div><div class="sv" style="color:var(--purple)">$'+Math.round(departedVal/1000)+'K</div>'
+        +'<div class="ss">'+departedList.length+' files with travel date passed</div></div>';
+  }
+
+  // Own KPI strip - agent sees their own number, no team breakdown
+  var kpiTitle=document.getElementById('ra-kpi-title');
+  var kpiCards=document.getElementById('ra-kpi-cards');
+  if(kpiCards){
+    var agentCount=[...new Set(resBookings.map(function(b){return b.agent;}))].length;
+    var myTarget=agent? kpiAnnualTarget/agentCount : kpiAnnualTarget;
+    var mySold=agent? list.reduce(function(s,b){return s+b.gross;},0) : kgTeamSold();
+    var myLeft=Math.max(0, myTarget-mySold);
+    var myPct=Math.min(100, Math.round(mySold/myTarget*100));
+    if(kpiTitle) kpiTitle.textContent=agent? 'My KPI - '+agent : 'Team KPI';
+    kpiCards.innerHTML='<div class="sc nv"><div class="sl">'+(agent?'My Annual KPI':'Annual Team KPI')+'</div><div class="sv">'+kgMoneyK(myTarget)+'</div><div class="ss">Full year goal</div></div>'
+      +'<div class="sc gr"><div class="sl">Sold YTD</div><div class="sv">'+kgMoneyK(mySold)+'</div><div class="ss">'+(agent?'Your Nexus files':'Nexus'+(kgIncludeSoftrip()?' + Softrip':''))+'</div></div>'
+      +'<div class="sc or"><div class="sl">KPI Left to Achieve</div><div class="sv">'+kgMoneyK(myLeft)+'</div><div class="ss">Remaining to hit target</div></div>'
+      +'<div class="sc bl"><div class="sl">% Achieved</div><div class="sv">'+myPct+'%</div><div class="ss"><div class="pb mt8"><div class="pf" style="width:'+myPct+'%"></div></div></div></div>'
+      +'<div class="sc"><div class="sl">Weekly Goal Needed</div><div class="sv" style="color:var(--purple);font-size:19px">'+kgMoneyK(myLeft/kgWeeksLeft())+'</div><div class="ss">'+Math.round(kgWeeksLeft())+' weeks left</div></div>'
+      +'<div class="sc"><div class="sl">Monthly Goal Needed</div><div class="sv" style="color:var(--purple);font-size:19px">'+kgMoneyK(myLeft/kgMonthsLeft())+'</div><div class="ss">'+(Math.round(kgMonthsLeft()*10)/10)+' months left</div></div>';
   }
 
   var el = document.getElementById('ra-tbody');
@@ -4366,7 +4398,7 @@ var iataByAdvisor = {};
 })();
 
 // ══════════════ KPI GOALS ══════════════
-var kpiAnnualTarget = 1500000;
+var kpiAnnualTarget = 35000000;
 var kgView = 'weekly';
 var KG_TODAY = new Date('2026-07-06');
 var KG_YEAR_END = new Date('2026-12-31');
@@ -4385,15 +4417,45 @@ function setKgView(mode, btn){
   renderKpiGoals();
 }
 
+function kgIncludeSoftrip(){
+  var c = document.getElementById('kg-inc-softrip');
+  return !c || c.checked;
+}
+
+function kgTeamSold(){
+  var s = resBookings.reduce(function(t,b){ return t + b.gross; }, 0);
+  if(kgIncludeSoftrip()) s += softripTotals().sales;
+  return s;
+}
+
+function raExport(mode){
+  var sel = document.getElementById('ra-agent-select');
+  var agent = sel ? sel.value : '';
+  var list = (agent ? resBookings.filter(function(b){ return b.agent===agent; }) : resBookings.slice())
+    .sort(function(a,b){ return a.travel_ts.localeCompare(b.travel_ts); });
+  var title = (agent || 'All Agents') + ' - My Files Report';
+  var headers = ['Booking #','Quote #','IATA','Travel Advisor','Destination','Travel Date','Pax','Gross Value','Balance Owing','Status','Days to Depart'];
+  var rows = list.map(function(b){ return [b.bk,b.quote,b.iata,b.advisor,b.dest,b.travel,b.pax,b.gross,b.balance,b.status,daysTo(b.travel_ts)]; });
+  if(mode==='csv'){
+    dlCSV('TAG_'+(agent||'AllAgents').replace(/ /g,'')+'_Files_'+new Date().toISOString().slice(0,10)+'.csv', [headers].concat(rows));
+  } else {
+    printReport(title, headers, rows.map(function(r){ return r.map(function(c){
+      return (typeof c==='number' && c>999) ? '$'+c.toLocaleString() : c;
+    });}));
+  }
+}
+
 function applyKgTarget(){
   var v = parseFloat((document.getElementById('kg-target')||{}).value);
   if(!isNaN(v) && v > 0) kpiAnnualTarget = v;
   renderKpiGoals();
   renderResKPIs();
+  renderAgentView();
 }
 
 function renderKpiGoals(){
-  var sold = resBookings.reduce(function(s,b){ return s + b.gross; }, 0);
+  var nexusSold = resBookings.reduce(function(s,b){ return s + b.gross; }, 0);
+  var sold = kgTeamSold();
   var left = Math.max(0, kpiAnnualTarget - sold);
   var pct = Math.min(100, Math.round(sold / kpiAnnualTarget * 100));
   var divisor = kgView==='weekly' ? kgWeeksLeft() : kgMonthsLeft();
@@ -4402,6 +4464,10 @@ function renderKpiGoals(){
   var el;
   el=document.getElementById('kg-c-target'); if(el) el.textContent = kgMoneyK(kpiAnnualTarget);
   el=document.getElementById('kg-c-sold'); if(el) el.textContent = kgMoneyK(sold);
+  el=document.querySelector('#kg-c-sold + .ss') || null;
+  if(el) el.innerHTML = kgIncludeSoftrip()
+    ? 'Nexus '+kgMoneyK(nexusSold)+' + Softrip '+kgMoneyK(softripTotals().sales)
+    : 'Nexus files only (Softrip excluded)';
   el=document.getElementById('kg-c-left'); if(el) el.textContent = kgMoneyK(left);
   el=document.getElementById('kg-c-pct'); if(el) el.textContent = pct + '%';
   el=document.getElementById('kg-c-bar'); if(el) el.style.width = pct + '%';
